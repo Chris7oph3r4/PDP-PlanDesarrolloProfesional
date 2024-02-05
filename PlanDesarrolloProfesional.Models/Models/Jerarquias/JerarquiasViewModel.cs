@@ -8,16 +8,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PlanDesarrolloProfesional.Models.Models;
 
-public partial class RutaRango
+public class JerarquiasViewModel
 {
+    public JerarquiasViewModel(){}
+ 
     [Key]
-    public int RutaRangoID { get; set; }
+    public int JerarquiaID { get; set; }
 
-    public int RutaID { get; set; }
+    [Required]
+    [StringLength(10)]
+    public string Nombre { get; set; }
 
-    public int RangoID { get; set; }
 
-    [ForeignKey("RutaID")]
-    [InverseProperty("RutaRango")]
-    public virtual Ruta Ruta { get; set; }
 }

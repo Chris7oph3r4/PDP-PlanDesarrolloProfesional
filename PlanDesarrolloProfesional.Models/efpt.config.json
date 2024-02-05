@@ -52,6 +52,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[UsuarioArea]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[UsuarioJerarquias]",
          "ObjectType": 0
       }

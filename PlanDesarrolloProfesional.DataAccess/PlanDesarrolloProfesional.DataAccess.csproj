@@ -22,4 +22,8 @@
     <PackageReference Include="RestSharp" Version="106.11.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PlanDesarrolloProfesional.Models\PlanDesarrolloProfesional.Models.csproj" />
+  </ItemGroup>
+
 </Project>

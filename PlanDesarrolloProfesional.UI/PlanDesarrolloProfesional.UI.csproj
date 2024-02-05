@@ -18,8 +18,14 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="RestSharp" Version="106.11.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PlanDesarrolloProfesional.ConsumeLogic\PlanDesarrolloProfesional.ConsumeLogic.csproj" />
+    <ProjectReference Include="..\PlanDesarrolloProfesional.Models\PlanDesarrolloProfesional.Models.csproj" />
   </ItemGroup>
 
 </Project>

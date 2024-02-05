@@ -15,8 +15,6 @@ public partial class PlanDesarrolloProfesional
 
     public int ColaboradorID { get; set; }
 
-    public int RutaID { get; set; }
-
     [Column(TypeName = "date")]
     public DateTime FechaInicio { get; set; }
 
@@ -32,8 +30,4 @@ public partial class PlanDesarrolloProfesional
 
     [InverseProperty("PlanDesarrollo")]
     public virtual ICollection<CumplimientoRequisito> CumplimientoRequisito { get; set; } = new List<CumplimientoRequisito>();
-
-    [ForeignKey("RutaRangoID")]
-    [InverseProperty("PlanDesarrolloProfesional")]
-    public virtual RutaRango RutaRango { get; set; }
 }

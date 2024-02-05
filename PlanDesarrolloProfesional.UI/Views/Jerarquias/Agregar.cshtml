@@ -1,0 +1,92 @@
+﻿@model PlanDesarrolloProfesional.Models.Models.JerarquiasModel
+@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Crear Jerarquia";
+    //List<Contingencia.Models.RolesModel> RolesList = ViewBag.Roles;
+
+}
+
+<div class="card o-hidden border-0 shadow-lg my-4">
+    <div class="card-body col-12">
+        <!-- Nested Row within Card Body -->
+        <div class="col">
+            <div class="p-3">
+
+                <div class="form-group row">
+                    <div class="col-sm-9 mb-3 mb-sm-0">
+                        <h4 class="mb-4">Agregar Jerarquia del sistema</h4>
+                    </div>
+                </div>
+            </div>
+
+            <form action="@Url.Action("Agregar","Jerarquias")" method="post" enctype="multipart/form-data" class="form">
+
+
+              @*  <br />
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <label for="Tipo">Rol</label>
+                        <div class="col-6">
+                            @Html.DropDownListFor(m => m.Tipo, new SelectList(RolesList, "Codigo", "Nombre"), "Seleccione el rol:", new { @class = "float-right form-control", @id = "Rol" })
+                            @Html.ValidationMessageFor(model => model.Tipo, "")
+                            <input hidden value="@Model.Tipo" name="Tipo" id="Tipo" />
+                            <span asp-validation-for="Tipo" class="col-12 text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <label for="Tipo">Plantel</label>
+                        <div class="col-6">
+                            @Html.DropDownListFor(m => m.FKPlantel, new SelectList(PlantelesList, "Codigo", "Descripcion"), "Seleccione el plantel:", new { @class = "float-right form-control", @id = "Plantel" })
+                            @Html.ValidationMessageFor(model => model.FKPlantel, "")
+                            <input hidden value="@Model.FKPlantel" name="FKPlantel" id="FKPlantel" />
+                            <span asp-validation-for="FKPlantel" class="col-12 text-danger"></span>
+                        </div>
+                    </div>
+                </div>*@
+
+
+                <br />
+               @* <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <label for="Nombre">Nombre</label>
+                        <div class="col-6">
+                            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new {@class="form-control rounded-3 border border-info"}})
+                            <input hidden value="@Model.Nombre" name="Nombre" id="Nombre" />
+                        </div>
+                    </div>
+                </div>*@
+                <div class="row">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Nombre de la Jerarquia</label></div>
+                    <div class="col-sm-4">
+                        <input asp-for="Nombre" type="text" class="col-12 form-control" />
+                        <span asp-validation-for="Nombre" class="col-12 text-danger"></span>
+                    </div>
+                    
+                </div>
+
+          
+
+                <br />
+                <br />
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <div class="row center-align">
+                            <div class="col-sm-3"><button class="btn btn-primary btn-block" type="submit">Agregar<i class="fas fa-fw fa-user-plus"></i></button></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+         
+        });
+    </script>
+    }

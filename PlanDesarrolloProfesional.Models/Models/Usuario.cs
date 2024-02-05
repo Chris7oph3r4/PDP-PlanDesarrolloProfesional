@@ -31,10 +31,6 @@ public partial class Usuario
 
     public Guid CodigoDaloo { get; set; }
 
-    [ForeignKey("AreaID")]
-    [InverseProperty("Usuario")]
-    public virtual Area Area { get; set; }
-
     [ForeignKey("JerarquiaID")]
     [InverseProperty("Usuario")]
     public virtual Jerarquias Jerarquia { get; set; }
@@ -45,6 +41,9 @@ public partial class Usuario
     [ForeignKey("RolID")]
     [InverseProperty("Usuario")]
     public virtual Rol Rol { get; set; }
+
+    [InverseProperty("Usuario")]
+    public virtual ICollection<UsuarioArea> UsuarioArea { get; set; } = new List<UsuarioArea>();
 
     [InverseProperty("Supervisor")]
     public virtual ICollection<UsuarioJerarquias> UsuarioJerarquiasSupervisor { get; set; } = new List<UsuarioJerarquias>();

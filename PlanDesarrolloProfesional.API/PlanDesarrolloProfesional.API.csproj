@@ -24,6 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PlanDesarrolloProfesional.Interface\PlanDesarrolloProfesional.Interface.csproj" />
+    <ProjectReference Include="..\PlanDesarrolloProfesional.Logic\PlanDesarrolloProfesional.Logic.csproj" />
     <ProjectReference Include="..\PlanDesarrolloProfesional.Models\PlanDesarrolloProfesional.Models.csproj" />
   </ItemGroup>
 

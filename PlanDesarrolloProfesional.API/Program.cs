@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PlanDesarrolloProfesional.Interface;
+using PlanDesarrolloProfesional.Logic;
 using PlanDesarrolloProfesional.Models;
+using PlanDesarrolloProfesional.Models.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,8 +25,18 @@ builder.Services.AddDbContext<PlanDesarrolloProfesional.Models.Models.PlanDesarr
 //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        => optionsBuilder.UseSqlServer(StringConexion.ConexionSQL);
 #endregion Configuracion de EntityFramework
-var app = builder.Build();
+#region Inyeccion de dependencias
+builder.Services.AddScoped<IJerarquias, LJerarquias>();
+#endregion Inyeccion de dependencias
 
+var app = builder.Build();
+IWebHostEnvironment env = app.Environment;
+var config = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false, true)
+    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, true)
+    .Build();
+StringConexion.ConexionSQL = builder.Configuration.GetConnectionString("SqlConnection"); //cuando se actualiza el contexto, hay que revisar la cadena de conexión del RECOPEContext, ubicado en capa Models
 
 
 // Configure the HTTP request pipeline.

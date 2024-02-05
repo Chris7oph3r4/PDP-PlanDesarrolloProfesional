@@ -12,6 +12,10 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
         : base(options)
     {
     }
+    public PlanDesarrolloProfesionalContext()
+    {
+            
+    }
 
     public virtual DbSet<Area> Area { get; set; }
 
@@ -31,24 +35,21 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
 
     public virtual DbSet<Usuario> Usuario { get; set; }
 
-    public virtual DbSet<UsuarioJerarquias> UsuarioJerarquias { get; set; }
+    public virtual DbSet<UsuarioArea> UsuarioArea { get; set; }
 
+    public virtual DbSet<UsuarioJerarquias> UsuarioJerarquias { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-          => optionsBuilder.UseSqlServer(StringConexion.ConexionSQL);
+      => optionsBuilder.UseSqlServer(StringConexion.ConexionSQL);
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Area>(entity =>
         {
             entity.HasKey(e => e.AreaID).HasName("PK__Area__70B82028E180F69D");
-
-            entity.Property(e => e.AreaID).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<CumplimientoRequisito>(entity =>
         {
             entity.HasKey(e => e.CumplimientoRequisitoID).HasName("PK__Cumplimi__D59907128681C0E1");
-
-            entity.Property(e => e.CumplimientoRequisitoID).ValueGeneratedNever();
 
             entity.HasOne(d => d.PlanDesarrollo).WithMany(p => p.CumplimientoRequisito)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -61,7 +62,6 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
 
         modelBuilder.Entity<Jerarquias>(entity =>
         {
-            entity.Property(e => e.JerarquiaID).ValueGeneratedNever();
             entity.Property(e => e.Nombre).IsFixedLength();
         });
 
@@ -69,38 +69,19 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
         {
             entity.HasKey(e => e.PlanDesarrolloID).HasName("PK__Colabora__899DAA21E52D5EA8");
 
-            entity.Property(e => e.PlanDesarrolloID).ValueGeneratedNever();
-
             entity.HasOne(d => d.Colaborador).WithMany(p => p.PlanDesarrolloProfesional)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PlanDesarrolloProfesional_Usuario");
-
-            entity.HasOne(d => d.RutaRango).WithMany(p => p.PlanDesarrolloProfesional)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PlanDesarrolloProfesional_RutaRango");
         });
 
         modelBuilder.Entity<Requisito>(entity =>
         {
             entity.HasKey(e => e.RequisitoID).HasName("PK__Requisit__372DF81ABA00CC13");
-
-            entity.Property(e => e.RequisitoID).ValueGeneratedNever();
-
-            entity.HasOne(d => d.Rango).WithMany(p => p.Requisito)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Requisito__Rango__300424B4");
-        });
-
-        modelBuilder.Entity<Rol>(entity =>
-        {
-            entity.Property(e => e.RolID).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<Ruta>(entity =>
         {
             entity.HasKey(e => e.RutaID).HasName("PK__Ruta__7B6199EEC886CFDB");
-
-            entity.Property(e => e.RutaID).ValueGeneratedNever();
 
             entity.HasOne(d => d.Area).WithMany(p => p.Ruta)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -109,10 +90,6 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
 
         modelBuilder.Entity<RutaRango>(entity =>
         {
-            entity.HasKey(e => e.RutaRangoID).HasName("PK__Rango__6D79CDD92A346275");
-
-            entity.Property(e => e.RutaRangoID).ValueGeneratedNever();
-
             entity.HasOne(d => d.Ruta).WithMany(p => p.RutaRango)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_RutaRango_Ruta");
@@ -121,12 +98,6 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
         modelBuilder.Entity<Usuario>(entity =>
         {
             entity.HasKey(e => e.UsuarioID).HasName("PK__Colabora__28AA72C1A3F53889");
-
-            entity.Property(e => e.UsuarioID).ValueGeneratedNever();
-
-            entity.HasOne(d => d.Area).WithMany(p => p.Usuario)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Usuario_Area");
 
             entity.HasOne(d => d.Jerarquia).WithMany(p => p.Usuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -137,10 +108,22 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
                 .HasConstraintName("FK_Usuario_Rol");
         });
 
+        modelBuilder.Entity<UsuarioArea>(entity =>
+        {
+            entity.Property(e => e.UsuarioAreaID).ValueGeneratedNever();
+            entity.Property(e => e.UsuarioID).ValueGeneratedOnAdd();
+
+            entity.HasOne(d => d.Area).WithMany(p => p.UsuarioArea)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_UsuarioArea_Area");
+
+            entity.HasOne(d => d.Usuario).WithMany(p => p.UsuarioArea)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_UsuarioArea_Usuario");
+        });
+
         modelBuilder.Entity<UsuarioJerarquias>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
-
             entity.HasOne(d => d.Supervisor).WithMany(p => p.UsuarioJerarquiasSupervisor)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_UsuarioJerarquias_Usuario1");

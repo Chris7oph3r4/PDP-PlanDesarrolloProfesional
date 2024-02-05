@@ -29,5 +29,5 @@ public partial class Area
     public virtual ICollection<Ruta> Ruta { get; set; } = new List<Ruta>();
 
     [InverseProperty("Area")]
-    public virtual ICollection<Usuario> Usuario { get; set; } = new List<Usuario>();
+    public virtual ICollection<UsuarioArea> UsuarioArea { get; set; } = new List<UsuarioArea>();
 }

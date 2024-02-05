@@ -1,0 +1,75 @@
+﻿@model PlanDesarrolloProfesional.Models.Models.JerarquiasModel
+@{
+    ViewData["Title"] = "Modificar jerarquia";
+}
+<div class="card o-hidden border-0 shadow-lg my-4">
+    <div class="card-body col-12">
+        <!-- Nested Row within Card Body -->
+        <div class="col">
+            <div class="p-3">
+
+                <div class="form-group row">
+                    <div class="col-sm-9 mb-3 mb-sm-0">
+                        <h4 class="mb-4">Modificar usuario del sistema</h4>
+                    </div>
+                </div>
+            </div>
+
+            <form action="@Url.Action("Modificar","Jerarquias")" method="post" enctype="multipart/form-data" class="user">
+
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-12 mb-sm-12">
+                        <div class="form-group row">
+                            <div class="col-sm-12 mb-3 mb-sm-0">
+                               
+                                <div class="col-6">
+                                    <input placeholder="Escriba aquí el nombre de la jerarquia" id="JerarquiaID" readonly hidden class="form-control rounded-3 border border-info Codigo" asp-for="JerarquiaID" type="text">
+                                    <span asp-validation-for="JerarquiaID" class="col-12 text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        @*            <div class="col-sm-3">
+                        <button id="btnObtenerActiveDirectory" class="btn btn-primary btn-block" type="button">Consultar &nbsp;<i class="fas fa-fw fa-search"></i></button>
+                        </div>*@
+                    </div>
+
+                </div>
+
+                <hr />
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <label for="Nombre">Nombre Jerarquia</label>
+                        <div class="col-6">
+                            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new {@class="form-control rounded-3 border border-info"}})
+                            @*<input  value="@Model.Nombre" name="Nombre" id="Nombre" />*@
+                            <span asp-validation-for="Nombre" class="col-12 text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+           
+
+                <br />
+                @*              <div class="form-group row">
+                <div class="col-sm-12 mb-3 mb-sm-0">
+                <label for="Estado">Estado</label>
+                <div class="col-6">
+                <input readonly class="form-control rounded-3 border border-info Estado" value="ACTIVO" type="text">
+                </div>
+                </div>
+                </div>*@
+
+                <br />
+                <br />
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <div class="row center-align">
+                            <div class="col-sm-3"><button class="btn btn-primary btn-block" type="submit">Agregar &nbsp;<i class="fas fa-fw fa-user-plus"></i></button></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr>
+        </div>
+    </div>
+</div>
