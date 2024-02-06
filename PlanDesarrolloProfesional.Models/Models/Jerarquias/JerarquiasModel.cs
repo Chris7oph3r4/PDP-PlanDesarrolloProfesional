@@ -23,7 +23,7 @@ public class JerarquiasModel
     public int JerarquiaID { get; set; }
 
     [Required(ErrorMessage = "Campo Requerido")]
-    [StringLength(10)]
+    [StringLength(50)]
     public string Nombre { get; set; }
 
     public Jerarquias ConvertBD()

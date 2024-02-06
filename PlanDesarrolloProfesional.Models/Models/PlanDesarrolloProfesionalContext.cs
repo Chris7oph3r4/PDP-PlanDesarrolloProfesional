@@ -39,7 +39,7 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
 
     public virtual DbSet<UsuarioJerarquias> UsuarioJerarquias { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-      => optionsBuilder.UseSqlServer(StringConexion.ConexionSQL);
+    => optionsBuilder.UseSqlServer(StringConexion.ConexionSQL);
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Area>(entity =>
@@ -58,11 +58,6 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
             entity.HasOne(d => d.Requisito).WithMany(p => p.CumplimientoRequisito)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Cumplimie__Requi__4316F928");
-        });
-
-        modelBuilder.Entity<Jerarquias>(entity =>
-        {
-            entity.Property(e => e.Nombre).IsFixedLength();
         });
 
         modelBuilder.Entity<PlanDesarrolloProfesional>(entity =>

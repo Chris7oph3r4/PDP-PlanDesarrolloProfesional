@@ -14,7 +14,7 @@ public partial class Usuario
     public int UsuarioID { get; set; }
 
     [Required]
-    [StringLength(25)]
+    [StringLength(50)]
     [Unicode(false)]
     public string Nombre { get; set; }
 

@@ -14,7 +14,8 @@ public partial class Jerarquias
     public int JerarquiaID { get; set; }
 
     [Required]
-    [StringLength(10)]
+    [StringLength(50)]
+    [Unicode(false)]
     public string Nombre { get; set; }
 
     [InverseProperty("Jerarquia")]
