@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims;
+@{
+    // Obtener el ClaimsPrincipal actual
+    var claimsPrincipal = Context.User as ClaimsPrincipal;
+
+    // Obtener el valor de un claim específico
+    var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+    var roleClaim = claimsPrincipal?.FindFirst(ClaimTypes.Role)?.Value;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -183,8 +192,9 @@
                                         <img class="wd-80 ht-80 rounded-circle" src="https://via.placeholder.com/80x80" alt="">
                                     </div>
                                     <div class="text-center">
-                                        <p class="tx-16 fw-bolder">Amiah Burton</p>
-                                        <p class="tx-12 text-muted">amiahburton@gmail.com</p>
+                                       @* <p class="tx-16 fw-bolder">Amiah Burton</p>*@
+                                        <p class="tx-16 fw-bolder">@roleClaim</p>
+                                        <p class="tx-12 text-muted">@nameClaim</p>
                                     </div>
                                 </div>
                                 <ul class="list-unstyled p-1">
@@ -208,7 +218,7 @@
                                             </a>
                                         </li>
                                         <li class="dropdown-item py-2">
-                                            <a href="javascript:;" class="text-body ms-0">
+                                            <a  asp-controller="Home" asp-action="Logout" class="text-body ms-0">
                                                 <i class="me-2 icon-md" data-feather="log-out"></i>
                                                 <span>Log Out</span>
                                             </a>

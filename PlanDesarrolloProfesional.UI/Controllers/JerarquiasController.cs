@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PlanDesarrolloProfesional.ConsumeLogic;
 using PlanDesarrolloProfesional.Models.Models;
 using System.Security.Claims;
 
 namespace PlanDesarrolloProfesional.UI.Controllers
 {
+    [Authorize]
     public class JerarquiasController : Controller
     {
         private JerarquiasLogic LJerarquias;
