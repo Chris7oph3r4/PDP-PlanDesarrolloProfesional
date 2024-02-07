@@ -27,6 +27,7 @@ builder.Services.AddDbContext<PlanDesarrolloProfesional.Models.Models.PlanDesarr
 #endregion Configuracion de EntityFramework
 #region Inyeccion de dependencias
 builder.Services.AddScoped<IJerarquias, LJerarquias>();
+builder.Services.AddScoped<IArea, LArea>();
 #endregion Inyeccion de dependencias
 
 var app = builder.Build();
