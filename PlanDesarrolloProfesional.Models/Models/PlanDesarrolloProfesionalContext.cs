@@ -16,7 +16,6 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
     {
             
     }
-
     public virtual DbSet<Area> Area { get; set; }
 
     public virtual DbSet<CumplimientoRequisito> CumplimientoRequisito { get; set; }
@@ -39,7 +38,7 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
 
     public virtual DbSet<UsuarioJerarquias> UsuarioJerarquias { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    => optionsBuilder.UseSqlServer(StringConexion.ConexionSQL);
+ => optionsBuilder.UseSqlServer(StringConexion.ConexionSQL);
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Area>(entity =>

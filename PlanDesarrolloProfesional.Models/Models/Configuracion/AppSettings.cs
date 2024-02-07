@@ -15,6 +15,14 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
             public static string Jerarquias_Actualizar { get; set; }
             public static string Jerarquias_Eliminar { get; set; }
             public static string Jerarquias_Listar { get; set; }
+
+            public static string Area_Agregar { get; set; }
+            public static string Area_Obtener { get; set; }
+            public static string Area_Actualizar { get; set; }
+            public static string Area_Eliminar { get; set; }
+            public static string Area_Listar { get; set; }
+
+
         }
     }
 }
