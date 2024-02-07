@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33712.159
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanDesarrolloProfesional.UI", "PlanDesarrolloProfesional.UI\PlanDesarrolloProfesional.UI.csproj", "{48DB12CE-3482-4A0F-A74F-F369BBB40C54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanDesarrolloProfesional.UI", "PlanDesarrolloProfesional.UI\PlanDesarrolloProfesional.UI.csproj", "{48DB12CE-3482-4A0F-A74F-F369BBB40C54}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bibliotecas", "Bibliotecas", "{5E08818D-E5A1-4B77-97C2-585352445E66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanDesarrolloProfesional.Models", "PlanDesarrolloProfesional.Models\PlanDesarrolloProfesional.Models.csproj", "{B5715275-5BB2-403E-9440-7B639D7201AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanDesarrolloProfesional.Models", "PlanDesarrolloProfesional.Models\PlanDesarrolloProfesional.Models.csproj", "{B5715275-5BB2-403E-9440-7B639D7201AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanDesarrolloProfesional.Logic", "PlanDesarrolloProfesional.Logic\PlanDesarrolloProfesional.Logic.csproj", "{F1FA0C09-6615-49A5-BB6E-D3C1B0261EA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanDesarrolloProfesional.Logic", "PlanDesarrolloProfesional.Logic\PlanDesarrolloProfesional.Logic.csproj", "{F1FA0C09-6615-49A5-BB6E-D3C1B0261EA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanDesarrolloProfesional.Interface", "PlanDesarrolloProfesional.Interface\PlanDesarrolloProfesional.Interface.csproj", "{274E23B7-FD7A-4C90-8336-84AE9904FC54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanDesarrolloProfesional.Interface", "PlanDesarrolloProfesional.Interface\PlanDesarrolloProfesional.Interface.csproj", "{274E23B7-FD7A-4C90-8336-84AE9904FC54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanDesarrolloProfesional.DataAccess", "PlanDesarrolloProfesional.DataAccess\PlanDesarrolloProfesional.DataAccess.csproj", "{0ACC805C-3D9B-4484-A42C-DD2160B6E123}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanDesarrolloProfesional.DataAccess", "PlanDesarrolloProfesional.DataAccess\PlanDesarrolloProfesional.DataAccess.csproj", "{0ACC805C-3D9B-4484-A42C-DD2160B6E123}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanDesarrolloProfesional.ConsumeLogic", "PlanDesarrolloProfesional.ConsumeLogic\PlanDesarrolloProfesional.ConsumeLogic.csproj", "{E5697BBB-99D9-4722-84CB-1531D3C30C98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanDesarrolloProfesional.ConsumeLogic", "PlanDesarrolloProfesional.ConsumeLogic\PlanDesarrolloProfesional.ConsumeLogic.csproj", "{E5697BBB-99D9-4722-84CB-1531D3C30C98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanDesarrolloProfesional.API", "PlanDesarrolloProfesional.API\PlanDesarrolloProfesional.API.csproj", "{0A47D23F-AEA4-4C3D-8D66-FFDB9F63D2F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanDesarrolloProfesional.API", "PlanDesarrolloProfesional.API\PlanDesarrolloProfesional.API.csproj", "{0A47D23F-AEA4-4C3D-8D66-FFDB9F63D2F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
