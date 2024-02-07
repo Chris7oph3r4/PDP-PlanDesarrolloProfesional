@@ -22,6 +22,12 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
             public static string Area_Eliminar { get; set; }
             public static string Area_Listar { get; set; }
 
+            public static string Rol_Agregar { get; set; }
+            public static string Rol_Obtener { get; set; }
+            public static string Rol_Actualizar { get; set; }
+            public static string Rol_Eliminar { get; set; }
+            public static string Rol_Listar { get; set; }
+
 
         }
     }
