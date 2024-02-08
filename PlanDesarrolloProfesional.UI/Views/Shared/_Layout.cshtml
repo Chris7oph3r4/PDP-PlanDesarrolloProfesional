@@ -97,6 +97,24 @@
                             <span class="link-title">Administrar Jerarquias</span>
                         </a>
                     </li>
+                    <li class="nav-item nav-category">Rol</li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#uiareas" role="button" aria-expanded="false" aria-controls="emails">
+                            <i class="link-icon" data-feather="folder-plus"></i>
+                            <span class="link-title">Rol</span>
+                            <i class="link-arrow" data-feather="chevron-down"></i>
+                        </a>
+                        <div class="collapse" id="uirol">
+                            <ul class="nav sub-menu">
+                                <li class="nav-item">
+                                    <a asp-area="" asp-controller="Rol" asp-action="Index" class="nav-link">Lista</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="" asp-controller="Rol" asp-action="Agregar" class="nav-link">Crear</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <a asp-controller="Reporte" asp-action="Index" class="nav-link">
                             <i class="link-icon" data-feather="calendar"></i>

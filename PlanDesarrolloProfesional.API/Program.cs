@@ -28,6 +28,7 @@ builder.Services.AddDbContext<PlanDesarrolloProfesional.Models.Models.PlanDesarr
 #region Inyeccion de dependencias
 builder.Services.AddScoped<IJerarquias, LJerarquias>();
 builder.Services.AddScoped<IArea, LArea>();
+builder.Services.AddScoped<IRol, LRol>();
 #endregion Inyeccion de dependencias
 
 var app = builder.Build();

@@ -38,16 +38,6 @@
                 <hr />
                 <div class="form-group row">
                     <div class="col-sm-12 mb-3 mb-sm-0">
-                        <label for="Nombre">RolID</label>
-                        <div class="col-6">
-                            @Html.EditorFor(model => model.RolID, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
-                            @*<input  value="@Model.RolID" name="RolID" id="RolID" />*@
-                            <span asp-validation-for="RolID" class="col-12 text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-12 mb-3 mb-sm-0">
                         <label for="Nombre">Nombre del Rol</label>
                         <div class="col-6">
                             @Html.EditorFor(model => model.NombreRol, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
