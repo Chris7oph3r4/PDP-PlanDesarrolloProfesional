@@ -58,26 +58,14 @@
                             <span class="link-title">Ver Colaboradores</span>
                         </a>
                     </li>
-                    <li class="nav-item nav-category">Areas</li>
+                    <li class="nav-item nav-category">Areas de la Empresa</li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#uiareas" role="button" aria-expanded="false" aria-controls="emails">
-                            <i class="link-icon" data-feather="folder-plus"></i>
+                        <a asp-controller="Area" asp-action="Index" class="nav-link">
+                            <i class="link-icon" data-feather="box"></i>
                             <span class="link-title">Areas</span>
-                            <i class="link-arrow" data-feather="chevron-down"></i>
                         </a>
-                        <div class="collapse" id="uiareas">
-                            <ul class="nav sub-menu">
-                                <li class="nav-item">
-                                    <a asp-area="" asp-controller="Area" asp-action="Index" class="nav-link">Lista</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-area="" asp-controller="Area" asp-action="Agregar" class="nav-link">Crear</a>
-                                </li>
-                            </ul>
-                        </div>
-
-
                     </li>
+                 
                     <li class="nav-item">
                         <a asp-controller="Ruta" asp-action="Index" class="nav-link">
                             <i class="link-icon" data-feather="folder-plus"></i>
@@ -97,24 +85,13 @@
                             <span class="link-title">Administrar Jerarquias</span>
                         </a>
                     </li>
-                    <li class="nav-item nav-category">Rol</li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#uiareas" role="button" aria-expanded="false" aria-controls="emails">
-                            <i class="link-icon" data-feather="folder-plus"></i>
-                            <span class="link-title">Rol</span>
-                            <i class="link-arrow" data-feather="chevron-down"></i>
+                        <a asp-controller="Rol" asp-action="Index" class="nav-link">
+                            <i class="link-icon" data-feather="calendar"></i>
+                            <span class="link-title">Administrar Roles</span>
                         </a>
-                        <div class="collapse" id="uirol">
-                            <ul class="nav sub-menu">
-                                <li class="nav-item">
-                                    <a asp-area="" asp-controller="Rol" asp-action="Index" class="nav-link">Lista</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-area="" asp-controller="Rol" asp-action="Agregar" class="nav-link">Crear</a>
-                                </li>
-                            </ul>
-                        </div>
                     </li>
+                
                     <li class="nav-item">
                         <a asp-controller="Reporte" asp-action="Index" class="nav-link">
                             <i class="link-icon" data-feather="calendar"></i>
@@ -167,16 +144,7 @@
                     </div>
 
                 </div>
-                <div class="theme-wrapper">
-                    <h6 class="text-muted mb-2">Light Theme:</h6>
-                    <a class="theme-item active" href="../demo1/dashboard.html">
-                        <img src="../assets/images/screenshots/light.jpg" alt="light theme">
-                    </a>
-                    <h6 class="text-muted mb-2">Dark Theme:</h6>
-                    <a class="theme-item" href="../demo2/dashboard.html">
-                        <img src="../assets/images/screenshots/dark.jpg" alt="light theme">
-                    </a>
-                </div>
+              
             </div>
         </nav>
         <!-- partial -->
