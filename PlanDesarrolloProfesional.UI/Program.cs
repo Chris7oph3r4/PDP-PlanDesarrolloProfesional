@@ -55,6 +55,15 @@ AppSettings.APIEndpoints.Rol_Obtener = builder.Configuration.GetSection("PlanDes
 AppSettings.APIEndpoints.Rol_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rol_Listar").Value;
 AppSettings.APIEndpoints.Rol_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rol_Eliminar").Value;
 
+//El consumo de Endpoints de Usuario
+AppSettings.APIEndpoints.Usuario_Agregar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_Agregar").Value;
+AppSettings.APIEndpoints.Usuario_AgregarViewModel = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_AgregarViewModel").Value;
+AppSettings.APIEndpoints.Usuario_Actualizar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_Actualizar").Value;
+AppSettings.APIEndpoints.Usuario_Obtener = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_Obtener").Value;
+AppSettings.APIEndpoints.Usuario_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_Listar").Value;
+AppSettings.APIEndpoints.Usuario_ListarVM = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_ListarVM").Value;
+AppSettings.APIEndpoints.Usuario_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_Eliminar").Value;
+
 
 #endregion ConfiguracionAPI
 

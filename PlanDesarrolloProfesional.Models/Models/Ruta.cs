@@ -28,7 +28,4 @@ public partial class Ruta
     [ForeignKey("AreaID")]
     [InverseProperty("Ruta")]
     public virtual Area Area { get; set; }
-
-    [InverseProperty("Ruta")]
-    public virtual ICollection<RutaRango> RutaRango { get; set; } = new List<RutaRango>();
 }

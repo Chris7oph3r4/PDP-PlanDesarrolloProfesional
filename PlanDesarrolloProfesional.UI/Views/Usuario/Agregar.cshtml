@@ -1,0 +1,112 @@
+﻿@model PlanDesarrolloProfesional.Models.Models.UsuarioAgregarViewModel
+@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Crear Usuario";
+    List<PlanDesarrolloProfesional.Models.Models.RolModel> RolesList = ViewBag.Roles;
+    List<PlanDesarrolloProfesional.Models.Models.JerarquiasModel> JerarquiasList = ViewBag.Jerarquias;
+    List<PlanDesarrolloProfesional.Models.Models.AreaModel> AreasList = ViewBag.Areas;
+    List<PlanDesarrolloProfesional.Models.Models.UsuarioModel> SupervisorList = ViewBag.Supervisor;
+
+
+}
+
+<div class="card o-hidden border-0 shadow-lg my-4">
+    <div class="card-body col-12">
+        <!-- Nested Row within Card Body -->
+        <div class="col">
+            <div class="p-3">
+
+                <div class="form-group row">
+                    <div class="col-sm-9 mb-3 mb-sm-0">
+                        <h4 class="mb-4">Agregar Jerarquia del sistema</h4>
+                    </div>
+                </div>
+            </div>
+
+            <form action="@Url.Action("Agregar","Usuario")" method="post" enctype="multipart/form-data" class="form">
+
+
+                <div class="row">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Nombre del Usuario</label></div>
+                    <div class="col-sm-4">
+                        <input asp-for="Nombre" type="text" class="col-12 form-control" />
+                        <span asp-validation-for="Nombre" class="col-12 text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Correo</label></div>
+                    <div class="col-sm-4">
+                        <input asp-for="Correo" type="text" class="col-12 form-control" />
+                        <span asp-validation-for="Correo" class="col-12 text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Descripcion</label></div>
+                    <div class="col-sm-4">
+                        <input asp-for="Descripcion" type="text" class="col-12 form-control" />
+                        <span asp-validation-for="Descripcion" class="col-12 text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione un Rol</label></div>
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(m => m.RolID, new SelectList(RolesList, "RolID", "NombreRol"), "Seleccione el rol:", new { @class = "float-right form-control", @id = "Rol" })
+                        @Html.ValidationMessageFor(model => model.RolID, "")
+                        <input hidden value="@Model.RolID" name="RolID" id="Rol" />
+                    </div>
+
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione una Jerarquia</label></div>
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(m => m.JerarquiaID, new SelectList(JerarquiasList, "JerarquiaID", "Nombre"), "Seleccione la Jerarquia:", new { @class = "float-right form-control", @id = "Jerarquia" })
+                        @Html.ValidationMessageFor(model => model.JerarquiaID, "")
+                        <input hidden value="@Model.JerarquiaID" name="Jerarquia" id="Jerarquia" />
+                    </div>
+
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione un Area</label></div>
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(m => m.AreasID, new SelectList(AreasList, "AreaID", "Nombre"), "Seleccione el area:", new { @class = "float-right form-control", @id = "Area", multiple = "multiple" })
+                        @Html.ValidationMessageFor(model => model.AreasID, "")
+                        <input hidden value="@Model.AreasID" name="Area" id="Area" />
+                    </div>
+
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Supervisor Asignado</label></div>
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(m => m.SupervisorID, new SelectList(SupervisorList, "UsuarioID", "Nombre"), "Seleccione el Supervisor:", new { @class = "float-right form-control", @id = "Supervisor" })
+                        @Html.ValidationMessageFor(model => model.SupervisorID, "")
+                        <input hidden value="@Model.SupervisorID" name="Supervisor" id="Supervisor" />
+                    </div>
+
+                </div>
+
+
+
+                <br />
+                <br />
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <div class="row center-align">
+                            <div class="col-sm-3"><button class="btn btn-primary btn-block" type="submit">Agregar<i class="fas fa-fw fa-user-plus"></i></button></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+    </script>
+    }
