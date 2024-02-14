@@ -8,13 +8,15 @@ using System.Threading.Tasks;
 
 namespace PlanDesarrolloProfesional.Models.Models
 {
-    public class UsuarioViewModel
+
+    public class UsuarioAgregarViewModel
     {
-        public UsuarioViewModel()
+        public UsuarioAgregarViewModel()
         {
                 
         }
 
+        [Key]
         public int UsuarioID { get; set; }
 
         [Required]
@@ -26,18 +28,18 @@ namespace PlanDesarrolloProfesional.Models.Models
         [StringLength(255)]
         [Unicode(false)]
         public string Descripcion { get; set; }
-        public string Rol { get; set; } = null;
 
         public int RolID { get; set; }
-        public string AreaString { get; set; } = null;
-        public int AreaID { get; set; }
-        public string Jerarquia { get; set; }
+
         public int JerarquiaID { get; set; }
+        public int SupervisorID { get; set; }
+        public List<int> AreasID { get; set; }
 
         public Guid CodigoDaloo { get; set; }
         [Required]
         [StringLength(100)]
         [Unicode(false)]
         public string Correo { get; set; }
+
     }
 }

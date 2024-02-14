@@ -28,6 +28,14 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
             public static string Rol_Eliminar { get; set; }
             public static string Rol_Listar { get; set; }
 
+            public static string Usuario_Agregar { get; set; }
+            public static string Usuario_Obtener { get; set; }
+            public static string Usuario_Actualizar { get; set; }
+            public static string Usuario_Eliminar { get; set; }
+            public static string Usuario_Listar { get; set; }
+            public static string Usuario_ListarVM { get; set; }
+            public static string Usuario_AgregarViewModel { get; set; }
+
             public static string Ruta_Agregar { get; set; }
             public static string Ruta_Obtener { get; set; }
             public static string Ruta_Actualizar { get; set; }

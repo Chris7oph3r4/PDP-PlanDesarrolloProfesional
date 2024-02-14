@@ -31,8 +31,6 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
 
     public virtual DbSet<Ruta> Ruta { get; set; }
 
-    public virtual DbSet<RutaRango> RutaRango { get; set; }
-
     public virtual DbSet<Usuario> Usuario { get; set; }
 
     public virtual DbSet<UsuarioArea> UsuarioArea { get; set; }
@@ -87,13 +85,6 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
                 .HasConstraintName("FK__Ruta__AreaID__286302EC");
         });
 
-        modelBuilder.Entity<RutaRango>(entity =>
-        {
-            entity.HasOne(d => d.Ruta).WithMany(p => p.RutaRango)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_RutaRango_Ruta");
-        });
-
         modelBuilder.Entity<Usuario>(entity =>
         {
             entity.HasKey(e => e.UsuarioID).HasName("PK__Colabora__28AA72C1A3F53889");
@@ -109,9 +100,6 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
 
         modelBuilder.Entity<UsuarioArea>(entity =>
         {
-            entity.Property(e => e.UsuarioAreaID).ValueGeneratedNever();
-            entity.Property(e => e.UsuarioID).ValueGeneratedOnAdd();
-
             entity.HasOne(d => d.Area).WithMany(p => p.UsuarioArea)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_UsuarioArea_Area");

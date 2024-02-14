@@ -20,7 +20,7 @@ public partial class PlanDesarrolloProfesional
 
     public int Estado { get; set; }
 
-    public int RutaRangoID { get; set; }
+    public int RangoID { get; set; }
 
     public bool Finalizado { get; set; }
 

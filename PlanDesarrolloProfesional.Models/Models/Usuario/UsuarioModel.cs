@@ -8,8 +8,24 @@ using System.Threading.Tasks;
 
 namespace PlanDesarrolloProfesional.Models.Models
 {
+
     public class UsuarioModel
     {
+        public UsuarioModel()
+        {
+                
+        }
+        public UsuarioModel(Usuario Objeto)
+        {
+            UsuarioID = Objeto.UsuarioID;
+            Nombre = Objeto.Nombre;
+            Descripcion = Objeto.Descripcion;
+            RolID = Objeto.RolID;
+        
+            JerarquiaID = Objeto.JerarquiaID;
+            CodigoDaloo = Objeto.CodigoDaloo;
+            Correo =Objeto.Correo;
+        }
         [Key]
         public int UsuarioID { get; set; }
 
@@ -25,10 +41,28 @@ namespace PlanDesarrolloProfesional.Models.Models
 
         public int RolID { get; set; }
 
-        public int AreaID { get; set; }
+
 
         public int JerarquiaID { get; set; }
 
         public Guid CodigoDaloo { get; set; }
+        [Required]
+        [StringLength(100)]
+        [Unicode(false)]
+        public string Correo { get; set; }
+
+        public Usuario ConvertBD()
+        {
+            return new Usuario
+            {
+                UsuarioID = UsuarioID,
+                Nombre = Nombre,
+                Descripcion = Descripcion,
+                RolID = RolID,
+                JerarquiaID = JerarquiaID,
+                CodigoDaloo = CodigoDaloo,
+                Correo = Correo,
+        };
+        }
     }
 }
