@@ -154,20 +154,31 @@ namespace PlanDesarrolloProfesional.DataAccess
                     throw e;
                 }
         }
-        public async Task<Usuario> ActualizarAreasUsuario(Usuario Modelo)
-        {
-            using (var ContextoBD = new PlanDesarrolloProfesionalContext())
-                try
-                {
-                    ContextoBD.Entry(Modelo).State = EntityState.Modified;
-                    await ContextoBD.SaveChangesAsync();
-                    return Modelo;
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-        }
+        //public async Task<UsuarioAgregarViewModel> ActualizarAreasUsuario(UsuarioAgregarViewModel Modelo)
+        //{
+        //    using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+        //        try
+        //        {
+        //            foreach (int areaID in Modelo.AreasID)
+        //            {
+        //                UsuarioArea usuarioArea = new UsuarioArea
+        //                {
+        //                    UsuarioID = Modelo.UsuarioID,
+        //                    AreaID = areaID
+
+        //                };
+        //                ContextoBD.Entry(Modelo).State = EntityState.Modified;
+
+        //            }
+                    
+        //            await ContextoBD.SaveChangesAsync();
+        //            return Modelo;
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            throw e;
+        //        }
+        //}
         public async Task<UsuarioAgregarViewModel> ActualizarSupervisorUsuario(UsuarioAgregarViewModel Modelo)
         {
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
