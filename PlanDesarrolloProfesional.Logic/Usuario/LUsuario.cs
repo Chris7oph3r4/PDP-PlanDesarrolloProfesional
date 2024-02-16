@@ -120,19 +120,19 @@ namespace PlanDesarrolloProfesional.Logic
         //    }
         //}
 
-        public async Task<UsuarioAgregarViewModel> Actualizar(UsuarioAgregarViewModel modelo)
-        {
-            try
-            {
-                var Objeto = await _DAUsuario.Actualizar(modelo.ConvertBD());
-                modelo = new UsuarioModel(Objeto);
-                return modelo;
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
+        //public async Task<UsuarioAgregarViewModel> Actualizar(UsuarioAgregarViewModel modelo)
+        //{
+        //    try
+        //    {
+        //        var Objeto = await _DAUsuario.Actualizar(modelo.ConvertBD());
+        //        modelo = new UsuarioModel(Objeto);
+        //        return modelo;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return null;
+        //    }
+        //}
 
 
 
@@ -161,6 +161,11 @@ namespace PlanDesarrolloProfesional.Logic
             {
                 return false;
             }
+        }
+
+        public Task<UsuarioAgregarViewModel> Actualizar(UsuarioAgregarViewModel modelo)
+        {
+            throw new NotImplementedException();
         }
     }
 }

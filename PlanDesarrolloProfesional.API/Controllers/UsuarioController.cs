@@ -73,7 +73,7 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpPost]
         [Route("Actualizar")]
-        public async Task<UsuarioModel> Actualizar(UsuarioModel Modelo)
+        public async Task<UsuarioAgregarViewModel> Actualizar(UsuarioAgregarViewModel Modelo)
         {
             if (Modelo == null) throw new Exception("Modelo Nulo");
             var ModeloActualizado = await _IUsuario.Actualizar(Modelo);
