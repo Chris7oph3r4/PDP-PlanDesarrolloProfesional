@@ -1,0 +1,104 @@
+﻿@model PlanDesarrolloProfesional.Models.Models.RutaModel
+@{
+    ViewData["Title"] = "Modificar Ruta";
+
+    List<PlanDesarrolloProfesional.Models.Models.AreaModel> AreasList = ViewBag.Areas;
+}
+<div class="card o-hidden border-0 shadow-lg my-4">
+    <div class="card-body col-12">
+        <!-- Nested Row within Card Body -->
+        <div class="col">
+            <div class="p-3">
+
+                <div class="form-group row">
+                    <div class="col-sm-9 mb-3 mb-sm-0">
+                        <h4 class="mb-4">Modificar usuario del sistema</h4>
+                    </div>
+                </div>
+            </div>
+
+            <form action="@Url.Action("Modificar","Ruta")" method="post" enctype="multipart/form-data" class="user">
+
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-12 mb-sm-12">
+                        <div class="form-group row">
+                            <div class="col-sm-12 mb-3 mb-sm-0">
+
+                                <div class="col-6">
+                                    <input placeholder="Escriba aquí el nombre de la Ruta" id="RutaID" readonly hidden class="form-contRuta rounded-3 border border-info Codigo" asp-for="RutaID" type="text">
+                                    <span asp-validation-for="RutaID" class="col-12 text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        @*            <div class="col-sm-3">
+                        <button id="btnObtenerActiveDirectory" class="btn btn-primary btn-block" type="button">Consultar &nbsp;<i class="fas fa-fw fa-search"></i></button>
+                        </div>*@
+                    </div>
+
+                </div>
+
+                <hr />
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <label for="Nombre">Nombre del Ruta</label>
+                        <div class="col-6">
+                            @Html.EditorFor(model => model.NombreRuta, new { htmlAttributes = new { @class = "form-contRuta rounded-3 border border-info" } })
+                            @*<input  value="@Model.NombreRuta" name="NombreRuta" id="NombreRuta" />*@
+                            <span asp-validation-for="NombreRuta" class="col-12 text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <label for="Descripcion">Descripción</label>
+                        <div class="col-6">
+                            @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-contRuta rounded-3 border border-info" } })
+                            @*<input  value="@Model.Descripcion" name="Descripcion" id="Descripcion" />*@
+                            <span asp-validation-for="Descripcion" class="col-12 text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <label for="AreaID">Area</label>
+                        <div class="col-6">
+                            @Html.DropDownListFor(model => model.AreaID, new SelectList(AreasList, "AreaID", "Nombre"), "Seleccione el area:", new { @class = "float-right form-control", @Value=Model.AreaID })
+                            @*<input  value="@Model.Descripcion" name="Descripcion" id="Descripcion" />*@
+                            <span asp-validation-for="AreaID" class="col-12 text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <br />
+                @*              <div class="form-group row">
+                <div class="col-sm-12 mb-3 mb-sm-0">
+                <label for="Estado">Estado</label>
+                <div class="col-6">
+                <input readonly class="form-contRuta rounded-3 border border-info Estado" value="ACTIVO" type="text">
+                </div>
+                </div>
+                </div>*@
+
+                <br />
+                <br />
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <div class="row center-align">
+                            <div class="col-sm-6">
+                                <!-- Div para el primer botón -->
+                                <button class="btn btn-primary btn-block" type="submit">Modificar &nbsp;<i class="fas fa-fw fa-plus"></i></button>
+                            </div>
+                            <div class="col-sm-6">
+                                <!-- Div para el segundo botón -->
+                                <a class="btn btn-secondary btn-block" asp-contRutaler="Ruta" asp-action="Index">Regresar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr>
+        </div>
+    </div>
+</div>

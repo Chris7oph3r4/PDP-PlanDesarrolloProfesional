@@ -16,6 +16,7 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
     {
             
     }
+
     public virtual DbSet<Area> Area { get; set; }
 
     public virtual DbSet<CumplimientoRequisito> CumplimientoRequisito { get; set; }
@@ -38,9 +39,13 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
 
     public virtual DbSet<UsuarioJerarquias> UsuarioJerarquias { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
- => optionsBuilder.UseSqlServer(StringConexion.ConexionSQL);
+=> optionsBuilder.UseSqlServer(StringConexion.ConexionSQL);
+
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.UseCollation("Modern_Spanish_CI_AS");
+
         modelBuilder.Entity<Area>(entity =>
         {
             entity.HasKey(e => e.AreaID).HasName("PK__Area__70B82028E180F69D");

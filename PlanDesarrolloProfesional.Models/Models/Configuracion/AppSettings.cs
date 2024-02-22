@@ -28,6 +28,11 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
             public static string Rol_Eliminar { get; set; }
             public static string Rol_Listar { get; set; }
 
+            public static string Ruta_Agregar { get; set; }
+            public static string Ruta_Obtener { get; set; }
+            public static string Ruta_Actualizar { get; set; }
+            public static string Ruta_Eliminar { get; set; }
+            public static string Ruta_Listar { get; set; }
 
         }
     }
