@@ -243,6 +243,35 @@ namespace PlanDesarrolloProfesional.DataAccess
 
         public async Task<bool> Eliminar(int IdUsuario)
         {
+     
+            var Usuario = await Obtener(IdUsuario);
+
+            if (Usuario != null)
+            {
+                using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+                {
+                    List<UsuarioAreaModel> Lista = await ContextoBD.UsuarioArea
+                                                .Where(ua => ua.UsuarioID == IdUsuario)
+                                                .Select(au => new UsuarioAreaModel
+                                                {
+                                                    UsuarioID = au.UsuarioID,
+                                                    AreaID = au.AreaID,
+                                                    UsuarioAreaID = au.UsuarioAreaID,
+                                                    Eliminado = au.Eliminado
+                                                })
+                                                .ToListAsync();
+
+                    ContextoBD.Entry(Usuario).State = EntityState.Deleted;
+                    await ContextoBD.SaveChangesAsync();
+                }
+            }
+
+            return true;
+
+        }
+
+        public async Task<bool> EliminarUsuarioArea(int IdUsuario)
+        {
 
             var Usuario = await Obtener(IdUsuario);
 
@@ -250,8 +279,22 @@ namespace PlanDesarrolloProfesional.DataAccess
             {
                 using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 {
+                    //IEnumerable<UsuarioArea> Lista = await ContextoBD.UsuarioArea
+                    //                            .Where(ua => ua.UsuarioID == IdUsuario)
+                    //                            .Select(au => new UsuarioArea
+                    //                            {
+                    //                                UsuarioID = au.UsuarioID,
+                    //                                AreaID = au.AreaID,
+                    //                                UsuarioAreaID = au.UsuarioAreaID,
+                    //                                Eliminado = au.Eliminado
+                    //                            })
+                    //                            .ToListAsync();
+                    // Modificar el campo Eliminado a true para todos los registros seleccionados
+                    foreach (var usuario in ContextoBD.UsuarioArea.Where(u => u.UsuarioID == IdUsuario))
+                    {
+                        usuario.Eliminado = true;
+                    }
 
-                    ContextoBD.Entry(Usuario).State = EntityState.Deleted;
                     await ContextoBD.SaveChangesAsync();
                 }
             }

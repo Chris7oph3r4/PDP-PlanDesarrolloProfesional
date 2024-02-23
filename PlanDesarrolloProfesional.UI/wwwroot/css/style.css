@@ -21050,12 +21050,12 @@ div.tox .btn-group-lg > .btn-icon-text.tox-button .btn-icon-append,
 
 .dropdown .dropdown-toggle:after,
 .btn-group .dropdown-toggle:after {
-  border-top: 0;
+ /* border-top: 0;
   border-right: 0;
   border-left: 0;
   border-bottom: 0;
   font: normal normal normal 24px/1 "feather";
-  content: "\e842";
+  content: "\e842";*/
   width: auto;
   height: auto;
   vertical-align: middle;

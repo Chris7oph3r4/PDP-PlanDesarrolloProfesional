@@ -154,6 +154,7 @@ namespace PlanDesarrolloProfesional.Logic
         {
             try
             {
+                
                 bool Objeto = await _DAUsuario.Eliminar(IdUsuario);
                 return Objeto;
             }
@@ -165,6 +166,28 @@ namespace PlanDesarrolloProfesional.Logic
 
         public Task<UsuarioAgregarViewModel> Actualizar(UsuarioAgregarViewModel modelo)
         {
+            try
+            {
+                Usuario usuario = new Usuario
+                {
+                    UsuarioID  =modelo.UsuarioID,
+                    Nombre = modelo.Nombre,
+                    RolID = modelo.RolID,
+                    JerarquiaID = modelo.JerarquiaID,
+                    Descripcion = modelo.Descripcion,
+                    Correo = modelo.Correo,
+                    CodigoDaloo = modelo.CodigoDaloo
+                };
+                var eliminarUsuarioArea = _DAUsuario.EliminarUsuarioArea(modelo.UsuarioID);
+                var modificarUsuarioArea = _DAUsuario.ActualizarUsuario(usuario);
+
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+            
             throw new NotImplementedException();
         }
     }
