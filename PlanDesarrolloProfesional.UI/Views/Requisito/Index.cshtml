@@ -1,6 +1,161 @@
-﻿namespace PlanDesarrolloProfesional.UI.Views.Requisito
-{
-    public class Index
-    {
-    }
+﻿@model IEnumerable<PlanDesarrolloProfesional.Models.Models.RequisitoModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Requisito";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Rol</h1>
+    <p class="mb-4">
+        Lista de Requisitos
+    </p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">@Model.Count() Registros</h6>
+        </div>
+        <div class="card-header py-3">
+            <a href="@Url.Action("Agregar", "Requisito", new { })" class="btn btn-primary btn-user btn-block">Agregar</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>NombreRequisito</th>
+                            <th>Estado</th>
+                            <th>Rango</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td data-label="Valor1">@item.NombreRequisito</td>
+                                <td data-label="Valor1">@item.Estado</td>
+                                <td data-label="Valor1">@item.RangoID</td>
+
+                                <td class="text-start" data-label="Acciones">
+                                    <div class="dropdown">
+                                        <a type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                            Acciones
+                                        </a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="@Url.Action("Modificar", "Rol", new {RolID=item.RequisitoID })">Modificar</a>
+                                            <a onclick="Eliminar(@item.RequisitoID)" href="#" class="dropdown-item" style="color:black;">Eliminar</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @using (Html.BeginForm("Eliminar", "Requisito", FormMethod.Post, new { id = "EliminarRequisito" }))
+                {
+                    <input type="hidden" id="IdObjeto" name="IdObjeto" />
+                    @*<input type="hidden" id="Justificacion" name="Justificacion" />*@
+                }
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts {
+    <script src="~/js/sweetalert.js"></script>
+    <script src="~/js/alertas.js"></script>
+    <link href="~/js/datatables.net-bs5/datatables.bootstrap5.css" rel="stylesheet" />
+    <script src="~/js/datatables.net-bs5/datatables.bootstrap5.js"></script>
+
+
+
+    <script type="text/javascript">
+
+
+        if ('@ViewBag.Mensaje' == "Eliminado") {
+            Swal.fire({
+                title: "¡Acción exitosa!",
+                text: 'Se ha Eliminado',
+                type: "success",
+                showconfirmButton: false,
+                showCancelButton: false,
+            });
+        }
+
+        else if ('@ViewBag.Mensaje' == "Agrega") {
+            Swal.fire({
+                title: "¡Acción exitosa!",
+                text: 'Se ha agregado un nuevo usuario al sistema',
+                type: "success",
+                showCancelButton: false,
+                showconfirmButton: false,
+            });
+        }
+
+        else if ('@ViewBag.Mensaje' == "Modifica") {
+            Swal.fire({
+                title: "¡Acción exitosa!",
+                text: 'Se ha modificado el usuario del sistema',
+                type: "success",
+                showCancelButton: false,
+                showconfirmButton: false,
+            });
+        }
+
+        else if ('@ViewBag.Mensaje' == "Error") {
+            Swal.fire({
+                title: "¡Error!",
+                text: 'Error al ejecutar la acción',
+                type: "error",
+                showCancelButton: false,
+                showconfirmButton: false,
+            });
+        }
+
+        else if ('@ViewBag.Mensaje' == "Existe") {
+            Swal.fire({
+                title: "¡Error!",
+                text: 'El usuario ingresado ya existe en el sistema',
+                type: "error",
+                showCancelButton: false,
+                showconfirmButton: false,
+            });
+        }
+
+        else if ('@ViewBag.Mensaje' == "Incompleto") {
+            Swal.fire({
+                title: "¡Error!",
+                text: 'Datos incompletos, asegurese de llenar todos los datos',
+                type: "error",
+                showCancelButton: false,
+                showconfirmButton: false,
+            });
+        }
+        function Eliminar(RolID) {
+
+            Swal.fire({
+                title: "Desea eliminar el Requisito?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Aquí colocas el código que se ejecutará si el usuario hace clic en "Sí, eliminar"
+                    $('#IdObjeto').val(RolID);
+                    $("#EliminarRol").submit();
+
+                } else {
+                    // Aquí colocas el código que se ejecutará si el usuario hace clic en "Cancelar" o fuera del cuadro de confirmación
+                    Swal.fire("Cancelado", "La Rol no fue eliminada.", "info");
+                }
+            });
+
+        }
+    </script>
 }
