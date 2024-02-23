@@ -17,6 +17,8 @@ public partial class UsuarioArea
     [Key]
     public int UsuarioAreaID { get; set; }
 
+    public bool? Eliminado { get; set; }
+
     [ForeignKey("AreaID")]
     [InverseProperty("UsuarioArea")]
     public virtual Area Area { get; set; }
