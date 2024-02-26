@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<PlanDesarrolloProfesional.Models.Models.RangoModel>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Ruta";
+    ViewData["Title"] = "Rango";
+    List<PlanDesarrolloProfesional.Models.Models.RutaModel> RutaList = ViewBag.Ruta;
 }
 
 <!-- Begin Page Content -->
@@ -10,7 +11,7 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Rango</h1>
     <p class="mb-4">
-        Lista Ruta registrados en el Sistema
+        Lista Rango registrados en el Sistema
     </p>
 
     <!-- DataTales Example -->
@@ -26,9 +27,10 @@
                 <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>ID Ruta</th>
+                            
                             <th>Nombre Rango</th>
                             <th>Descripción</th>
+                            <th>Ruta</th>
 
                         </tr>
                     </thead>
@@ -37,10 +39,11 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td data-label="Valor1">@item.RangoID</td>
+                                
                                 <td data-label="Valor1">@item.NombreRango</td>
                                 <td data-label="Valor1">@item.Descripcion</td>
-
+                                <td data-label="Valor1">@item.RutaID</td>
+                                
                                 <td class="text-start" data-label="Acciones">
                                     <div class="dropdown">
                                         <a type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
