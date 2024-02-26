@@ -50,7 +50,7 @@ namespace PlanDesarrolloProfesional.Logic
                 };
                 var respuesta = await _DAUsuario.Agregar(usuario);
                 Modelo.UsuarioID = respuesta.UsuarioID;
-                var respuestaArea = await _DAUsuario.AgregarConAreas(Modelo);
+                var respuestaArea = await _DAUsuario.AgregarAreas(Modelo);
                 var respuestaSupervisor = await _DAUsuario.AgregarSupervisor(Modelo);
                 
                 return respuestaSupervisor;
@@ -67,6 +67,30 @@ namespace PlanDesarrolloProfesional.Logic
             try
             {
                 UsuarioModel Objeto = new UsuarioModel(await _DAUsuario.Obtener(IdUsuario));
+                return Objeto;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+        public async Task<UsuarioModel> ObtenerPorCorreo(string correo)
+        {
+            try
+            {
+                UsuarioModel Objeto = new UsuarioModel(await _DAUsuario.ObtenerPorCorreo(correo));
+                return Objeto;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+        public async Task<UsuarioAgregarViewModel> ObtenerUA(int IdUsuario)
+        {
+            try
+            {
+                UsuarioAgregarViewModel Objeto = await _DAUsuario.ObtenerUA(IdUsuario);
                 return Objeto;
             }
             catch (Exception e)
@@ -164,13 +188,32 @@ namespace PlanDesarrolloProfesional.Logic
             }
         }
 
-        public Task<UsuarioAgregarViewModel> Actualizar(UsuarioAgregarViewModel modelo)
+        public async Task<UsuarioAgregarViewModel> Actualizar(UsuarioAgregarViewModel modelo)
         {
             try
-            {
+            {  
+                List<int> areasOriginales = await _DAUsuario.ObtenerAreasActuales(modelo.UsuarioID);
+                List<int> areasRecibidas = modelo.AreasID;
+                List<int> nuevasAreas = areasRecibidas.Except(areasOriginales).ToList();
+                List<int> areasPorEliminar = areasOriginales.Except(areasRecibidas).ToList();
+
+                var actualizarSupervisor = await _DAUsuario.ActualizarSupervisorUsuario(modelo);
+
+                if (nuevasAreas.Count() != 0)
+                {
+                    var respuestaArea = await _DAUsuario.AgregarAreas(modelo);
+                    
+                }
+                if (areasPorEliminar.Count() != 0)
+                {
+                    var eliminarUsuarioArea = await _DAUsuario.EliminarUsuarioArea(areasPorEliminar);
+                    
+                }
+                
+
                 Usuario usuario = new Usuario
                 {
-                    UsuarioID  =modelo.UsuarioID,
+                    UsuarioID = modelo.UsuarioID,
                     Nombre = modelo.Nombre,
                     RolID = modelo.RolID,
                     JerarquiaID = modelo.JerarquiaID,
@@ -178,8 +221,12 @@ namespace PlanDesarrolloProfesional.Logic
                     Correo = modelo.Correo,
                     CodigoDaloo = modelo.CodigoDaloo
                 };
-                var eliminarUsuarioArea = _DAUsuario.EliminarUsuarioArea(modelo.UsuarioID);
-                var modificarUsuarioArea = _DAUsuario.ActualizarUsuario(usuario);
+                var modificarUsuarioArea = await _DAUsuario.ActualizarUsuario(usuario);
+
+                var usuarioActualizado = await _DAUsuario.ObtenerUA(modelo.UsuarioID);
+
+                return usuarioActualizado;
+
 
             }
             catch (Exception)

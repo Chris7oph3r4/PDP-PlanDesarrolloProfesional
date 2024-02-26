@@ -43,6 +43,22 @@ namespace PlanDesarrolloProfesional.API.Controllers
             return Modelo;
         }
         [HttpGet]
+        [Route("ObtenerPorCorreo")]
+        public async Task<UsuarioModel> ObtenerPorCorreo(string correo)
+        {
+            if (correo == "") throw new Exception("Código Nulo");
+            var Modelo = await _IUsuario.ObtenerPorCorreo(correo);
+            return Modelo;
+        }
+        [HttpGet]
+        [Route("ObtenerUA")]
+        public async Task<UsuarioAgregarViewModel> ObtenerUA(int IdUsuario)
+        {
+            if (IdUsuario == 0) throw new Exception("Código Nulo");
+            var Modelo = await _IUsuario.ObtenerUA(IdUsuario);
+            return Modelo;
+        }
+        [HttpGet]
         [Route("Listar")]
         public async Task<IEnumerable<UsuarioModel>> Listar()
         {

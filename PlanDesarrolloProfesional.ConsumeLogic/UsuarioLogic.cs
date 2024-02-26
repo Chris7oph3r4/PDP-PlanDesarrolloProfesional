@@ -59,6 +59,22 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
 
             return Objeto;
         }
+        public async Task<UsuarioModel> ObtenerPorCorreo(string correo)
+        {
+
+            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Usuario_ObtenerPorCorreo, correo.ToString())/*, await Token()*/);
+            UsuarioModel Objeto = JsonConvert.DeserializeObject<UsuarioModel>(ObjetoJson);
+
+            return Objeto;
+        }
+        public async Task<UsuarioAgregarViewModel> ObtenerUA(int IdUsuario)
+        {
+
+            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Usuario_ObtenerUA, IdUsuario.ToString())/*, await Token()*/);
+            UsuarioAgregarViewModel Objeto = JsonConvert.DeserializeObject<UsuarioAgregarViewModel>(ObjetoJson);
+
+            return Objeto;
+        }
 
         //public async Task<UsuarioModel> Inactivar(int IdUsuario)
         //{
@@ -69,11 +85,11 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
         //    return Objeto;
         //}
 
-        public async Task<UsuarioModel> Actualizar(UsuarioModel UsuarioModel)
+        public async Task<UsuarioAgregarViewModel> Actualizar(UsuarioAgregarViewModel UsuarioModel)
         {
           
             var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Usuario_Actualizar), UsuarioModel/*, await Token()*/);
-            UsuarioModel Objeto = JsonConvert.DeserializeObject<UsuarioModel>(ObjetoJson);
+            UsuarioAgregarViewModel Objeto = JsonConvert.DeserializeObject<UsuarioAgregarViewModel>(ObjetoJson);
 
             return Objeto;
         }

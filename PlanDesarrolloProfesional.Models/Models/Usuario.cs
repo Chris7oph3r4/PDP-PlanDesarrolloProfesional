@@ -34,6 +34,8 @@ public partial class Usuario
     [Unicode(false)]
     public string Correo { get; set; }
 
+    public bool? Eliminado { get; set; }
+
     [ForeignKey("JerarquiaID")]
     [InverseProperty("Usuario")]
     public virtual Jerarquias Jerarquia { get; set; }

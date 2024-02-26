@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PlanDesarrolloProfesional.Models.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,12 +29,38 @@ namespace PlanDesarrolloProfesional.DataAccess
         }
 
 
-        public async Task<UsuarioAgregarViewModel> AgregarConAreas(UsuarioAgregarViewModel Modelo)
+        public async Task<UsuarioAgregarViewModel> AgregarAreas(UsuarioAgregarViewModel Modelo)
         {
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
                  
+
+                    foreach (int areaID in Modelo.AreasID)
+                    {
+                        UsuarioArea usuarioArea = new UsuarioArea
+                        {
+                            UsuarioID = Modelo.UsuarioID,
+                            AreaID = areaID
+
+                        };
+                        var AgregarAreas = ContextoBD.Add(usuarioArea);
+
+                    }
+                    await ContextoBD.SaveChangesAsync();
+                    return Modelo;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+        }
+        public async Task<UsuarioAgregarViewModel> AgregarNuevasAreas(UsuarioAgregarViewModel Modelo)
+        {
+            using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+                try
+                {
+
 
                     foreach (int areaID in Modelo.AreasID)
                     {
@@ -93,6 +120,87 @@ namespace PlanDesarrolloProfesional.DataAccess
                 throw e;
             }
         }
+        public async Task<Usuario> ObtenerPorCorreo(string correo)
+        {
+            try
+            {
+                using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+                {
+                    Usuario usuarioActual = await ContextoBD
+                        .Usuario
+                        .FirstOrDefaultAsync(s => s.Correo == correo);
+
+                    return usuarioActual;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        public async Task<List<int>> ObtenerAreasActuales(int IdUsuario)
+        {
+            try
+            {
+                using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+                {
+                    List<int> ListaAreas = await ContextoBD.UsuarioArea
+                                               .Where(ua => ua.UsuarioID == IdUsuario && ua.Eliminado != true)
+                                               .Select(au => au.AreaID)
+                                               .ToListAsync();
+
+                    return ListaAreas;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        public async Task<UsuarioAgregarViewModel> ObtenerUA(int IdUsuario)
+        {
+            try
+            {
+                using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+                {
+                    Usuario UsuarioObtener = await ContextoBD
+                        .Usuario
+                        .FirstOrDefaultAsync(s => s.UsuarioID == IdUsuario);
+                    List<UsuarioArea> ListaAreas = await ContextoBD.UsuarioArea
+                                                .Where(ua => ua.UsuarioID == IdUsuario && ua.Eliminado != true)
+                                                .Select(au => new UsuarioArea
+                                                {
+                                                    UsuarioID = au.UsuarioID,
+                                                    AreaID = au.AreaID,
+                                                    UsuarioAreaID = au.UsuarioAreaID,
+                                                    Eliminado = au.Eliminado
+                                                })
+                                                .ToListAsync();
+                    UsuarioJerarquias Supervisor = await ContextoBD
+                        .UsuarioJerarquias
+                        .FirstOrDefaultAsync(su => su.UsuarioID == IdUsuario);
+                    UsuarioAgregarViewModel ModificarUsuario = new UsuarioAgregarViewModel
+                    {
+                        UsuarioID = UsuarioObtener.UsuarioID,
+                        Nombre = UsuarioObtener.Nombre,
+                        Descripcion = UsuarioObtener.Descripcion,
+                        RolID = UsuarioObtener.RolID,
+                        JerarquiaID = UsuarioObtener.JerarquiaID,
+                        SupervisorID = Supervisor.SupervisorID,
+                        AreasID = ListaAreas.Select(ua => ua.AreaID).ToList(),
+                        CodigoDaloo = UsuarioObtener.CodigoDaloo,
+                        Correo = UsuarioObtener.Correo
+                    };
+
+
+                    return ModificarUsuario;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
         public async Task<IEnumerable<Usuario>> Listar()
         {
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
@@ -116,6 +224,7 @@ namespace PlanDesarrolloProfesional.DataAccess
                 try
                 {
                     IEnumerable<UsuarioViewModel> Lista = ContextoBD.Usuario
+                                                .Where(u => u.Eliminado != true)
                                                 .Select(s=> new UsuarioViewModel()
                                                 {
                                                     UsuarioID = s.UsuarioID,
@@ -179,24 +288,37 @@ namespace PlanDesarrolloProfesional.DataAccess
         //            throw e;
         //        }
         //}
-        public async Task<UsuarioAgregarViewModel> ActualizarSupervisorUsuario(UsuarioAgregarViewModel Modelo)
+        public async Task<bool> ActualizarSupervisorUsuario(UsuarioAgregarViewModel Modelo)
         {
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+            {
                 try
                 {
-                    UsuarioJerarquias Supervisor = new UsuarioJerarquias
+                    // Buscar la entidad existente
+                    UsuarioJerarquias supervisorAsignado = await ContextoBD
+                        .UsuarioJerarquias
+                        .FirstOrDefaultAsync(su => su.UsuarioID == Modelo.UsuarioID);
+
+                    if (supervisorAsignado != null && supervisorAsignado.SupervisorID != Modelo.SupervisorID)
                     {
-                        UsuarioID = Modelo.UsuarioID,
-                        SupervisorID = Modelo.SupervisorID,
-                    };
-                    ContextoBD.Entry(Supervisor).State = EntityState.Modified;
-                    await ContextoBD.SaveChangesAsync();
-                    return Modelo;
+                        // Modificar la entidad existente
+                        supervisorAsignado.SupervisorID = Modelo.SupervisorID;
+
+                        // No es necesario cambiar el estado a EntityState.Modified
+                        // ContextoBD.Entry(supervisorAsignado).State = EntityState.Modified;
+
+                        await ContextoBD.SaveChangesAsync();
+                        return true;
+                    }
+
+                    return false;
                 }
                 catch (Exception e)
                 {
+                    // Manejar la excepción de manera adecuada
                     throw e;
                 }
+            }
         }
 
         //public async Task<Usuario> Inactivar(int IdUsuario)
@@ -250,38 +372,9 @@ namespace PlanDesarrolloProfesional.DataAccess
             {
                 using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 {
-                    List<UsuarioAreaModel> Lista = await ContextoBD.UsuarioArea
-                                                .Where(ua => ua.UsuarioID == IdUsuario)
-                                                .Select(au => new UsuarioAreaModel
-                                                {
-                                                    UsuarioID = au.UsuarioID,
-                                                    AreaID = au.AreaID,
-                                                    UsuarioAreaID = au.UsuarioAreaID,
-                                                    Eliminado = au.Eliminado
-                                                })
-                                                .ToListAsync();
-
-                    ContextoBD.Entry(Usuario).State = EntityState.Deleted;
-                    await ContextoBD.SaveChangesAsync();
-                }
-            }
-
-            return true;
-
-        }
-
-        public async Task<bool> EliminarUsuarioArea(int IdUsuario)
-        {
-
-            var Usuario = await Obtener(IdUsuario);
-
-            if (Usuario != null)
-            {
-                using (var ContextoBD = new PlanDesarrolloProfesionalContext())
-                {
-                    //IEnumerable<UsuarioArea> Lista = await ContextoBD.UsuarioArea
+                    //List<UsuarioAreaModel> Lista = await ContextoBD.UsuarioArea
                     //                            .Where(ua => ua.UsuarioID == IdUsuario)
-                    //                            .Select(au => new UsuarioArea
+                    //                            .Select(au => new UsuarioAreaModel
                     //                            {
                     //                                UsuarioID = au.UsuarioID,
                     //                                AreaID = au.AreaID,
@@ -289,10 +382,35 @@ namespace PlanDesarrolloProfesional.DataAccess
                     //                                Eliminado = au.Eliminado
                     //                            })
                     //                            .ToListAsync();
-                    // Modificar el campo Eliminado a true para todos los registros seleccionados
-                    foreach (var usuario in ContextoBD.UsuarioArea.Where(u => u.UsuarioID == IdUsuario))
+                    Usuario.Eliminado = true;
+                    ContextoBD.Entry(Usuario).State = EntityState.Modified;
+                    await ContextoBD.SaveChangesAsync();
+                    return true;
+                }
+            }
+
+            return false;
+
+        }
+
+        public async Task<bool> EliminarUsuarioArea(List<int> areasPorEliminar)
+        {
+
+            if (areasPorEliminar != null && areasPorEliminar.Any())
+            {
+                using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+                {
+                    
+                    foreach (var areaId in areasPorEliminar)
                     {
-                        usuario.Eliminado = true;
+                        var usuarioArea = await ContextoBD.UsuarioArea
+                        .Where(u => u.AreaID == areaId && u.Eliminado != true)
+                        .FirstOrDefaultAsync();
+
+                        if (usuarioArea != null)
+                        {
+                            usuarioArea.Eliminado = true;
+                        }
                     }
 
                     await ContextoBD.SaveChangesAsync();

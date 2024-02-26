@@ -83,7 +83,8 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             ViewBag.Roles = await LRoles.Listar();
             ViewBag.Jerarquias = await LJerarquias.Listar();
             ViewBag.Areas = await LAreas.Listar();
-            UsuarioModel Usuario = await LUsuario.Obtener(UsuarioID);
+            ViewBag.Supervisor = await LUsuario.Listar();
+            UsuarioAgregarViewModel Usuario = await LUsuario.ObtenerUA(UsuarioID);
 
             return View(Usuario);
 
@@ -92,10 +93,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Modificar(UsuarioModel Modelo)
+        public async Task<ActionResult> Modificar(UsuarioAgregarViewModel Modelo)
         {
 
-            UsuarioModel Usuario = await LUsuario.Obtener(Modelo.UsuarioID);
+            UsuarioAgregarViewModel Usuario = await LUsuario.ObtenerUA(Modelo.UsuarioID);
 
 
             var Modificar = await LUsuario.Actualizar(Modelo);

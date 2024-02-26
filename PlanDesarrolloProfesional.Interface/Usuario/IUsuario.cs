@@ -13,6 +13,8 @@ public interface IUsuario
             Task<UsuarioModel> Agregar(UsuarioModel Modelo);
             Task<UsuarioAgregarViewModel> AgregarUsuarioAreaJerarquia(UsuarioAgregarViewModel Modelo);
             Task<UsuarioModel> Obtener(int IdUsuario);
+            Task<UsuarioAgregarViewModel> ObtenerUA(int IdUsuario);
+            Task<UsuarioModel> ObtenerPorCorreo(string correo);
             //Task<UsuarioModel> Inactivar(int IdPedido);
             Task<UsuarioAgregarViewModel> Actualizar(UsuarioAgregarViewModel modelo);
             //Task<IEnumerable<JerarquiasViewModel>> ListarPorUsuario(int IdUsuario);

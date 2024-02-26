@@ -71,7 +71,7 @@
                 <div class="row mt-2">
                     <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione un Area</label></div>
                     <div class="col-sm-4">
-                        @Html.DropDownListFor(m => m.AreasID, new SelectList(AreasList, "AreaID", "Nombre"), "Seleccione el area:", new { @class = "float-right form-control", @id = "Area", multiple = "multiple" })
+                        @Html.DropDownListFor(m => m.AreasID, new SelectList(AreasList, "AreaID", "Nombre"), "Seleccione el area:", new { @class = "float-right form-control", @id = "Area", @multiple = "multiple", data_placeholder = "Seleccione las areas" })
                         @Html.ValidationMessageFor(model => model.AreasID, "")
                         <input hidden value="@Model.AreasID" name="Area" id="Area" />
                     </div>
@@ -106,12 +106,7 @@
 @section Scripts{
 
     <script>
-        $('#Area').select2({
-            theme: "bootstrap-5",
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            closeOnSelect: false,
-        });
+        $('#Area').select2({});
         $(document).ready(function () {
 
         });
