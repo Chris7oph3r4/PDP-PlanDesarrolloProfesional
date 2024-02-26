@@ -25,11 +25,14 @@ public partial class Usuario
 
     public int RolID { get; set; }
 
-    public int AreaID { get; set; }
-
     public int JerarquiaID { get; set; }
 
     public Guid CodigoDaloo { get; set; }
+
+    [Required]
+    [StringLength(100)]
+    [Unicode(false)]
+    public string Correo { get; set; }
 
     [ForeignKey("JerarquiaID")]
     [InverseProperty("Usuario")]

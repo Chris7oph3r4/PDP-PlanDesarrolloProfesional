@@ -20,7 +20,7 @@ public partial class PlanDesarrolloProfesional
 
     public int Estado { get; set; }
 
-    public int RutaRangoID { get; set; }
+    public int RangoID { get; set; }
 
     public bool Finalizado { get; set; }
 
@@ -30,4 +30,8 @@ public partial class PlanDesarrolloProfesional
 
     [InverseProperty("PlanDesarrollo")]
     public virtual ICollection<CumplimientoRequisito> CumplimientoRequisito { get; set; } = new List<CumplimientoRequisito>();
+
+    [ForeignKey("RangoID")]
+    [InverseProperty("PlanDesarrolloProfesional")]
+    public virtual Rango Rango { get; set; }
 }

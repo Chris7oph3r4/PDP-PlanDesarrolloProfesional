@@ -30,6 +30,7 @@ builder.Services.AddScoped<IJerarquias, LJerarquias>();
 builder.Services.AddScoped<IArea, LArea>();
 builder.Services.AddScoped<IRol, LRol>();
 builder.Services.AddScoped<IRuta, LRuta>();
+builder.Services.AddScoped<IRango, LRango>();
 #endregion Inyeccion de dependencias
 
 var app = builder.Build();

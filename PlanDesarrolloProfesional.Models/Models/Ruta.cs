@@ -30,5 +30,5 @@ public partial class Ruta
     public virtual Area Area { get; set; }
 
     [InverseProperty("Ruta")]
-    public virtual ICollection<RutaRango> RutaRango { get; set; } = new List<RutaRango>();
+    public virtual ICollection<Rango> Rango { get; set; } = new List<Rango>();
 }
