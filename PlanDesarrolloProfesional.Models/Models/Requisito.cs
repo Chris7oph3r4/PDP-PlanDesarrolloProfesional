@@ -24,4 +24,8 @@ public partial class Requisito
 
     [InverseProperty("Requisito")]
     public virtual ICollection<CumplimientoRequisito> CumplimientoRequisito { get; set; } = new List<CumplimientoRequisito>();
+
+    [ForeignKey("RangoID")]
+    [InverseProperty("Requisito")]
+    public virtual Rango Rango { get; set; }
 }

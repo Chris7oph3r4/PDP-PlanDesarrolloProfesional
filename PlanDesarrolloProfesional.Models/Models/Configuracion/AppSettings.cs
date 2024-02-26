@@ -44,6 +44,12 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
             public static string Ruta_Eliminar { get; set; }
             public static string Ruta_Listar { get; set; }
 
+            public static string Rango_Agregar { get; set; }
+            public static string Rango_Obtener { get; set; }
+            public static string Rango_Actualizar { get; set; }
+            public static string Rango_Eliminar { get; set; }
+            public static string Rango_Listar { get; set; }
+
         }
     }
 }

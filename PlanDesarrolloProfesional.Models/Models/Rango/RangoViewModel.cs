@@ -8,27 +8,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PlanDesarrolloProfesional.Models.Models;
 
-public partial class Ruta
+public class RangoViewModel
 {
+    public RangoViewModel() { }
+
     [Key]
-    public int RutaID { get; set; }
+    public int RangoID { get; set; }
 
     [Required]
-    [StringLength(50)]
+    [StringLength(250)]
     [Unicode(false)]
-    public string NombreRuta { get; set; }
+    public string NombreRango { get; set; }
 
     [Required]
-    [StringLength(255)]
+    [StringLength(250)]
     [Unicode(false)]
     public string Descripcion { get; set; }
 
-    public int AreaID { get; set; }
+    public int RutaID { get; set; }
 
-    [ForeignKey("AreaID")]
-    [InverseProperty("Ruta")]
-    public virtual Area Area { get; set; }
-
-    [InverseProperty("Ruta")]
-    public virtual ICollection<Rango> Rango { get; set; } = new List<Rango>();
 }

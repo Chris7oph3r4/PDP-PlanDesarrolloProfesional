@@ -12,9 +12,10 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
         : base(options)
     {
     }
+
     public PlanDesarrolloProfesionalContext()
     {
-            
+        
     }
 
     public virtual DbSet<Area> Area { get; set; }
@@ -24,6 +25,8 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
     public virtual DbSet<Jerarquias> Jerarquias { get; set; }
 
     public virtual DbSet<PlanDesarrolloProfesional> PlanDesarrolloProfesional { get; set; }
+
+    public virtual DbSet<Rango> Rango { get; set; }
 
     public virtual DbSet<Requisito> Requisito { get; set; }
 
@@ -36,14 +39,12 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
     public virtual DbSet<UsuarioArea> UsuarioArea { get; set; }
 
     public virtual DbSet<UsuarioJerarquias> UsuarioJerarquias { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 => optionsBuilder.UseSqlServer(StringConexion.ConexionSQL);
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.UseCollation("Modern_Spanish_CI_AS");
-
         modelBuilder.Entity<Area>(entity =>
         {
             entity.HasKey(e => e.AreaID).HasName("PK__Area__70B82028E180F69D");
@@ -69,11 +70,26 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
             entity.HasOne(d => d.Colaborador).WithMany(p => p.PlanDesarrolloProfesional)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PlanDesarrolloProfesional_Usuario");
+
+            entity.HasOne(d => d.Rango).WithMany(p => p.PlanDesarrolloProfesional)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PlanDesarrolloProfesional_Rango");
+        });
+
+        modelBuilder.Entity<Rango>(entity =>
+        {
+            entity.HasOne(d => d.Ruta).WithMany(p => p.Rango)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Rango_Ruta");
         });
 
         modelBuilder.Entity<Requisito>(entity =>
         {
             entity.HasKey(e => e.RequisitoID).HasName("PK__Requisit__372DF81ABA00CC13");
+
+            entity.HasOne(d => d.Rango).WithMany(p => p.Requisito)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Requisito_Rango");
         });
 
         modelBuilder.Entity<Ruta>(entity =>
