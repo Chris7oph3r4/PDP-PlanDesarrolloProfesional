@@ -30,6 +30,8 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
 
             public static string Usuario_Agregar { get; set; }
             public static string Usuario_Obtener { get; set; }
+            public static string Usuario_ObtenerUA { get; set; }
+            public static string Usuario_ObtenerPorCorreo { get; set; }
             public static string Usuario_Actualizar { get; set; }
             public static string Usuario_Eliminar { get; set; }
             public static string Usuario_Listar { get; set; }

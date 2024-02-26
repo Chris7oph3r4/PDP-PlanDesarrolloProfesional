@@ -5,6 +5,7 @@
     List<PlanDesarrolloProfesional.Models.Models.RolModel> RolesList = ViewBag.Roles;
     List<PlanDesarrolloProfesional.Models.Models.JerarquiasModel> JerarquiasList = ViewBag.Jerarquias;
     List<PlanDesarrolloProfesional.Models.Models.AreaModel> AreasList = ViewBag.Areas;
+    List<PlanDesarrolloProfesional.Models.Models.UsuarioModel> SupervisorList = ViewBag.Supervisor;
 
 
 }
@@ -17,7 +18,7 @@
 
                 <div class="form-group row">
                     <div class="col-sm-9 mb-3 mb-sm-0">
-                        <h4 class="mb-4">Agregar Jerarquia del sistema</h4>
+                        <h4 class="mb-4">Modificar Usuario del Sistema</h4>
                     </div>
                 </div>
             </div>
@@ -71,9 +72,18 @@
                 <div class="row mt-2">
                     <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione un Area</label></div>
                     <div class="col-sm-4">
-                        @Html.DropDownListFor(m => m.AreasID, new SelectList(AreasList, "AreaID", "Nombre"), "Seleccione el area:", new { @class = "float-right form-control", @id = "Area" })
+                        @Html.DropDownListFor(m => m.AreasID, new MultiSelectList(AreasList, "AreaID", "Nombre"), "Seleccione el area:", new { @class = "float-right form-control", @id = "Area", @multiple = "multiple", data_placeholder = "Seleccione las areas" })
                         @Html.ValidationMessageFor(model => model.AreasID, "")
                         <input hidden value="@Model.AreasID" name="Area" id="Area" />
+                    </div>
+
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Supervisor Asignado</label></div>
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(m => m.SupervisorID, new SelectList(SupervisorList, "UsuarioID", "Nombre"), "Seleccione el Supervisor:", new { @class = "float-right form-control", @id = "Supervisor" })
+                        @Html.ValidationMessageFor(model => model.SupervisorID, "")
+                        <input hidden value="@Model.SupervisorID" name="Supervisor" id="Supervisor" />
                     </div>
 
                 </div>
@@ -96,6 +106,15 @@
 </div>
 @section Scripts{
     <script>
+        var areasData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(AreasList.ToList()));
+        var preselectedValues = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.AreasID.ToList()));
+        console.log(areasData, preselectedValues)
+        $('#Area').select2({
+        });
+        $(document).ready(function () {
+            $('#Area').select2({});
+            $('#Area').val(preselectedValues).trigger('change');
+        });
         $(document).ready(function () {
 
         });

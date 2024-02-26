@@ -6,6 +6,7 @@
     // Obtener el valor de un claim específico
     var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
     var roleClaim = claimsPrincipal?.FindFirst(ClaimTypes.Role)?.Value;
+    var nameDbClaim = User?.FindFirst("NameDB")?.Value;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +23,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <!-- End fonts -->
-
+    <link href="~/js/select2/select2.min.css" rel="stylesheet" />
     <link href="~/css/core.css" rel="stylesheet" />
     <link href="~/js/jquery-steps/jquery.steps.css" rel="stylesheet" />
     <link href="~/css/flatpickr.min.css" rel="stylesheet" />
@@ -30,7 +31,7 @@
     <link href="~/css/style.css" rel="stylesheet" />
     <link href="~/js/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
     <link href="~/js/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="~/js/select2/select2.min.css" rel="stylesheet" />
+  
 
 
 
@@ -181,7 +182,7 @@
                                     </div>
                                     <div class="text-center">
                                        @* <p class="tx-16 fw-bolder">Amiah Burton</p>*@
-                                        <p class="tx-16 fw-bolder">@roleClaim</p>
+                                        <p class="tx-16 fw-bolder">@nameDbClaim</p>
                                         <p class="tx-12 text-muted">@nameClaim</p>
                                     </div>
                                 </div>
