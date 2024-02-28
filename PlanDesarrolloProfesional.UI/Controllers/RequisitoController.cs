@@ -10,11 +10,12 @@ namespace PlanDesarrolloProfesional.UI.Controllers
     public class RequisitoController : Controller
     {
         private RequisitoLogic LRequisito;
+        private RangoLogic LRango;
 
         public RequisitoController()
         {
             LRequisito = new RequisitoLogic();
-
+            LRango = new RangoLogic();
         }
         public async Task<ActionResult> Index(string Mensaje)
         {
@@ -38,6 +39,7 @@ namespace PlanDesarrolloProfesional.UI.Controllers
                 ViewBag.Mensaje = Mensaje;
             }
             RequisitoModel Usuario = new RequisitoModel();
+            ViewBag.RangoID await LRango.Listar();
 
             return View(Usuario);
 
