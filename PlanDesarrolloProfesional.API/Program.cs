@@ -32,6 +32,12 @@ builder.Services.AddScoped<IRol, LRol>();
 builder.Services.AddScoped<IRuta, LRuta>();
 #endregion Inyeccion de dependencias
 
+
+
+
+
+builder.Services.AddScoped<IRequisito, LRequisito>();
+
 var app = builder.Build();
 IWebHostEnvironment env = app.Environment;
 var config = new ConfigurationBuilder()

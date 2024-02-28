@@ -1,6 +1,6 @@
-﻿@model PlanDesarrolloProfesional.Models.Models.RolModel
+﻿@model PlanDesarrolloProfesional.Models.Models.RequisitoModel
 @{
-    ViewData["Title"] = "Modificar Rol";
+    ViewData["Title"] = "Modificar Requisito";
 }
 <div class="card o-hidden border-0 shadow-lg my-4">
     <div class="card-body col-12">
@@ -10,12 +10,12 @@
 
                 <div class="form-group row">
                     <div class="col-sm-9 mb-3 mb-sm-0">
-                        <h4 class="mb-4">Modificar Rol en el sistema</h4>
+                        <h4 class="mb-4">Modificar Requisito</h4>
                     </div>
                 </div>
             </div>
 
-            <form action="@Url.Action("Modificar","Rol")" method="post" enctype="multipart/form-data" class="user">
+            <form action="@Url.Action("Modificar","Requisito")" method="post" enctype="multipart/form-data" class="user">
 
                 <div class="form-group row">
                     <div class="col-sm-12 mb-12 mb-sm-12">
@@ -23,8 +23,8 @@
                             <div class="col-sm-12 mb-3 mb-sm-0">
 
                                 <div class="col-6">
-                                    <input placeholder="Escriba aquí el nombre de la Rol" id="RolID" readonly hidden class="form-control rounded-3 border border-info Codigo" asp-for="RolID" type="text">
-                                    <span asp-validation-for="RolID" class="col-12 text-danger"></span>
+                                    <input placeholder="Escriba aquí el nombre del Requisito" id="RequisitoID" readonly hidden class="form-control rounded-3 border border-info Codigo" asp-for="RequisitoID" type="text">
+                                    <span asp-validation-for="RequisitoID" class="col-12 text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -38,26 +38,35 @@
                 <hr />
                 <div class="form-group row">
                     <div class="col-sm-12 mb-3 mb-sm-0">
-                        <label for="Nombre">Nombre del Rol</label>
+                        <label for="Nombre">Nombre del Requisito</label>
                         <div class="col-6">
-                            @Html.EditorFor(model => model.NombreRol, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
-                            @*<input  value="@Model.NombreRol" name="NombreRol" id="NombreRol" />*@
-                            <span asp-validation-for="NombreRol" class="col-12 text-danger"></span>
+                            @Html.EditorFor(model => model.NombreRequisito, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
+                            @*<input  value="@Model.NombreRequisito" name="NombreRequisito" id="NombreRequisito" />*@
+                            <span asp-validation-for="NombreRequisito" class="col-12 text-danger"></span>
                         </div>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12 mb-3 mb-sm-0">
-                        <label for="Descripcion">Descripción</label>
+                        <label for="Descripcion">Estado</label>
                         <div class="col-6">
-                            @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
-                            @*<input  value="@Model.Descripcion" name="Descripcion" id="Descripcion" />*@
-                            <span asp-validation-for="Descripcion" class="col-12 text-danger"></span>
+                            @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
+                            @*<input  value="@Model.Estado" name="Estado" id="Estado" />*@
+                            <span asp-validation-for="Estado" class="col-12 text-danger"></span>
                         </div>
                     </div>
                 </div>
 
-
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <label for="Descripcion">Rango</label>
+                        <div class="col-6">
+                            @Html.EditorFor(model => model.RangoID, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
+                            @*<input  value="@Model.RangoID" name="RangoID" id="RangoID" />*@
+                            <span asp-validation-for="RangoID" class="col-12 text-danger"></span>
+                        </div>
+                    </div>
+                </div>
 
                 <br />
                 @*              <div class="form-group row">
@@ -80,7 +89,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <!-- Div para el segundo botón -->
-                                <a class="btn btn-secondary btn-block" asp-controller="Rol" asp-action="Index">Regresar</a>
+                                <a class="btn btn-secondary btn-block" asp-controller="Requisito" asp-action="Index">Regresar</a>
                             </div>
                         </div>
                     </div>
