@@ -74,10 +74,11 @@
                         <span asp-validation-for="Descripcion" class="col-12 text-danger"></span>
                     </div>
                 </div>
+                <br />
                 <div class="form-group row">
                     <div class="col-sm-2"><label class="float-left font-weight-bold h5">Ruta</label></div>
                     <div class="col-sm-4">
-                        @Html.DropDownListFor(model => model.RutaID, new SelectList(RutaList, "RutaID", "NombreRuta"), "Seleccione el ruta:", new { @class = "float-right form-control" })
+                        @Html.DropDownListFor(model => model.RutaID, new SelectList(RutaList, "RutaID", "NombreRuta"), "Seleccione el ruta:", new { @class = "float-right form-control form-select" })
                     </div>
                 </div>
 
