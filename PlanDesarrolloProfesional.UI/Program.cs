@@ -69,6 +69,12 @@ AppSettings.APIEndpoints.Rango_Obtener = builder.Configuration.GetSection("PlanD
 AppSettings.APIEndpoints.Rango_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rango_Listar").Value;
 AppSettings.APIEndpoints.Rango_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rango_Eliminar").Value;
 
+//El consumo de Endpoints de Ruta
+AppSettings.APIEndpoints.Requisito_Agregar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Agregar").Value;
+AppSettings.APIEndpoints.Requisito_Actualizar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Actualizar").Value;
+AppSettings.APIEndpoints.Requisito_Obtener = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Obtener").Value;
+AppSettings.APIEndpoints.Requisito_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Listar").Value;
+AppSettings.APIEndpoints.Requisito_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Eliminar").Value;
 
 
 #endregion ConfiguracionAPI
