@@ -39,7 +39,7 @@ namespace PlanDesarrolloProfesional.UI.Controllers
                 ViewBag.Mensaje = Mensaje;
             }
             RequisitoModel Usuario = new RequisitoModel();
-            ViewBag.RangoID await LRango.Listar();
+            ViewBag.RangoID = LRango.Listar();
 
             return View(Usuario);
 
