@@ -39,7 +39,7 @@ namespace PlanDesarrolloProfesional.UI.Controllers
                 ViewBag.Mensaje = Mensaje;
             }
             RequisitoModel Usuario = new RequisitoModel();
-            ViewBag.RangoID = LRango.Listar();
+            //ViewBag.RangoID = LRango.Listar();
 
             return View(Usuario);
 
@@ -50,7 +50,8 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Agregar(RequisitoModel Modelo)
         {
-
+       
+            Modelo.RangoID = 1;
             var Agregar = await LRequisito.Agregar(Modelo);
             if (Agregar.RequisitoID != null)
             {

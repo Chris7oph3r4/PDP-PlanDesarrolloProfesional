@@ -47,7 +47,7 @@
                                             Acciones
                                         </a>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="@Url.Action("Modificar", "Rol", new {RolID=item.RequisitoID })">Modificar</a>
+                                            <a class="dropdown-item" href="@Url.Action("Modificar", "Requisito", new {RequisitoID=item.RequisitoID })">Modificar</a>
                                             <a onclick="Eliminar(@item.RequisitoID)" href="#" class="dropdown-item" style="color:black;">Eliminar</a>
                                         </div>
                                     </div>
@@ -136,7 +136,7 @@
                 showconfirmButton: false,
             });
         }
-        function Eliminar(RolID) {
+        function Eliminar(RequisitoID) {
 
             Swal.fire({
                 title: "Desea eliminar el Requisito?",
@@ -147,8 +147,8 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Aquí colocas el código que se ejecutará si el usuario hace clic en "Sí, eliminar"
-                    $('#IdObjeto').val(RolID);
-                    $("#EliminarRol").submit();
+                        $('#IdObjeto').val(RequisitoID);
+                        $("#EliminarRequisito").submit();
 
                 } else {
                     // Aquí colocas el código que se ejecutará si el usuario hace clic en "Cancelar" o fuera del cuadro de confirmación
