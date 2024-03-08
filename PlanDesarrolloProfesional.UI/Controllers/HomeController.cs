@@ -30,6 +30,7 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             Usuario.Rol = "Gerente";
 
             var existingRoleClaim = claimsPrincipal?.FindFirst(ClaimTypes.Role);
+         
 
             // Si no tiene un claim de rol, agregar uno
             if (existingRoleClaim == null)

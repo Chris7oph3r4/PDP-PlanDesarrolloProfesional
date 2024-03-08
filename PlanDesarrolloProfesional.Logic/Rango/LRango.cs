@@ -134,5 +134,6 @@ namespace PlanDesarrolloProfesional.Logic
                 return (Task<IEnumerable<RangoModel>>)Enumerable.Empty<RangoModel>();
             }
         }
+
     }
 }

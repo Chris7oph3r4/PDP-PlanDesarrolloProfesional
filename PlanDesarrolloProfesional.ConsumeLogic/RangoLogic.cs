@@ -77,10 +77,10 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
 
             return ListaJerarquiasModel;
         } 
-        public async Task<List<RangoModel>> RangosPorRuta()
+        public async Task<List<RangoModel>> RangosPorRuta(int idRuta)
         {
 
-            var ListaSolicitudeJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Rango_PorRutas)/*, await Token()*/);
+            var ListaSolicitudeJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Rango_RangoPorRutas, idRuta.ToString())/*, await Token()*/);
             List<RangoModel> ListaRangosModel = JsonConvert.DeserializeObject<List<RangoModel>>(ListaSolicitudeJson);
 
             return ListaRangosModel;

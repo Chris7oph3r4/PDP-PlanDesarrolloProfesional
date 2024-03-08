@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using NuGet.Protocol;
 using PlanDesarrolloProfesional.ConsumeLogic;
 using PlanDesarrolloProfesional.Models.Models;
+using System;
 using System.Security.Claims;
 
 namespace PlanDesarrolloProfesional.UI.Controllers
@@ -11,11 +14,13 @@ namespace PlanDesarrolloProfesional.UI.Controllers
     {
         private RequisitoLogic LRequisito;
         private RangoLogic LRango;
+        private RutaLogic LRuta;
 
         public RequisitoController()
         {
             LRequisito = new RequisitoLogic();
             LRango = new RangoLogic();
+            LRuta = new RutaLogic();
         }
         public async Task<ActionResult> Index(string Mensaje)
         {
@@ -26,6 +31,7 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             }
 
             var Requisito = await LRequisito.Listar();
+            //var RangosFiltrados = await LRango.RangosPorRuta(3);
 
             return View(Requisito);
 
@@ -39,10 +45,42 @@ namespace PlanDesarrolloProfesional.UI.Controllers
                 ViewBag.Mensaje = Mensaje;
             }
             RequisitoModel Requisito = new RequisitoModel();
+            ViewBag.Rutas = await LRuta.Listar();
             ViewBag.Rango = await LRango.Listar();
 
             return View(Requisito);
 
+        }
+
+        //public async Task<JsonResult> ObtenerRangosPorRuta(int rutaId)
+        //{
+        //    // Lógica para obtener los rangos asociados a la rutaId
+        //    var rangos = await LRango.RangosPorRuta(rutaId);
+
+        //        var settings = new JsonSerializerSettings
+        //        {
+        //            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        //        };
+
+        //         var json = JsonConvert.SerializeObject(rangos, settings);
+
+
+
+        //    return Json(rangos);
+        //}
+        public async Task<IActionResult> ObtenerRangosPorRuta(int rutaId)
+        {
+            // Lógica para obtener los rangos asociados a la rutaId
+            var rangos = await LRango.RangosPorRuta(rutaId);
+
+            var settings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            var json = JsonConvert.SerializeObject(rangos, settings);
+
+            return Content(json, "application/json");
         }
 
 

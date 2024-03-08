@@ -1,12 +1,19 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PlanDesarrolloProfesional.Models.Models.Configuracion;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+}); 
+    
 
 #region Autenticacion
 builder.Services.AddAuthentication(options =>
@@ -67,6 +74,7 @@ AppSettings.APIEndpoints.Rango_Agregar = builder.Configuration.GetSection("PlanD
 AppSettings.APIEndpoints.Rango_Actualizar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rango_Actualizar").Value;
 AppSettings.APIEndpoints.Rango_Obtener = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rango_Obtener").Value;
 AppSettings.APIEndpoints.Rango_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rango_Listar").Value;
+AppSettings.APIEndpoints.Rango_RangoPorRutas = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rango_RangoPorRutas").Value;
 AppSettings.APIEndpoints.Rango_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rango_Eliminar").Value;
 
 //El consumo de Endpoints de Ruta
