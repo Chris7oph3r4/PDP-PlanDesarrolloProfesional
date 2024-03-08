@@ -46,7 +46,15 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
             return Lista;
         }
+        [HttpGet]
+        [Route("RangoPorRutas")]
+        public async Task<IEnumerable<RangoModel>> RangoPorRutas(int idRuta)
+        {
+            var Lista = await _IRango.RangosPorRuta(idRuta);
+            if (Lista == null) throw new Exception("Modelo Nulo");
 
+            return Lista;
+        }
         //[HttpGet]
         //[Route("Inactivar")]
         //public async Task<RangoModel> Inactivar(int IdRango)

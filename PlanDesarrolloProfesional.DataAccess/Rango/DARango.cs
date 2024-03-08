@@ -68,9 +68,10 @@ namespace PlanDesarrolloProfesional.DataAccess
             {
                 try
                 {
-                    IEnumerable<RangoModel> Lista = (IEnumerable<RangoModel>)await ContextoBD.Rango
+                    IEnumerable<RangoModel> Lista = await ContextoBD.Rango
                     .Where(rango => rango.RutaID == IdRuta)
-                    .ToListAsync();
+                    .Select(rango => new RangoModel(rango))
+                    .ToListAsync().ConfigureAwait(false);
 
                     return Lista;
                 }
