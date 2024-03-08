@@ -76,6 +76,14 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
             List<RangoModel> ListaJerarquiasModel = JsonConvert.DeserializeObject<List<RangoModel>>(ListaSolicitudeJson);
 
             return ListaJerarquiasModel;
+        } 
+        public async Task<List<RangoModel>> RangosPorRuta()
+        {
+
+            var ListaSolicitudeJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Rango_PorRutas)/*, await Token()*/);
+            List<RangoModel> ListaRangosModel = JsonConvert.DeserializeObject<List<RangoModel>>(ListaSolicitudeJson);
+
+            return ListaRangosModel;
         }
 
         public async Task<bool> Eliminar(int IdRango)

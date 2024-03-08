@@ -39,6 +39,7 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
             public static string Rango_Actualizar { get; set; }
             public static string Rango_Eliminar { get; set; }
             public static string Rango_Listar { get; set; }
+            public static string Rango_PorRutas { get; set; }
             public static string Requisito_Agregar { get; set; }
             public static string Requisito_Obtener { get; set; }
             public static string Requisito_Actualizar { get; set; }

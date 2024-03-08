@@ -62,6 +62,25 @@ namespace PlanDesarrolloProfesional.DataAccess
             }
         }
 
+        public async Task<IEnumerable<RangoModel>> RangosPorRuta(int IdRuta)
+        {
+            using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+            {
+                try
+                {
+                    IEnumerable<RangoModel> Lista = (IEnumerable<RangoModel>)await ContextoBD.Rango
+                    .Where(rango => rango.RutaID == IdRuta)
+                    .ToListAsync();
+
+                    return Lista;
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+            }
+        }
+
         public async Task<Rango> Actualizar(Rango Modelo)
         {
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
