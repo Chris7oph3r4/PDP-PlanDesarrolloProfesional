@@ -16,6 +16,7 @@ namespace PlanDesarrolloProfesional.Interface
         Task<RangoModel> Actualizar(RangoModel modelo);
         //Task<IEnumerable<RolViewModel>> ListarPorUsuario(int IdUsuario);
         Task<IEnumerable<RangoModel>> Listar();
+        Task<IEnumerable<RangoModel>> RangosPorRuta();
         Task<bool> Eliminar(int IdRango);
     }
 }

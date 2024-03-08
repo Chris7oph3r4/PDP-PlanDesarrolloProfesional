@@ -117,5 +117,22 @@ namespace PlanDesarrolloProfesional.Logic
                 return false;
             }
         }
+
+        public Task<IEnumerable<RangoModel>> RangosPorRuta(int IdRuta)
+        {
+            try
+            {
+                var ListaObjetoBD =  _DARango.RangosPorRuta(IdRuta);
+                
+
+                return ListaObjetoBD;
+            }
+            catch (Exception e)
+            {
+                //await LRegistro_Error.AgregarInterno(e.ToString(), "", e.InnerException != null ? e.InnerException.HResult.ToString() : "", "0");
+
+                return (Task<IEnumerable<RangoModel>>)Enumerable.Empty<RangoModel>();
+            }
+        }
     }
 }
