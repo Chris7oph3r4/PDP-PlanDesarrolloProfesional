@@ -1,6 +1,8 @@
 ﻿@model PlanDesarrolloProfesional.Models.Models.RequisitoModel
 @{
     ViewData["Title"] = "Modificar Requisito";
+    List<PlanDesarrolloProfesional.Models.Models.RangoModel> RangoList = ViewBag.Rango;
+    List<PlanDesarrolloProfesional.Models.Models.RutaModel> RutaList = ViewBag.Rutas;
 }
 <div class="card o-hidden border-0 shadow-lg my-4">
     <div class="card-body col-12">
@@ -14,69 +16,53 @@
                     </div>
                 </div>
             </div>
-
-            <form action="@Url.Action("Modificar","Requisito")" method="post" enctype="multipart/form-data" class="user">
-
-                <div class="form-group row">
-                    <div class="col-sm-12 mb-12 mb-sm-12">
-                        <div class="form-group row">
-                            <div class="col-sm-12 mb-3 mb-sm-0">
-
-                                <div class="col-6">
-                                    <input placeholder="Escriba aquí el nombre del Requisito" id="RequisitoID" readonly hidden class="form-control rounded-3 border border-info Codigo" asp-for="RequisitoID" type="text">
-                                    <span asp-validation-for="RequisitoID" class="col-12 text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        @*            <div class="col-sm-3">
-                        <button id="btnObtenerActiveDirectory" class="btn btn-primary btn-block" type="button">Consultar &nbsp;<i class="fas fa-fw fa-search"></i></button>
-                        </div>*@
-                    </div>
-
+             <form action="@Url.Action("Modificar","Requisito")" method="post" enctype="multipart/form-data" class="form">
+                <div class="col-6">
+                    <input  id="RequisitoID" readonly hidden class="form-control rounded-3 border border-info Codigo" asp-for="RequisitoID" type="text">
+                    <span asp-validation-for="RequisitoID" class="col-12 text-danger"></span>
                 </div>
-
-                <hr />
-                <div class="form-group row">
-                    <div class="col-sm-12 mb-3 mb-sm-0">
-                        <label for="Nombre">Nombre del Requisito</label>
-                        <div class="col-6">
-                            @Html.EditorFor(model => model.NombreRequisito, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
-                            @*<input  value="@Model.NombreRequisito" name="NombreRequisito" id="NombreRequisito" />*@
-                            <span asp-validation-for="NombreRequisito" class="col-12 text-danger"></span>
-                        </div>
+                <div class="row">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Nombre del Requisito</label></div>
+                    <div class="col-sm-4">
+                        <input asp-for="NombreRequisito" type="text" class="col-12 form-control" />
+                        <span asp-validation-for="NombreRequisito" class="col-12 text-danger"></span>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <div class="col-sm-12 mb-3 mb-sm-0">
-                        <label for="Descripcion">Estado</label>
-                        <div class="col-6">
-                            @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
-                            @*<input  value="@Model.Estado" name="Estado" id="Estado" />*@
-                            <span asp-validation-for="Estado" class="col-12 text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-sm-12 mb-3 mb-sm-0">
-                        <label for="Descripcion">Rango</label>
-                        <div class="col-6">
-                            @Html.EditorFor(model => model.RangoID, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
-                            @*<input  value="@Model.RangoID" name="RangoID" id="RangoID" />*@
-                            <span asp-validation-for="RangoID" class="col-12 text-danger"></span>
-                        </div>
-                    </div>
-                </div>
+                <br />
+                
 
                 <br />
-                @*              <div class="form-group row">
-                <div class="col-sm-12 mb-3 mb-sm-0">
-                <label for="Estado">Estado</label>
-                <div class="col-6">
-                <input readonly class="form-control rounded-3 border border-info Estado" value="ACTIVO" type="text">
+
+                <div class="row mt-2">
+                    @if (RutaList != null)
+                    {
+                        <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione una Ruta</label></div>
+                        <div class="col-sm-4">
+
+                                 <select class="float-right form-control" id="Ruta" name="Ruta">
+                                    <option value="">Seleccione la ruta:</option>
+                                @foreach (var ruta in RutaList)
+                                {
+                                    
+                                    <option value="@ruta.RutaID">@ruta.NombreRuta</option>
+                                }
+                                </select>
+
+
+                        </div>
+                    }
+
+
                 </div>
+                <div class="row mt-2" id="RangoRemover">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione un Rango</label></div>
+                    <div class="col-sm-4 " >
+                        @Html.DropDownListFor(m => m.RangoID, new SelectList(RangoList, "RangoID", "NombreRango"), "Seleccione el rango:", new { @class = "float-right form-control", @id = "RangoRuta" })
+                        @Html.ValidationMessageFor(model => model.RangoID, "")
+                        <input hidden value="@Model.RangoID" name="Rango" id="RangoRuta" />
+                    </div>
+
                 </div>
-                </div>*@
 
                 <br />
                 <br />
@@ -94,8 +80,44 @@
                         </div>
                     </div>
                 </div>
+
             </form>
+
+
             <hr>
         </div>
     </div>
 </div>
+
+@section Scripts {
+        <script>
+                 $(document).ready(function () {
+               
+                // Manejar el evento de cambio del dropdown de rutas
+                $("#Ruta").change(function () {
+                    // Obtener el valor seleccionado de la ruta
+                    var selectedRuta = $(this).val();
+                   
+
+                    // Hacer una llamada AJAX para obtener los rangos de la ruta seleccionada
+                    $.ajax({
+                            url: '/Requisito/ObtenerRangosPorRuta', // Reemplaza 'TuController' con el nombre de tu controlador
+                        type: 'GET',
+                        data: { rutaId: selectedRuta },
+                        success: function (data) {
+                            console.log(data);
+                            // Limpiar y actualizar el dropdown de rangos
+                            $("#RangoRuta").empty();
+                            $.each(data, function (index, item) {
+                                $("#RangoRuta").append('<option value="' + item.RangoID + '">' + item.NombreRango + '</option>');
+                            });
+                        },
+                        error: function () {
+                            alert('Error al obtener los rangos.');
+                        }
+                    });
+                });
+               
+            });
+        </script>
+}

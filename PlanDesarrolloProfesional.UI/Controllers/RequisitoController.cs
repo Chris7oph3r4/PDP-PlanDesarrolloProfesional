@@ -111,6 +111,8 @@ namespace PlanDesarrolloProfesional.UI.Controllers
                 ViewBag.Mensaje = Mensaje;
             }
             RequisitoModel Requisito = await LRequisito.Obtener(RequisitoID);
+            ViewBag.Rutas = await LRuta.Listar();
+            ViewBag.Rango = await LRango.Listar();
 
             return View(Requisito);
 
