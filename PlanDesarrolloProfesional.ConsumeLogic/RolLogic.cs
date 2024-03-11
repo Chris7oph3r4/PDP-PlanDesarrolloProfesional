@@ -33,10 +33,13 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
 
         #region Métodos
 
-        public async Task<RolModel> Agregar(RolModel RolModel)
+        public async Task<RolModel> Agregar(RolModel RolModel, string nameclaim)
         {
+            List<object> lista = new List<object>();
+            lista.Add(RolModel);
+            lista.Add(nameclaim);
 
-            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Rol_Agregar), RolModel/*, await Token()*/);
+            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Rol_Agregar), lista/*, await Token()*/);
             RolModel Objeto = JsonConvert.DeserializeObject<RolModel>(ObjetoJson);
 
             return Objeto;
@@ -60,10 +63,13 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
         //    return Objeto;
         //}
 
-        public async Task<RolModel> Actualizar(RolModel RolModel)
+        public async Task<RolModel> Actualizar(RolModel RolModel, string nameclaim)
         {
+            List<object> lista = new List<object>();
+            lista.Add(RolModel);
+            lista.Add(nameclaim);
 
-            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Rol_Actualizar), RolModel/*, await Token()*/);
+            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Rol_Actualizar), lista/*, await Token()*/);
             RolModel Objeto = JsonConvert.DeserializeObject<RolModel>(ObjetoJson);
 
             return Objeto;
@@ -78,10 +84,12 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
             return ListaRolModel;
         }
 
-        public async Task<bool> Eliminar(int IdRol)
+        public async Task<bool> Eliminar(int IdRol, string nameclaim)
         {
-
-            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Rol_Eliminar, IdRol.ToString())/*, await Token()*/);
+            List<object> lista = new List<object>();
+            lista.Add(IdRol);
+            lista.Add(nameclaim);
+            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Rol_Eliminar, IdRol.ToString(), nameclaim)/*, await Token()*/);
             bool Objeto = JsonConvert.DeserializeObject<bool>(ObjetoJson);
 
             return Objeto;

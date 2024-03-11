@@ -44,6 +44,8 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
             public static string Ruta_Eliminar { get; set; }
             public static string Ruta_Listar { get; set; }
 
+            public static string Bitacora_Listar { get; set; }
+
         }
     }
 }

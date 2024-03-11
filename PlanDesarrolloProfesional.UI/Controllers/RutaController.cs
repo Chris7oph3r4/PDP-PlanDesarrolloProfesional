@@ -51,8 +51,11 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Agregar(RutaModel Modelo)
         {
-        
-            var Agregar = await LRuta.Agregar(Modelo);
+
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+
+            var Agregar = await LRuta.Agregar(Modelo, nameClaim);
             if (Agregar.RutaID != null)
             {
                 Modelo = new RutaModel();
@@ -84,10 +87,12 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Modificar(RutaModel Modelo)
         {
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
             RutaModel Usuario = await LRuta.Obtener(Modelo.RutaID);
 
-            var Modificar = await LRuta.Actualizar(Modelo);
+            var Modificar = await LRuta.Actualizar(Modelo, nameClaim);
             if (Modificar.RutaID != null)
             {
                 return RedirectToAction("Index", "Ruta", new { Mensaje = "Modifica" });
@@ -102,9 +107,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Eliminar(int IdObjeto)
         {
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
-
-            var Eliminar = await LRuta.Eliminar(IdObjeto);
+            var Eliminar = await LRuta.Eliminar(IdObjeto, nameClaim);
             if (Eliminar)
             {
                 return RedirectToAction("Index", "Ruta", new { Mensaje = "Eliminado" });

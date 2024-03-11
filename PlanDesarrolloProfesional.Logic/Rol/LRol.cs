@@ -1,10 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using PlanDesarrolloProfesional.DataAccess;
 using PlanDesarrolloProfesional.Interface;
 using PlanDesarrolloProfesional.Models.Models;
+using PlanDesarRolloProfesional.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,13 +24,14 @@ namespace PlanDesarrolloProfesional.Logic
 
         }
 
-        public async Task<RolModel> Agregar(RolModel Modelo)
+        public async Task<RolModel> Agregar(List<object> Modelo)
         {
+            RolModel model;
             try
             {
-                var respuesta = await _DARol.Agregar(Modelo.ConvertBD());
-                Modelo = new RolModel(respuesta);
-                return Modelo;
+                var respuesta = await _DARol.Agregar(JsonConvert.DeserializeObject<RolModel>(Modelo[0]?.ToString()).ConvertBD(), Modelo[1]?.ToString());
+                model = new RolModel(respuesta);
+                return model;
             }
             catch (Exception e)
             {
@@ -77,13 +81,14 @@ namespace PlanDesarrolloProfesional.Logic
         //    }
         //}
 
-        public async Task<RolModel> Actualizar(RolModel modelo)
+        public async Task<RolModel> Actualizar(List<object> modelo)
         {
+            RolModel model;
             try
             {
-                var Objeto = await _DARol.Actualizar(modelo.ConvertBD());
-                modelo = new RolModel(Objeto);
-                return modelo;
+                var Objeto = await _DARol.Actualizar(JsonConvert.DeserializeObject<RolModel>(modelo[0]?.ToString()).ConvertBD(), modelo[1]?.ToString());
+                model = new RolModel(Objeto);
+                return model;
             }
             catch (Exception e)
             {
@@ -105,11 +110,11 @@ namespace PlanDesarrolloProfesional.Logic
         //    }
         //}
 
-        public async Task<bool> Eliminar(int IdRol)
+        public async Task<bool> Eliminar(int IdRol, string nameclaim)
         {
             try
             {
-                bool Objeto = await _DARol.Eliminar(IdRol);
+                bool Objeto = await _DARol.Eliminar(IdRol, nameclaim);
                 return Objeto;
             }
             catch (Exception e)

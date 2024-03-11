@@ -10,13 +10,13 @@ namespace PlanDesarrolloProfesional.Interface
 
     public interface IRol
     {
-        Task<RolModel> Agregar(RolModel Modelo);
+        Task<RolModel> Agregar(List<object> Modelo);
         Task<RolModel> Obtener(int IdRol);
         //Task<RolModel> Inactivar(int IdPedido);
-        Task<RolModel> Actualizar(RolModel modelo);
+        Task<RolModel> Actualizar(List<object> modelo);
         //Task<IEnumerable<RolViewModel>> ListarPorUsuario(int IdUsuario);
         Task<IEnumerable<RolModel>> Listar();
-        Task<bool> Eliminar(int IdRol);
+        Task<bool> Eliminar(int IdRol, string nameclaim);
     }
 }
 

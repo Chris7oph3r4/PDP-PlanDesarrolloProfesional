@@ -10,13 +10,13 @@ namespace PlanDesarrolloProfesional.Interface
 
     public interface IRuta
     {
-        Task<RutaModel> Agregar(RutaModel Modelo);
+        Task<RutaModel> Agregar(List<object> Modelo);
         Task<RutaModel> Obtener(int IdRuta);
         //Task<RutaModel> Inactivar(int IdPedido);
-        Task<RutaModel> Actualizar(RutaModel modelo);
+        Task<RutaModel> Actualizar(List<object> modelo);
         //Task<IEnumerable<RolViewModel>> ListarPorUsuario(int IdUsuario);
         Task<IEnumerable<RutaModel>> Listar();
-        Task<bool> Eliminar(int IdRuta);
+        Task<bool> Eliminar(int IdRuta, string nameclaim);
     }
 }
 

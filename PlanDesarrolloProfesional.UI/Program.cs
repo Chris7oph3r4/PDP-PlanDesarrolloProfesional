@@ -73,6 +73,10 @@ AppSettings.APIEndpoints.Ruta_Obtener = builder.Configuration.GetSection("PlanDe
 AppSettings.APIEndpoints.Ruta_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Ruta_Listar").Value;
 AppSettings.APIEndpoints.Ruta_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Ruta_Eliminar").Value;
 
+//El consumo de Endpoints de Bitacora
+AppSettings.APIEndpoints.Bitacora_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Bitacora_Listar").Value;
+
+
 
 #endregion ConfiguracionAPI
 

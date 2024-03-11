@@ -33,10 +33,13 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
 
         #region Métodos
 
-        public async Task<AreaModel> Agregar(AreaModel AreaModel)
+        public async Task<AreaModel> Agregar(AreaModel AreaModel, string nameclaim)
         {
+            List<object> lista = new List<object>();
+            lista.Add(AreaModel);
+            lista.Add(nameclaim);
 
-            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Area_Agregar), AreaModel/*, await Token()*/);
+            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Area_Agregar), lista/*, await Token()*/);
             AreaModel Objeto = JsonConvert.DeserializeObject<AreaModel>(ObjetoJson);
 
             return Objeto;
@@ -53,17 +56,20 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
 
         //public async Task<AreaModel> Inactivar(int IdArea)
         //{
-        //    var URL = "https://localhost:7287/api/v1/Jerarquias/Inactivar?IdArea=[Parametro1]";
+        //    var URL = "https://localhost:7287/api/v1/Rol/Inactivar?IdArea=[Parametro1]";
         //    var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(URL, IdArea.ToString())/*, await Token()*/);
         //    AreaModel Objeto = JsonConvert.DeserializeObject<AreaModel>(ObjetoJson);
 
         //    return Objeto;
         //}
 
-        public async Task<AreaModel> Actualizar(AreaModel AreaModel)
+        public async Task<AreaModel> Actualizar(AreaModel AreaModel, string nameclaim)
         {
+            List<object> lista = new List<object>();
+            lista.Add(AreaModel);
+            lista.Add(nameclaim);
 
-            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Area_Actualizar), AreaModel/*, await Token()*/);
+            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Area_Actualizar), lista/*, await Token()*/);
             AreaModel Objeto = JsonConvert.DeserializeObject<AreaModel>(ObjetoJson);
 
             return Objeto;
@@ -73,15 +79,17 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
         {
 
             var ListaSolicitudeJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Area_Listar)/*, await Token()*/);
-            List<AreaModel> ListaJerarquiasModel = JsonConvert.DeserializeObject<List<AreaModel>>(ListaSolicitudeJson);
+            List<AreaModel> ListaAreaModel = JsonConvert.DeserializeObject<List<AreaModel>>(ListaSolicitudeJson);
 
-            return ListaJerarquiasModel;
+            return ListaAreaModel;
         }
 
-        public async Task<bool> Eliminar(int IdArea)
+        public async Task<bool> Eliminar(int IdArea, string nameclaim)
         {
-
-            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Area_Eliminar, IdArea.ToString())/*, await Token()*/);
+            List<object> lista = new List<object>();
+            lista.Add(IdArea);
+            lista.Add(nameclaim);
+            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Area_Eliminar, IdArea.ToString(), nameclaim)/*, await Token()*/);
             bool Objeto = JsonConvert.DeserializeObject<bool>(ObjetoJson);
 
             return Objeto;

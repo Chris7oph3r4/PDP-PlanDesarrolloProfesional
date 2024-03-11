@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using PlanDesarrolloProfesional.DataAccess;
 using PlanDesarrolloProfesional.Interface;
 using PlanDesarrolloProfesional.Models.Models;
@@ -6,6 +7,7 @@ using PlanDesarRutaloProfesional.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,13 +24,14 @@ namespace PlanDesarrolloProfesional.Logic
 
         }
 
-        public async Task<RutaModel> Agregar(RutaModel Modelo)
+        public async Task<RutaModel> Agregar(List<object> Modelo)
         {
+            RutaModel model;
             try
             {
-                var respuesta = await _DARuta.Agregar(Modelo.ConvertBD());
-                Modelo = new RutaModel(respuesta);
-                return Modelo;
+                var respuesta = await _DARuta.Agregar(JsonConvert.DeserializeObject<RutaModel>(Modelo[0]?.ToString()).ConvertBD(), Modelo[1]?.ToString());
+                model = new RutaModel(respuesta);
+                return model;
             }
             catch (Exception e)
             {
@@ -78,13 +81,14 @@ namespace PlanDesarrolloProfesional.Logic
         //    }
         //}
 
-        public async Task<RutaModel> Actualizar(RutaModel modelo)
+        public async Task<RutaModel> Actualizar(List<object> modelo)
         {
+            RutaModel model;
             try
             {
-                var Objeto = await _DARuta.Actualizar(modelo.ConvertBD());
-                modelo = new RutaModel(Objeto);
-                return modelo;
+                var Objeto = await _DARuta.Actualizar(JsonConvert.DeserializeObject<RutaModel>(modelo[0]?.ToString()).ConvertBD(), modelo[1]?.ToString());
+                model = new RutaModel(Objeto);
+                return model;
             }
             catch (Exception e)
             {
@@ -106,11 +110,11 @@ namespace PlanDesarrolloProfesional.Logic
         //    }
         //}
 
-        public async Task<bool> Eliminar(int IdRuta)
+        public async Task<bool> Eliminar(int IdRuta, string nameclaim)
         {
             try
             {
-                bool Objeto = await _DARuta.Eliminar(IdRuta);
+                bool Objeto = await _DARuta.Eliminar(IdRuta, nameclaim);
                 return Objeto;
             }
             catch (Exception e)

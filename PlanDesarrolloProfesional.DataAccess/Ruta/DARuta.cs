@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using PlanDesarrolloProfesional.DataAccess;
 using PlanDesarrolloProfesional.Models.Models;
 using System;
 using System.Collections.Generic;
@@ -10,15 +12,29 @@ namespace PlanDesarRutaloProfesional.DataAccess
 {
     public class DARuta
     {
+        private DABitacora bitDA = new DABitacora();
+
         public DARuta() { }
 
-        public async Task<Ruta> Agregar(Ruta Modelo)
+        public async Task<Ruta> Agregar(Ruta Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
                     var AgregarObjeto = ContextoBD.Add(Modelo);
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha agregado la ruta con el Id " + Modelo.RutaID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return Modelo;
                 }
                 catch (Exception e)
@@ -62,13 +78,24 @@ namespace PlanDesarRutaloProfesional.DataAccess
             }
         }
 
-        public async Task<Ruta> Actualizar(Ruta Modelo)
+        public async Task<Ruta> Actualizar(Ruta Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
                     ContextoBD.Entry(Modelo).State = EntityState.Modified;
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha actualizado la ruta con el Id " + Modelo.RutaID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return Modelo;
                 }
                 catch (Exception e)
@@ -119,18 +146,29 @@ namespace PlanDesarRutaloProfesional.DataAccess
         //    }
         //}
 
-        public async Task<bool> Eliminar(int IdRuta)
+        public async Task<bool> Eliminar(int IdRuta, string nameclaim)
         {
 
             var Ruta = await Obtener(IdRuta);
 
             if (Ruta != null)
             {
+                Bitacora bitmodel = new Bitacora();
                 using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 {
 
                     ContextoBD.Entry(Ruta).State = EntityState.Deleted;
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha eliminado la ruta con el Id " + IdRuta.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                 }
             }
 

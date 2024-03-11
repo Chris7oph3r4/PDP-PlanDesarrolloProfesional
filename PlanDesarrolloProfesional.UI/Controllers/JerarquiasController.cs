@@ -48,9 +48,12 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Agregar(JerarquiasModel Modelo)
         {
-               
-                var Agregar = await LJerarquias.Agregar(Modelo);
-                if (Agregar.JerarquiaID != null)
+
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+
+            var Agregar = await LJerarquias.Agregar(Modelo, nameClaim);
+            if (Agregar.JerarquiaID != null)
                 {
                 Modelo = new JerarquiasModel();
                     return RedirectToAction("Index", "Jerarquias", new { Mensaje = "Agrega" });
@@ -80,11 +83,13 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Modificar(JerarquiasModel Modelo)
         {
-          
-                JerarquiasModel Usuario = await LJerarquias.Obtener(Modelo.JerarquiaID);
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+
+            JerarquiasModel Usuario = await LJerarquias.Obtener(Modelo.JerarquiaID);
                
                
-                var Modificar = await LJerarquias.Actualizar(Modelo);
+                var Modificar = await LJerarquias.Actualizar(Modelo, nameClaim);
                 if (Modificar.JerarquiaID != null)
                 {
                     return RedirectToAction("Index", "Jerarquias", new { Mensaje = "Modifica" });
@@ -99,9 +104,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Eliminar(int IdObjeto)
         {
-               
-               
-                var Eliminar = await LJerarquias.Eliminar(IdObjeto);
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+
+            var Eliminar = await LJerarquias.Eliminar(IdObjeto, nameClaim);
                 if (Eliminar)
                 {
                     return RedirectToAction("Index", "Jerarquias", new { Mensaje = "Eliminado" });

@@ -23,7 +23,7 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpPost]
         [Route("Agregar")]
-        public async Task<RutaModel> Agregar(RutaModel Modelo)
+        public async Task<RutaModel> Agregar(List<object> Modelo)
         {
             var Objeto = await _IRuta.Agregar(Modelo);
             return Objeto;
@@ -58,7 +58,7 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpPost]
         [Route("Actualizar")]
-        public async Task<RutaModel> Actualizar(RutaModel Modelo)
+        public async Task<RutaModel> Actualizar(List<object> Modelo)
         {
             if (Modelo == null) throw new Exception("Modelo Nulo");
             var ModeloActualizado = await _IRuta.Actualizar(Modelo);
@@ -78,10 +78,10 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpGet]
         [Route("Eliminar")]
-        public async Task<bool> Eliminar(int IdRuta)
+        public async Task<bool> Eliminar(int IdRuta, string nameclaim)
         {
             if (IdRuta == 0) throw new Exception("Código Nulo");
-            var Modelo = await _IRuta.Eliminar(IdRuta);
+            var Modelo = await _IRuta.Eliminar(IdRuta, nameclaim);
             return Modelo;
         }
     }

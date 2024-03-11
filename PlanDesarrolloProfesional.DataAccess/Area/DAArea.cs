@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using PlanDesarrolloProfesional.DataAccess;
 using PlanDesarrolloProfesional.Models.Models;
 using System;
 using System.Collections.Generic;
@@ -6,19 +8,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlanDesarrolloProfesional.DataAccess
+namespace PlanDesarArealoProfesional.DataAccess
 {
     public class DAArea
     {
+        private DABitacora bitDA = new DABitacora();
+
         public DAArea() { }
 
-        public async Task<Area> Agregar(Area Modelo)
+        public async Task<Area> Agregar(Area Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
                     var AgregarObjeto = ContextoBD.Add(Modelo);
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha agregado la Area con el Id " + Modelo.AreaID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return Modelo;
                 }
                 catch (Exception e)
@@ -62,13 +78,24 @@ namespace PlanDesarrolloProfesional.DataAccess
             }
         }
 
-        public async Task<Area> Actualizar(Area Modelo)
+        public async Task<Area> Actualizar(Area Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
                     ContextoBD.Entry(Modelo).State = EntityState.Modified;
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha actualizado la Area con el Id " + Modelo.AreaID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return Modelo;
                 }
                 catch (Exception e)
@@ -79,7 +106,7 @@ namespace PlanDesarrolloProfesional.DataAccess
 
         //public async Task<Area> Inactivar(int IdArea)
         //{
-        //    using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+        //    using (var ContextoBD = new PlanDesarArealoProfesionalContext())
         //        try
         //        {
         //            Area modelo = await ContextoBD
@@ -95,22 +122,22 @@ namespace PlanDesarrolloProfesional.DataAccess
         //        }
         //}
 
-        //public async Task<IEnumerable<JerarquiasViewModel>> ListarPorUsuario(int IdUsuario)
+        //public async Task<IEnumerable<AreaViewModel>> ListarPorUsuario(int IdUsuario)
         //{
-        //    using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+        //    using (var ContextoBD = new PlanDesarArealoProfesionalContext())
         //    {
         //        try
         //        {
-        //            var ListaJerarquiass = await ContextoBD.Area.Where(
+        //            var ListaAreas = await ContextoBD.Area.Where(
         //                x => x.Fkusuario == IdUsuario).Select(
-        //                data => new JerarquiasViewModel
+        //                data => new AreaViewModel
         //                {
         //                    IdArea = data.IdArea,
         //                    Usuario = data.FkusuarioNavigation.NombreUsuario,
         //                    Estado = data.Estado == true ? "Activo" : "Inactivo",
-        //                    DescripcionJerarquias = data.DescripcionJerarquias,
+        //                    DescripcionArea = data.DescripcionArea,
         //                }).ToListAsync();
-        //            return ListaJerarquiass;
+        //            return ListaAreas;
         //        }
         //        catch (Exception e)
         //        {
@@ -119,18 +146,29 @@ namespace PlanDesarrolloProfesional.DataAccess
         //    }
         //}
 
-        public async Task<bool> Eliminar(int IdArea)
+        public async Task<bool> Eliminar(int IdArea, string nameclaim)
         {
 
             var Area = await Obtener(IdArea);
 
             if (Area != null)
             {
+                Bitacora bitmodel = new Bitacora();
                 using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 {
 
                     ContextoBD.Entry(Area).State = EntityState.Deleted;
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha eliminado la Area con el Id " + IdArea.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                 }
             }
 

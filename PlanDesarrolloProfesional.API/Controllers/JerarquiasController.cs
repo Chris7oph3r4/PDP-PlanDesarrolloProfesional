@@ -23,7 +23,7 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpPost]
         [Route("Agregar")]
-        public async Task<JerarquiasModel> Agregar(JerarquiasModel Modelo)
+        public async Task<JerarquiasModel> Agregar(List<object> Modelo)
         {
             var Objeto = await _IJerarquias.Agregar(Modelo);
             return Objeto;
@@ -58,7 +58,7 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpPost]
         [Route("Actualizar")]
-        public async Task<JerarquiasModel> Actualizar(JerarquiasModel Modelo)
+        public async Task<JerarquiasModel> Actualizar(List<object> Modelo)
         {
             if (Modelo == null) throw new Exception("Modelo Nulo");
             var ModeloActualizado = await _IJerarquias.Actualizar(Modelo);
@@ -67,7 +67,7 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         //[HttpGet]
         //[Route("ListarPorUsuario")]
-        //public async Task<IEnumerable<JerarquiasViewModel>> ListarPorUsuario(int IdUsuario)
+        //public async Task<IEnumerable<RolViewModel>> ListarPorUsuario(int IdUsuario)
         //{
         //    var Lista = await _IJerarquias.ListarPorUsuario(IdUsuario);
         //    if (Lista == null) throw new Exception("Modelo Nulo");
@@ -78,11 +78,12 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpGet]
         [Route("Eliminar")]
-        public async Task<bool> Eliminar(int IdJerarquias)
+        public async Task<bool> Eliminar(int IdJerarquias, string nameclaim)
         {
             if (IdJerarquias == 0) throw new Exception("Código Nulo");
-            var Modelo = await _IJerarquias.Eliminar(IdJerarquias);
+            var Modelo = await _IJerarquias.Eliminar(IdJerarquias, nameclaim);
             return Modelo;
         }
     }
 }
+

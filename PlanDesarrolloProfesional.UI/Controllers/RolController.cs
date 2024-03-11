@@ -49,7 +49,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         public async Task<ActionResult> Agregar(RolModel Modelo)
         {
 
-            var Agregar = await LRol.Agregar(Modelo);
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+
+            var Agregar = await LRol.Agregar(Modelo, nameClaim);
             if (Agregar.RolID != null)
             {
                 Modelo = new RolModel();
@@ -80,11 +83,13 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Modificar(RolModel Modelo)
         {
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
             RolModel Usuario = await LRol.Obtener(Modelo.RolID);
 
 
-            var Modificar = await LRol.Actualizar(Modelo);
+            var Modificar = await LRol.Actualizar(Modelo, nameClaim);
             if (Modificar.RolID != null)
             {
                 return RedirectToAction("Index", "Rol", new { Mensaje = "Modifica" });
@@ -99,9 +104,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Eliminar(int IdObjeto)
         {
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
-
-            var Eliminar = await LRol.Eliminar(IdObjeto);
+            var Eliminar = await LRol.Eliminar(IdObjeto, nameClaim);
             if (Eliminar)
             {
                 return RedirectToAction("Index", "Rol", new { Mensaje = "Eliminado" });
