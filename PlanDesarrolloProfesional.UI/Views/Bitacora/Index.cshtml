@@ -1,0 +1,56 @@
+﻿@model IEnumerable<PlanDesarrolloProfesional.Models.Models.BitacoraModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Bitacora";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Bitacora</h1>
+    <p class="mb-4">
+        Lista Movimientos registrados en la Bitacora
+    </p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">@Model.Count() Registros</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID Bitacora</th>
+                            <th>Descripcion</th>
+                            <th>Usuario</th>
+                            <th>Fecha</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td data-label="Valor1">@item.BitacoraID</td>
+                                <td data-label="Valor1">@item.Descripcion</td>
+                                <td data-label="Valor1">@item.Usuario</td>
+                                <td data-label="Valor1">@item.Fecha</td>                                
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts {
+    <script src="~/js/sweetalert.js"></script>
+    <script src="~/js/alertas.js"></script>
+    <link href="~/js/datatables.net-bs5/datatables.bootstrap5.css" rel="stylesheet" />
+    <script src="~/js/datatables.net-bs5/datatables.bootstrap5.js"></script>
+}

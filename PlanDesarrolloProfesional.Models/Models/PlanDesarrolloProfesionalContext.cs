@@ -12,12 +12,15 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
         : base(options)
     {
     }
+
     public PlanDesarrolloProfesionalContext()
     {
-            
+        
     }
 
     public virtual DbSet<Area> Area { get; set; }
+
+    public virtual DbSet<Bitacora> Bitacora { get; set; }
 
     public virtual DbSet<CumplimientoRequisito> CumplimientoRequisito { get; set; }
 
@@ -38,6 +41,7 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
     public virtual DbSet<UsuarioArea> UsuarioArea { get; set; }
 
     public virtual DbSet<UsuarioJerarquias> UsuarioJerarquias { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 => optionsBuilder.UseSqlServer(StringConexion.ConexionSQL);
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -45,6 +49,11 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
         modelBuilder.Entity<Area>(entity =>
         {
             entity.HasKey(e => e.AreaID).HasName("PK__Area__70B82028E180F69D");
+        });
+
+        modelBuilder.Entity<Bitacora>(entity =>
+        {
+            entity.HasKey(e => e.BitacoraID).HasName("PK__Bitacora__7ACF9B18273158BC");
         });
 
         modelBuilder.Entity<CumplimientoRequisito>(entity =>

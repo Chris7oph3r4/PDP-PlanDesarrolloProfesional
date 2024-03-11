@@ -20,6 +20,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Bitacora]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[CumplimientoRequisito]",
          "ObjectType": 0
       },

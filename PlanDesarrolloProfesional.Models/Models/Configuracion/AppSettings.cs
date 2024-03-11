@@ -63,6 +63,8 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
             public static string PlanDesarrolloProfesional_Listar { get; set; }
 
 
+            public static string Bitacora_Listar { get; set; }
+
         }
     }
 }

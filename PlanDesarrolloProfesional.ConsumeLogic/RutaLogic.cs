@@ -33,10 +33,13 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
 
         #region Métodos
 
-        public async Task<RutaModel> Agregar(RutaModel RutaModel)
+        public async Task<RutaModel> Agregar(RutaModel RutaModel, string nameclaim)
         {
+            List<object> lista = new List<object>();
+            lista.Add(RutaModel);
+            lista.Add(nameclaim);
 
-            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Ruta_Agregar), RutaModel/*, await Token()*/);
+            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Ruta_Agregar), lista/*, await Token()*/);
             RutaModel Objeto = JsonConvert.DeserializeObject<RutaModel>(ObjetoJson);
 
             return Objeto;
@@ -60,10 +63,13 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
         //    return Objeto;
         //}
 
-        public async Task<RutaModel> Actualizar(RutaModel RutaModel)
+        public async Task<RutaModel> Actualizar(RutaModel RutaModel, string nameclaim)
         {
+            List<object> lista = new List<object>();
+            lista.Add(RutaModel);
+            lista.Add(nameclaim);
 
-            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Ruta_Actualizar), RutaModel/*, await Token()*/);
+            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Ruta_Actualizar), lista/*, await Token()*/);
             RutaModel Objeto = JsonConvert.DeserializeObject<RutaModel>(ObjetoJson);
 
             return Objeto;
@@ -78,10 +84,12 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
             return ListaRutaModel;
         }
 
-        public async Task<bool> Eliminar(int IdRuta)
+        public async Task<bool> Eliminar(int IdRuta, string nameclaim)
         {
-
-            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Ruta_Eliminar, IdRuta.ToString())/*, await Token()*/);
+            List<object> lista = new List<object>();
+            lista.Add(IdRuta);
+            lista.Add(nameclaim);
+            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Ruta_Eliminar, IdRuta.ToString(), nameclaim)/*, await Token()*/);
             bool Objeto = JsonConvert.DeserializeObject<bool>(ObjetoJson);
 
             return Objeto;

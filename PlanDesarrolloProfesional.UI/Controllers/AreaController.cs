@@ -46,10 +46,11 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Agregar(AreaModel Modelo)
         {
-
             Modelo.CodigoDaloo = Guid.NewGuid();
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
-            var Agregar = await LArea.Agregar(Modelo);
+            var Agregar = await LArea.Agregar(Modelo, nameClaim);
             if (Agregar.AreaID != null)
             {
                 Modelo = new AreaModel();
@@ -80,11 +81,13 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Modificar(AreaModel Modelo)
         {
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
             AreaModel Usuario = await LArea.Obtener(Modelo.AreaID);
 
 
-            var Modificar = await LArea.Actualizar(Modelo);
+            var Modificar = await LArea.Actualizar(Modelo, nameClaim);
             if (Modificar.AreaID != null)
             {
                 return RedirectToAction("Index", "Area", new { Mensaje = "Modifica" });
@@ -99,9 +102,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Eliminar(int IdObjeto)
         {
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
-
-            var Eliminar = await LArea.Eliminar(IdObjeto);
+            var Eliminar = await LArea.Eliminar(IdObjeto, nameClaim);
             if (Eliminar)
             {
                 return RedirectToAction("Index", "Area", new { Mensaje = "Eliminado" });

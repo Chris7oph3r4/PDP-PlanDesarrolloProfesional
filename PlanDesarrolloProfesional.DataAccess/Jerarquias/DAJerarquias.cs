@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using PlanDesarrolloProfesional.DataAccess;
 using PlanDesarrolloProfesional.Models.Models;
 using System;
 using System.Collections.Generic;
@@ -6,19 +8,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlanDesarrolloProfesional.DataAccess
+namespace PlanDesarJerarquiasloProfesional.DataAccess
 {
     public class DAJerarquias
     {
+        private DABitacora bitDA = new DABitacora();
+
         public DAJerarquias() { }
 
-        public async Task<Jerarquias> Agregar(Jerarquias Modelo)
+        public async Task<Jerarquias> Agregar(Jerarquias Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
                     var AgregarObjeto = ContextoBD.Add(Modelo);
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha agregado la Jerarquia con el Id " + Modelo.JerarquiaID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return Modelo;
                 }
                 catch (Exception e)
@@ -62,13 +78,24 @@ namespace PlanDesarrolloProfesional.DataAccess
             }
         }
 
-        public async Task<Jerarquias> Actualizar(Jerarquias Modelo)
+        public async Task<Jerarquias> Actualizar(Jerarquias Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
                     ContextoBD.Entry(Modelo).State = EntityState.Modified;
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha actualizado la Jerarquia con el Id " + Modelo.JerarquiaID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return Modelo;
                 }
                 catch (Exception e)
@@ -79,7 +106,7 @@ namespace PlanDesarrolloProfesional.DataAccess
 
         //public async Task<Jerarquias> Inactivar(int IdJerarquias)
         //{
-        //    using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+        //    using (var ContextoBD = new PlanDesarJerarquiasloProfesionalContext())
         //        try
         //        {
         //            Jerarquias modelo = await ContextoBD
@@ -97,7 +124,7 @@ namespace PlanDesarrolloProfesional.DataAccess
 
         //public async Task<IEnumerable<JerarquiasViewModel>> ListarPorUsuario(int IdUsuario)
         //{
-        //    using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+        //    using (var ContextoBD = new PlanDesarJerarquiasloProfesionalContext())
         //    {
         //        try
         //        {
@@ -119,18 +146,29 @@ namespace PlanDesarrolloProfesional.DataAccess
         //    }
         //}
 
-        public async Task<bool> Eliminar(int IdJerarquias)
+        public async Task<bool> Eliminar(int IdJerarquias, string nameclaim)
         {
 
             var Jerarquias = await Obtener(IdJerarquias);
 
             if (Jerarquias != null)
             {
+                Bitacora bitmodel = new Bitacora();
                 using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 {
 
                     ContextoBD.Entry(Jerarquias).State = EntityState.Deleted;
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha eliminado la Jerarquia con el Id " + IdJerarquias.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                 }
             }
 

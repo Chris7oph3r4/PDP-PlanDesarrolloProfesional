@@ -1,10 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using PlanDesarrolloProfesional.DataAccess;
 using PlanDesarrolloProfesional.Interface;
 using PlanDesarrolloProfesional.Models.Models;
+using PlanDesarJerarquiasloProfesional.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,16 +21,17 @@ namespace PlanDesarrolloProfesional.Logic
         public LJerarquias(IConfiguration configuration)
         {
             _DAJerarquias = new DAJerarquias();
-       
+
         }
 
-        public async Task<JerarquiasModel> Agregar(JerarquiasModel Modelo)
+        public async Task<JerarquiasModel> Agregar(List<object> Modelo)
         {
+            JerarquiasModel model;
             try
             {
-                var respuesta = await _DAJerarquias.Agregar(Modelo.ConvertBD());
-                Modelo = new JerarquiasModel(respuesta);
-                return Modelo;
+                var respuesta = await _DAJerarquias.Agregar(JsonConvert.DeserializeObject<JerarquiasModel>(Modelo[0]?.ToString()).ConvertBD(), Modelo[1]?.ToString());
+                model = new JerarquiasModel(respuesta);
+                return model;
             }
             catch (Exception e)
             {
@@ -77,13 +81,14 @@ namespace PlanDesarrolloProfesional.Logic
         //    }
         //}
 
-        public async Task<JerarquiasModel> Actualizar(JerarquiasModel modelo)
+        public async Task<JerarquiasModel> Actualizar(List<object> modelo)
         {
+            JerarquiasModel model;
             try
             {
-                var Objeto = await _DAJerarquias.Actualizar(modelo.ConvertBD());
-                modelo = new JerarquiasModel(Objeto);
-                return modelo;
+                var Objeto = await _DAJerarquias.Actualizar(JsonConvert.DeserializeObject<JerarquiasModel>(modelo[0]?.ToString()).ConvertBD(), modelo[1]?.ToString());
+                model = new JerarquiasModel(Objeto);
+                return model;
             }
             catch (Exception e)
             {
@@ -91,25 +96,25 @@ namespace PlanDesarrolloProfesional.Logic
             }
         }
 
-        //public async Task<IEnumerable<JerarquiasViewModel>> ListarPorUsuario(int IdUsuario)
+        //public async Task<IEnumerable<RolViewModel>> ListarPorUsuario(int IdUsuario)
         //{
         //    try
         //    {
-        //        var Lista = await _DAPJerarquias.ListarPorUsuario(IdUsuario);
+        //        var Lista = await _DAPRol.ListarPorUsuario(IdUsuario);
 
         //        return Lista;
         //    }
         //    catch (Exception e)
         //    {
-        //        return new List<JerarquiasViewModel>().AsEnumerable();
+        //        return new List<RolViewModel>().AsEnumerable();
         //    }
         //}
 
-        public async Task<bool> Eliminar(int IdJerarquias)
+        public async Task<bool> Eliminar(int IdJerarquias, string nameclaim)
         {
             try
             {
-                bool Objeto = await _DAJerarquias.Eliminar(IdJerarquias);
+                bool Objeto = await _DAJerarquias.Eliminar(IdJerarquias, nameclaim);
                 return Objeto;
             }
             catch (Exception e)

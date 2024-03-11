@@ -10,13 +10,13 @@ namespace PlanDesarrolloProfesional.Interface
 
     public interface IArea
     {
-        Task<AreaModel> Agregar(AreaModel Modelo);
+        Task<AreaModel> Agregar(List<object> Modelo);
         Task<AreaModel> Obtener(int IdArea);
         //Task<AreaModel> Inactivar(int IdPedido);
-        Task<AreaModel> Actualizar(AreaModel modelo);
-        //Task<IEnumerable<JerarquiasViewModel>> ListarPorUsuario(int IdUsuario);
+        Task<AreaModel> Actualizar(List<object> modelo);
+        //Task<IEnumerable<RolViewModel>> ListarPorUsuario(int IdUsuario);
         Task<IEnumerable<AreaModel>> Listar();
-        Task<bool> Eliminar(int IdArea);
+        Task<bool> Eliminar(int IdArea, string nameclaim);
     }
 }
 

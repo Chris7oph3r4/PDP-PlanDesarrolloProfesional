@@ -102,6 +102,10 @@ AppSettings.APIEndpoints.PlanDesarrolloProfesional_Obtener = builder.Configurati
 AppSettings.APIEndpoints.PlanDesarrolloProfesional_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_Listar").Value;
 AppSettings.APIEndpoints.PlanDesarrolloProfesional_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_Eliminar").Value;
 
+//El consumo de Endpoints de Bitacora
+AppSettings.APIEndpoints.Bitacora_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Bitacora_Listar").Value;
+
+
 
 #endregion ConfiguracionAPI
 
