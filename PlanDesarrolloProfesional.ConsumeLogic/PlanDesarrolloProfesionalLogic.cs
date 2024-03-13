@@ -41,11 +41,11 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
             return Objeto;
         }
 
-        public async Task<PlanesDesarrolloProfesionalModel> Obtener(int IdPlan)
+        public async Task<PlanDesarrolloProfesionalViewModel> Obtener(int IdPlan)
         {
 
             var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.PlanDesarrolloProfesional_Obtener, IdPlan.ToString())/*, await Token()*/);
-            PlanesDesarrolloProfesionalModel Objeto = JsonConvert.DeserializeObject<PlanesDesarrolloProfesionalModel>(ObjetoJson);
+            PlanDesarrolloProfesionalViewModel Objeto = JsonConvert.DeserializeObject<PlanDesarrolloProfesionalViewModel>(ObjetoJson);
 
             return Objeto;
         }

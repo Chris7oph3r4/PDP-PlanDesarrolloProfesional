@@ -70,7 +70,7 @@ namespace PlanDesarrolloProfesional.UI.Controllers
 
 
         }
-        public async Task<ActionResult> Modificar(int UsuarioID, string Mensaje)
+        public async Task<ActionResult> Modificar(int PlanDesarrolloID, string Mensaje)
         {
 
             if (Mensaje != "")
@@ -80,9 +80,52 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             ViewBag.Rutas = await LRuta.Listar();
             ViewBag.Colaborador = await LUsuario.Listar();
             ViewBag.Rangos = await LRango.Listar();
-            UsuarioAgregarViewModel Usuario = await LUsuario.ObtenerUA(UsuarioID);
+            PlanDesarrolloProfesionalViewModel PlanDesarrollo = await LPlanDesarrollo.Obtener(PlanDesarrolloID);
 
-            return View(Usuario);
+            return View(PlanDesarrollo);
+
+        }
+        [HttpPost]
+        public async Task<ActionResult> Modificar(PlanDesarrolloProfesionalViewModel Modelo)
+        {
+            PlanesDesarrolloProfesionalModel Plan = new PlanesDesarrolloProfesionalModel
+            {
+                PlanDesarrolloID = Modelo.PlanDesarrolloID,
+                ColaboradorID = Modelo.ColaboradorID,
+                FechaInicio = Modelo.FechaInicio,
+                Estado = Modelo.Estado,
+                RangoID = Modelo.RangoID,
+                Finalizado = Modelo.Finalizado
+            };
+
+            var Modificar = await LPlanDesarrollo.Actualizar(Plan);
+            if (Modificar.PlanDesarrolloID != null)
+            {
+                return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Modifica" });
+            }
+            else
+            {
+                return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
+            }
+
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Eliminar(int IdObjeto)
+        {
+
+
+            var Eliminar = await LPlanDesarrollo.Eliminar(IdObjeto);
+            if (Eliminar)
+            {
+                return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Eliminado" });
+            }
+            else
+            {
+                return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
+            }
+
 
         }
     }

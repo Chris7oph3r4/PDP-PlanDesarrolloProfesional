@@ -54,7 +54,7 @@
                                                 Acciones
                                             </a>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="@Url.Action("Modificar", "PlanDesarrolloProfesional", new {JerarquiaID=item.PlanDesarrolloID })">Modificar</a>
+                                                <a class="dropdown-item" href="@Url.Action("Modificar", "PlanDesarrolloProfesional", new {PlanDesarrolloID=item.PlanDesarrolloID })">Modificar</a>
                                                 <a onclick="Eliminar(@item.PlanDesarrolloID)" href="#" class="dropdown-item" style="color:black;">Eliminar</a>
                                             </div>
                                         </div>
@@ -65,7 +65,7 @@
                         
                     </tbody>
                 </table>
-                @using (Html.BeginForm("Eliminar", "Jerarquias", FormMethod.Post, new { id = "EliminarJerarquia" }))
+                @using (Html.BeginForm("Eliminar", "PlanDesarrolloProfesional", FormMethod.Post, new { id = "EliminarPlanDesarrollo" }))
                 {
                     <input type="hidden" id="IdObjeto" name="IdObjeto" />
                     @*<input type="hidden" id="Justificacion" name="Justificacion" />*@
@@ -99,7 +99,7 @@
         else if ('@ViewBag.Mensaje' == "Agrega") {
             Swal.fire({
                 title: "¡Acción exitosa!",
-                text: 'Se ha agregado un nuevo usuario al sistema',
+                text: 'Se ha agregado un nuevo plan de desarrollo al sistema',
                 type: "success",
                 showCancelButton: false,
                 showconfirmButton: false,
@@ -109,7 +109,7 @@
         else if ('@ViewBag.Mensaje' == "Modifica") {
             Swal.fire({
                 title: "¡Acción exitosa!",
-                text: 'Se ha modificado el usuario del sistema',
+                text: 'Se ha modificado el plan de desarrollo del sistema',
                 type: "success",
                 showCancelButton: false,
                 showconfirmButton: false,
@@ -145,10 +145,10 @@
                 showconfirmButton: false,
             });
         }
-        function Eliminar(JerarquiaID) {
+        function Eliminar(PlanDesarrolloID) {
 
             Swal.fire({
-                title: "Desea eliminar la Jerarquia?",
+                title: "Desea eliminar el plan?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Sí, eliminar",
@@ -156,12 +156,12 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Aquí colocas el código que se ejecutará si el usuario hace clic en "Sí, eliminar"
-                    $('#IdObjeto').val(JerarquiaID);
-                    $("#EliminarJerarquia").submit();
+                    $('#IdObjeto').val(PlanDesarrolloID);
+                    $("#EliminarPlanDesarrollo").submit();
 
                 } else {
                     // Aquí colocas el código que se ejecutará si el usuario hace clic en "Cancelar" o fuera del cuadro de confirmación
-                    Swal.fire("Cancelado", "La Jerarquia no fue eliminada.", "info");
+                    Swal.fire("Cancelado", "El plan de desarrollo no fue eliminada.", "info");
                 }
             });
 

@@ -28,7 +28,7 @@ namespace PlanDesarrolloProfesional.API.Controllers
         }
         [HttpGet]
         [Route("Obtener")]
-        public async Task<PlanesDesarrolloProfesionalModel> Obtener(int IdPlan)
+        public async Task<PlanDesarrolloProfesionalViewModel> Obtener(int IdPlan)
         {
             if (IdPlan == 0 || IdPlan == null) throw new Exception("Código Nulo");
             var Modelo = await _IPlanDesarrollo.Obtener(IdPlan);
