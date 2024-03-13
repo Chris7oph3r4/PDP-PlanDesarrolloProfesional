@@ -31,11 +31,11 @@ namespace PlanDesarrolloProfesional.Logic
             }
         }
 
-        public async Task<PlanesDesarrolloProfesionalModel> Obtener(int IdPlan)
+        public async Task<PlanDesarrolloProfesionalViewModel> Obtener(int IdPlan)
         {
             try
             {
-                PlanesDesarrolloProfesionalModel Objeto = new PlanesDesarrolloProfesionalModel(await _DAPlanDesarrollo.Obtener(IdPlan));
+                PlanDesarrolloProfesionalViewModel Objeto = await _DAPlanDesarrollo.Obtener(IdPlan);
                 return Objeto;
             }
             catch (Exception e)

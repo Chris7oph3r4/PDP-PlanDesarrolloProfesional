@@ -28,17 +28,30 @@ namespace PlanDesarrolloProfesional.DataAccess
                 }
         }
 
-        public async Task<PlanesDesarrolloProfesional> Obtener(int IdPlanesDesarrolloProfesional)
+        public async Task<PlanDesarrolloProfesionalViewModel> Obtener(int IdPlanesDesarrolloProfesional)
         {
             try
             {
                 using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 {
-                    PlanesDesarrolloProfesional SolicitudesBD = await ContextoBD
+                    PlanDesarrolloProfesionalViewModel PlanDesarrollo = await ContextoBD
                         .PlanesDesarrolloProfesional
-                        .FirstOrDefaultAsync(s => s.PlanDesarrolloID == IdPlanesDesarrolloProfesional);
+                        .Where(p => p.PlanDesarrolloID == IdPlanesDesarrolloProfesional)
+                                                .Select(s => new PlanDesarrolloProfesionalViewModel()
+                                                {
+                                                    PlanDesarrolloID = s.PlanDesarrolloID,
+                                                    NombreColaborador = s.Colaborador.Nombre,
+                                                    ColaboradorID = s.ColaboradorID,
+                                                    FechaInicio = s.FechaInicio,
+                                                    NombreRango = s.Rango.NombreRango,
+                                                    RangoID = s.RangoID,
+                                                    Finalizado = s.Finalizado,
+                                                    NombreRuta = s.Rango.Ruta.NombreRuta,
+                                                    RutaID = s.Rango.RutaID
 
-                    return SolicitudesBD;
+                                                }).FirstAsync();
+
+                    return PlanDesarrollo;
                 }
             }
             catch (Exception e)
@@ -101,11 +114,18 @@ namespace PlanDesarrolloProfesional.DataAccess
 
             if (PlanDesarrolloProfesional != null)
             {
+                PlanesDesarrolloProfesional PlanDesarrollo = new PlanesDesarrolloProfesional
+                {
+                    PlanDesarrolloID = PlanDesarrolloProfesional.PlanDesarrolloID,
+                    ColaboradorID = PlanDesarrolloProfesional.ColaboradorID,
+                    FechaInicio = PlanDesarrolloProfesional.FechaInicio,
+                    Estado = 1,
+                    RangoID = PlanDesarrolloProfesional.RangoID,
+                    Finalizado = PlanDesarrolloProfesional.Finalizado
+                };
                 using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 {
-
-                    PlanDesarrolloProfesional.Estado = 1;
-                    ContextoBD.Entry(PlanDesarrolloProfesional).State = EntityState.Modified;
+                    ContextoBD.Entry(PlanDesarrollo).State = EntityState.Modified;
                     await ContextoBD.SaveChangesAsync();
                     return true;
                 }
