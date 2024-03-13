@@ -88,12 +88,19 @@ AppSettings.APIEndpoints.Rango_Listar = builder.Configuration.GetSection("PlanDe
 AppSettings.APIEndpoints.Rango_RangoPorRutas = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rango_RangoPorRutas").Value;
 AppSettings.APIEndpoints.Rango_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rango_Eliminar").Value;
 
-//El consumo de Endpoints de Ruta
+//El consumo de Endpoints de Requisito
 AppSettings.APIEndpoints.Requisito_Agregar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Agregar").Value;
 AppSettings.APIEndpoints.Requisito_Actualizar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Actualizar").Value;
 AppSettings.APIEndpoints.Requisito_Obtener = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Obtener").Value;
 AppSettings.APIEndpoints.Requisito_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Listar").Value;
 AppSettings.APIEndpoints.Requisito_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Eliminar").Value;
+
+//El consumo de Endpoints de Plan de Desarrollo Profesional
+AppSettings.APIEndpoints.PlanDesarrolloProfesional_Agregar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_Agregar").Value;
+AppSettings.APIEndpoints.PlanDesarrolloProfesional_Actualizar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_Actualizar").Value;
+AppSettings.APIEndpoints.PlanDesarrolloProfesional_Obtener = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_Obtener").Value;
+AppSettings.APIEndpoints.PlanDesarrolloProfesional_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_Listar").Value;
+AppSettings.APIEndpoints.PlanDesarrolloProfesional_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_Eliminar").Value;
 
 
 #endregion ConfiguracionAPI

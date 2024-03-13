@@ -12,10 +12,9 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
         : base(options)
     {
     }
-
     public PlanDesarrolloProfesionalContext()
     {
-        
+            
     }
 
     public virtual DbSet<Area> Area { get; set; }
@@ -24,7 +23,7 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
 
     public virtual DbSet<Jerarquias> Jerarquias { get; set; }
 
-    public virtual DbSet<PlanDesarrolloProfesional> PlanDesarrolloProfesional { get; set; }
+    public virtual DbSet<PlanesDesarrolloProfesional> PlanesDesarrolloProfesional { get; set; }
 
     public virtual DbSet<Rango> Rango { get; set; }
 
@@ -39,10 +38,8 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
     public virtual DbSet<UsuarioArea> UsuarioArea { get; set; }
 
     public virtual DbSet<UsuarioJerarquias> UsuarioJerarquias { get; set; }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 => optionsBuilder.UseSqlServer(StringConexion.ConexionSQL);
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Area>(entity =>
@@ -63,15 +60,15 @@ public partial class PlanDesarrolloProfesionalContext : DbContext
                 .HasConstraintName("FK__Cumplimie__Requi__4316F928");
         });
 
-        modelBuilder.Entity<PlanDesarrolloProfesional>(entity =>
+        modelBuilder.Entity<PlanesDesarrolloProfesional>(entity =>
         {
             entity.HasKey(e => e.PlanDesarrolloID).HasName("PK__Colabora__899DAA21E52D5EA8");
 
-            entity.HasOne(d => d.Colaborador).WithMany(p => p.PlanDesarrolloProfesional)
+            entity.HasOne(d => d.Colaborador).WithMany(p => p.PlanesDesarrolloProfesional)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PlanDesarrolloProfesional_Usuario");
 
-            entity.HasOne(d => d.Rango).WithMany(p => p.PlanDesarrolloProfesional)
+            entity.HasOne(d => d.Rango).WithMany(p => p.PlanesDesarrolloProfesional)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PlanDesarrolloProfesional_Rango");
         });

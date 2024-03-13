@@ -1,0 +1,120 @@
+﻿@model PlanDesarrolloProfesional.Models.Models.PlanesDesarrolloProfesionalModel
+@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Crear Plan De Desarrollo Profesional";
+    //List<Contingencia.Models.RolesModel> RolesList = ViewBag.Roles;
+    List<PlanDesarrolloProfesional.Models.Models.UsuarioModel> Colaboradores = ViewBag.Colaborador;
+    List<PlanDesarrolloProfesional.Models.Models.RutaModel> RutaList = ViewBag.Rutas;
+    List<PlanDesarrolloProfesional.Models.Models.RangoModel> RangoList = ViewBag.Rangos;
+
+}
+
+<div class="card o-hidden border-0 shadow-lg my-4">
+    <div class="card-body col-12">
+        <!-- Nested Row within Card Body -->
+        <div class="col">
+            <div class="p-3">
+
+                <div class="form-group row">
+                    <div class="col-sm-9 mb-3 mb-sm-0">
+                        <h4 class="mb-4">Agregar Plan De Desarrollo Profesional</h4>
+                    </div>
+                </div>
+            </div>
+
+            <form action="@Url.Action("Agregar","PlanDesarrolloProfesional")" method="post" enctype="multipart/form-data" class="form">
+
+                <div class="row mt-2">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Supervisor Asignado</label></div>
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(m => m.ColaboradorID, new SelectList(Colaboradores, "UsuarioID", "Nombre"), "Seleccione el Colaborador:", new { @class = "float-right form-control", @id = "Colaborador" })
+                        @Html.ValidationMessageFor(model => model.ColaboradorID, "")
+                        <input hidden value="@Model.ColaboradorID" name="Colaborador" id="Colaborador" />
+                    </div>
+
+                </div>
+
+                <br />
+
+                <div class="row mt-2">
+                    @if (RutaList != null)
+                    {
+                        <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione una Ruta</label></div>
+                        <div class="col-sm-4">
+
+                            <select class="float-right form-control" id="Ruta" name="Ruta">
+                                <option value="">Seleccione la ruta:</option>
+                                @foreach (var ruta in RutaList)
+                                {
+                                    <option value="@ruta.RutaID">@ruta.NombreRuta</option>
+                                }
+                            </select>
+
+
+                        </div>
+                    }
+
+
+                </div>
+                <div class="row mt-2 d-none" id="RangoRemover">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione un Rango</label></div>
+                    <div class="col-sm-4 ">
+                        @Html.DropDownListFor(m => m.RangoID, new SelectList(RangoList, "RangoID", "NombreRango"), "Seleccione el rango:", new { @class = "float-right form-control", @id = "RangoRuta" })
+                        @Html.ValidationMessageFor(model => model.RangoID, "")
+                        <input hidden value="@Model.RangoID" name="Rango" id="RangoRuta" />
+                    </div>
+
+                </div>
+
+                <br />
+                <br />
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <div class="row center-align">
+                            <div class="col-sm-6">
+                                <!-- Div para el primer botón -->
+                                <button class="btn btn-primary btn-block" type="submit">Agregar &nbsp;<i class="fas fa-fw fa-plus"></i></button>
+                            </div>
+                            <div class="col-sm-6">
+                                <!-- Div para el segundo botón -->
+                                <a class="btn btn-secondary btn-block" asp-controller="Requisito" asp-action="Index">Regresar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+            <hr>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Manejar el evento de cambio del dropdown de rutas
+            $("#Ruta").change(function () {
+                // Obtener el valor seleccionado de la ruta
+                var selectedRuta = $(this).val();
+                $("#RangoRemover").removeClass("d-none");
+
+                // Hacer una llamada AJAX para obtener los rangos de la ruta seleccionada
+                $.ajax({
+                    url: '/Requisito/ObtenerRangosPorRuta', // Reemplaza 'TuController' con el nombre de tu controlador
+                    type: 'GET',
+                    data: { rutaId: selectedRuta },
+                    success: function (data) {
+                        console.log(data);
+                        // Limpiar y actualizar el dropdown de rangos
+                        $("#RangoRuta").empty();
+                        $.each(data, function (index, item) {
+                            $("#RangoRuta").append('<option value="' + item.RangoID + '">' + item.NombreRango + '</option>');
+                        });
+                    },
+                    error: function () {
+                        alert('Error al obtener los rangos.');
+                    }
+                });
+            });
+        });
+    </script>
+}
