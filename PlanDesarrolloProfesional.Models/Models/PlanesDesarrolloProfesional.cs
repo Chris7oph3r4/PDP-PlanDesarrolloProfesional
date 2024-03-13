@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PlanDesarrolloProfesional.Models.Models;
 
-public partial class PlanDesarrolloProfesional
+public partial class PlanesDesarrolloProfesional
 {
     [Key]
     public int PlanDesarrolloID { get; set; }
@@ -25,13 +25,13 @@ public partial class PlanDesarrolloProfesional
     public bool Finalizado { get; set; }
 
     [ForeignKey("ColaboradorID")]
-    [InverseProperty("PlanDesarrolloProfesional")]
+    [InverseProperty("PlanesDesarrolloProfesional")]
     public virtual Usuario Colaborador { get; set; }
 
     [InverseProperty("PlanDesarrollo")]
     public virtual ICollection<CumplimientoRequisito> CumplimientoRequisito { get; set; } = new List<CumplimientoRequisito>();
 
     [ForeignKey("RangoID")]
-    [InverseProperty("PlanDesarrolloProfesional")]
+    [InverseProperty("PlanesDesarrolloProfesional")]
     public virtual Rango Rango { get; set; }
 }

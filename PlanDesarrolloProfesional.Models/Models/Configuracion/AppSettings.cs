@@ -56,6 +56,12 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
             public static string Requisito_Eliminar { get; set; }
             public static string Requisito_Listar { get; set; }
 
+            public static string PlanDesarrolloProfesional_Agregar { get; set; }
+            public static string PlanDesarrolloProfesional_Obtener { get; set; }
+            public static string PlanDesarrolloProfesional_Actualizar { get; set; }
+            public static string PlanDesarrolloProfesional_Eliminar { get; set; }
+            public static string PlanDesarrolloProfesional_Listar { get; set; }
+
 
         }
     }

@@ -26,7 +26,7 @@ public partial class Rango
     public int RutaID { get; set; }
 
     [InverseProperty("Rango")]
-    public virtual ICollection<PlanDesarrolloProfesional> PlanDesarrolloProfesional { get; set; } = new List<PlanDesarrolloProfesional>();
+    public virtual ICollection<PlanesDesarrolloProfesional> PlanesDesarrolloProfesional { get; set; } = new List<PlanesDesarrolloProfesional>();
 
     [InverseProperty("Rango")]
     public virtual ICollection<Requisito> Requisito { get; set; } = new List<Requisito>();

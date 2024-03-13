@@ -41,7 +41,7 @@ public partial class Usuario
     public virtual Jerarquias Jerarquia { get; set; }
 
     [InverseProperty("Colaborador")]
-    public virtual ICollection<PlanDesarrolloProfesional> PlanDesarrolloProfesional { get; set; } = new List<PlanDesarrolloProfesional>();
+    public virtual ICollection<PlanesDesarrolloProfesional> PlanesDesarrolloProfesional { get; set; } = new List<PlanesDesarrolloProfesional>();
 
     [ForeignKey("RolID")]
     [InverseProperty("Usuario")]

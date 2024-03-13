@@ -37,7 +37,7 @@ public partial class CumplimientoRequisito
 
     [ForeignKey("PlanDesarrolloID")]
     [InverseProperty("CumplimientoRequisito")]
-    public virtual PlanDesarrolloProfesional PlanDesarrollo { get; set; }
+    public virtual PlanesDesarrolloProfesional PlanDesarrollo { get; set; }
 
     [ForeignKey("RequisitoID")]
     [InverseProperty("CumplimientoRequisito")]
