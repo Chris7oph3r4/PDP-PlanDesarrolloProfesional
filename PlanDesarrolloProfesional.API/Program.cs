@@ -31,6 +31,9 @@ builder.Services.AddScoped<IArea, LArea>();
 builder.Services.AddScoped<IRol, LRol>();
 builder.Services.AddScoped<IUsuario, LUsuario>();
 builder.Services.AddScoped<IRuta, LRuta>();
+builder.Services.AddScoped<IRango, LRango>();
+builder.Services.AddScoped<IRequisito, LRequisito>();
+builder.Services.AddScoped<IPlanDesarrolloProfesional, LPlanDesarrolloProfesional>();
 builder.Services.AddScoped<IBitacora, LBitacora>();
 #endregion Inyeccion de dependencias
 
