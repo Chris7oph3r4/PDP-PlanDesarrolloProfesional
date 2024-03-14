@@ -84,6 +84,15 @@ namespace PlanDesarrolloProfesional.API.Controllers
             var Modelo = await _IRol.Eliminar(IdRol);
             return Modelo;
         }
+
+        [HttpGet]
+        [Route("ObtenerNombreDelRol")]
+        public async Task<string> ObtenerNombreDelRol(int IdRol)
+        {
+            if (IdRol == 0) throw new Exception("Código Nulo");
+            var Modelo = await _IRol.ObtenerNombreDelRol(IdRol);
+            return Modelo;
+        }
     }
 }
 

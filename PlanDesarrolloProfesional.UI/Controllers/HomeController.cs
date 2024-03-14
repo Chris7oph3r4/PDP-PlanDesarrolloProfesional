@@ -32,6 +32,7 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             var userIdClaim = claimsPrincipal?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var userNameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
+
             Task<UsuarioModel> usuarioTask = LUsuario.ObtenerPorCorreo(userNameClaim);//Obtener usuario por correo 
             var usuario = usuarioTask.Result;
 
@@ -70,10 +71,6 @@ namespace PlanDesarrolloProfesional.UI.Controllers
                 // Actualizar el ClaimsPrincipal en el contexto actual
                 HttpContext.User = newClaimsPrincipal;
             }
-
-          
-
-
             return View();
         }
         [AllowAnonymous]
@@ -83,6 +80,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+        public IActionResult AccesoDenegado()
         {
             return View();
         }

@@ -7,6 +7,7 @@
     var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
     var roleClaim = claimsPrincipal?.FindFirst(ClaimTypes.Role)?.Value;
     var nameDbClaim = User?.FindFirst("NameDB")?.Value;
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -55,6 +56,7 @@
             <div class="sidebar-body">
                 <ul class="nav">
                     <li class="nav-item nav-category">Usuarios</li>
+
                     <li class="nav-item">
                         <a asp-controller="Usuario" asp-action="Index" class="nav-link">
                             <i class="link-icon" data-feather="box"></i>

@@ -10,36 +10,70 @@ namespace PlanDesarrolloProfesional.UI.Controllers
     public class RolController : Controller
     {
         private RolLogic LRol;
+        private UsuarioLogic LUsuario;
+        private RolLogic LRoles;
 
         public RolController()
         {
             LRol = new RolLogic();
+            LUsuario = new UsuarioLogic();
+            LRoles = new RolLogic();
 
         }
         public async Task<ActionResult> Index(string Mensaje)
         {
+            // Obtener el claim de email o username del usuario autenticado
+            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
+            // Obtener el objeto usuario basado en el email o username
+            var usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
+            // Ahora que tienes el objeto usuario, puedes obtener el RolID
+            string nombreRol = await LRoles.ObtenerNombreDelRol(usuario.RolID);
 
-            if (Mensaje != "")
+            // Comprobar si el usuario tiene el rol de Administrador
+            if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
+                if (Mensaje != "")
+                {
+                    ViewBag.Mensaje = Mensaje;
+                }
+
+                var Rol = await LRol.Listar();
+
+                return View(Rol);
+
             }
-
-            var Rol = await LRol.Listar();
-
-            return View(Rol);
-
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
         }
 
         public async Task<ActionResult> Agregar(string Mensaje)
         {
+            // Obtener el claim de email o username del usuario autenticado
+            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
+            // Obtener el objeto usuario basado en el email o username
+            var usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
+            // Ahora que tienes el objeto usuario, puedes obtener el RolID
+            string nombreRol = await LRoles.ObtenerNombreDelRol(usuario.RolID);
 
-            if (Mensaje != "")
+            // Comprobar si el usuario tiene el rol de Administrador
+            if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
-            }
-            RolModel Usuario = new RolModel();
+                if (Mensaje != "")
+                {
+                    ViewBag.Mensaje = Mensaje;
+                }
+                RolModel Usuario = new RolModel();
 
-            return View(Usuario);
+                return View(Usuario);
+            }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
 
         }
 
@@ -48,6 +82,7 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Agregar(RolModel Modelo)
         {
+
 
             var Agregar = await LRol.Agregar(Modelo);
             if (Agregar.RolID != null)
@@ -64,14 +99,30 @@ namespace PlanDesarrolloProfesional.UI.Controllers
 
         public async Task<ActionResult> Modificar(int RolID, string Mensaje)
         {
+            // Obtener el claim de email o username del usuario autenticado
+            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
+            // Obtener el objeto usuario basado en el email o username
+            var usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
+            // Ahora que tienes el objeto usuario, puedes obtener el RolID
+            string nombreRol = await LRoles.ObtenerNombreDelRol(usuario.RolID);
 
-            if (Mensaje != "")
+            // Comprobar si el usuario tiene el rol de Administrador
+            if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
-            }
-            RolModel Rol = await LRol.Obtener(RolID);
+                if (Mensaje != "")
+                {
+                    ViewBag.Mensaje = Mensaje;
+                }
+                RolModel Rol = await LRol.Obtener(RolID);
 
-            return View(Rol);
+                return View(Rol);
+
+            }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
 
         }
 
@@ -99,20 +150,36 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Eliminar(int IdObjeto)
         {
+            // Obtener el claim de email o username del usuario autenticado
+            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
+            // Obtener el objeto usuario basado en el email o username
+            var usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
+            // Ahora que tienes el objeto usuario, puedes obtener el RolID
+            string nombreRol = await LRoles.ObtenerNombreDelRol(usuario.RolID);
 
-
-            var Eliminar = await LRol.Eliminar(IdObjeto);
-            if (Eliminar)
+            // Comprobar si el usuario tiene el rol de Administrador
+            if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                return RedirectToAction("Index", "Rol", new { Mensaje = "Eliminado" });
+
+                var Eliminar = await LRol.Eliminar(IdObjeto);
+                if (Eliminar)
+                {
+                    return RedirectToAction("Index", "Rol", new { Mensaje = "Eliminado" });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Rol", new { Mensaje = "Error" });
+                }
+
+
             }
+
             else
             {
-                return RedirectToAction("Index", "Rol", new { Mensaje = "Error" });
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
             }
 
-
         }
-
     }
 }

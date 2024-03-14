@@ -86,6 +86,19 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
 
             return Objeto;
         }
+
+        public async Task<string> ObtenerNombreDelRol(int IdRol)
+        {
+         
+                // Construir el URL reemplazando el placeholder {id} con el IdRol
+             var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Rol_ObtenerNombreDeLRol, IdRol.ToString())/*, await Token()*/);
+            // Deserializar la respuesta a un string, asumiendo que el endpoint devuelve directamente el nombre del rol como una cadena de texto
+            string Objeto = JsonConvert.DeserializeObject<string>(ObjetoJson);
+
+                return Objeto;
+     
+        }
+
         #endregion Métodos
 
         #region Funciones

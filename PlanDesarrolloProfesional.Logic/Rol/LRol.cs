@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using PlanDesarrolloProfesional.DataAccess;
 using PlanDesarrolloProfesional.Interface;
 using PlanDesarrolloProfesional.Models.Models;
@@ -117,5 +118,21 @@ namespace PlanDesarrolloProfesional.Logic
                 return false;
             }
         }
+
+        public async Task<string> ObtenerNombreDelRol(int IdRol)
+        {
+            try
+            {
+                string nombreRol = await _DARol.ObtenerNombreDelRol(IdRol);
+                return nombreRol;
+            }
+            catch (Exception e)
+            {
+                // Considera implementar un manejo de errores más robusto
+                throw; 
+            }
+        }
+
+
     }
 }
