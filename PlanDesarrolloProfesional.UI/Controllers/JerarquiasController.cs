@@ -10,15 +10,28 @@ namespace PlanDesarrolloProfesional.UI.Controllers
     public class JerarquiasController : Controller
     {
         private JerarquiasLogic LJerarquias;
-     
+        private UsuarioLogic LUsuario;
+        private RolLogic LRoles;
+
         public JerarquiasController()
         {
             LJerarquias = new JerarquiasLogic();
-      
+            LUsuario = new UsuarioLogic();
+            LRoles = new RolLogic();
+
         }
         public async Task<ActionResult> Index(string Mensaje)
         {
-          
+            // Obtener el claim de email o username del usuario autenticado
+            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
+            // Obtener el objeto usuario basado en el email o username
+            var usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
+            // Ahora que tienes el objeto usuario, puedes obtener el RolID
+            string nombreRol = await LRoles.ObtenerNombreDelRol(usuario.RolID);
+
+            // Comprobar si el usuario tiene el rol de Administrador
+            if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            {
                 if (Mensaje != "")
                 {
                     ViewBag.Mensaje = Mensaje;
@@ -27,12 +40,28 @@ namespace PlanDesarrolloProfesional.UI.Controllers
                 var Jerarquias = await LJerarquias.Listar();
 
                 return View(Jerarquias);
-        
+            }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
+
         }
 
         public async Task<ActionResult> Agregar(string Mensaje)
         {
-        
+            // Obtener el claim de email o username del usuario autenticado
+            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
+            // Obtener el objeto usuario basado en el email o username
+            var usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
+            // Ahora que tienes el objeto usuario, puedes obtener el RolID
+            string nombreRol = await LRoles.ObtenerNombreDelRol(usuario.RolID);
+
+            // Comprobar si el usuario tiene el rol de Administrador
+            if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            {
+
                 if (Mensaje != "")
                 {
                     ViewBag.Mensaje = Mensaje;
@@ -40,7 +69,14 @@ namespace PlanDesarrolloProfesional.UI.Controllers
                 JerarquiasModel Usuario = new JerarquiasModel();
                
                 return View(Usuario);
-        
+
+            }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
+
         }
 
 
@@ -67,7 +103,17 @@ namespace PlanDesarrolloProfesional.UI.Controllers
 
         public async Task<ActionResult> Modificar(int JerarquiaID, string Mensaje)
         {
-        
+            // Obtener el claim de email o username del usuario autenticado
+            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
+            // Obtener el objeto usuario basado en el email o username
+            var usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
+            // Ahora que tienes el objeto usuario, puedes obtener el RolID
+            string nombreRol = await LRoles.ObtenerNombreDelRol(usuario.RolID);
+
+            // Comprobar si el usuario tiene el rol de Administrador
+            if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            {
+
                 if (Mensaje != "")
                 {
                     ViewBag.Mensaje = Mensaje;
@@ -75,7 +121,14 @@ namespace PlanDesarrolloProfesional.UI.Controllers
                 JerarquiasModel Jerarquia = await LJerarquias.Obtener(JerarquiaID);
              
                 return View(Jerarquia);
-         
+
+            }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
+
         }
 
 
@@ -104,6 +157,18 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Eliminar(int IdObjeto)
         {
+            // Obtener el claim de email o username del usuario autenticado
+            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
+            // Obtener el objeto usuario basado en el email o username
+            var usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
+            // Ahora que tienes el objeto usuario, puedes obtener el RolID
+            string nombreRol = await LRoles.ObtenerNombreDelRol(usuario.RolID);
+
+            // Comprobar si el usuario tiene el rol de Administrador
+            if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            {
+
+                var Eliminar = await LJerarquias.Eliminar(IdObjeto);
             var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
             var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
@@ -116,7 +181,12 @@ namespace PlanDesarrolloProfesional.UI.Controllers
                 {
                     return RedirectToAction("Index", "Jerarquias", new { Mensaje = "Error" });
                 }
-            
+            }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
 
         }
 

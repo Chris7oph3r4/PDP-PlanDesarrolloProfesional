@@ -36,6 +36,8 @@ builder.Services.AddAuthentication(options =>
             ValidateIssuer = false, // Puedes ajustar esto según tus necesidades
         };
     });
+
+
 #endregion Autenticacion
 
 #region AppSettings
@@ -61,6 +63,8 @@ AppSettings.APIEndpoints.Rol_Actualizar = builder.Configuration.GetSection("Plan
 AppSettings.APIEndpoints.Rol_Obtener = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rol_Obtener").Value;
 AppSettings.APIEndpoints.Rol_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rol_Listar").Value;
 AppSettings.APIEndpoints.Rol_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rol_Eliminar").Value;
+AppSettings.APIEndpoints.Rol_ObtenerNombreDeLRol = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rol_ObtenerNombreDeLRol").Value;
+
 
 //El consumo de Endpoints de Usuario
 AppSettings.APIEndpoints.Usuario_Agregar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_Agregar").Value;

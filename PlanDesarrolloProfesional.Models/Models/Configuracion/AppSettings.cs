@@ -27,6 +27,7 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
             public static string Rol_Actualizar { get; set; }
             public static string Rol_Eliminar { get; set; }
             public static string Rol_Listar { get; set; }
+            public static string Rol_ObtenerNombreDeLRol { get; set; }
 
             public static string Usuario_Agregar { get; set; }
             public static string Usuario_Obtener { get; set; }

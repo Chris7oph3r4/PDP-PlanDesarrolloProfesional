@@ -17,6 +17,9 @@ namespace PlanDesarrolloProfesional.Interface
         //Task<IEnumerable<RolViewModel>> ListarPorUsuario(int IdUsuario);
         Task<IEnumerable<RolModel>> Listar();
         Task<bool> Eliminar(int IdRol, string nameclaim);
+   
+
+        Task<string> ObtenerNombreDelRol(int IdRol);
     }
 }
 

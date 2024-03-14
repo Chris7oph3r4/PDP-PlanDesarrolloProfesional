@@ -175,6 +175,27 @@ namespace PlanDesarRolloProfesional.DataAccess
             return true;
 
         }
+        public async Task<string> ObtenerNombreDelRol(int IdRol)
+        {
+            using (var contextoBD = new PlanDesarrolloProfesionalContext())
+                try
+                {
+
+                    {
+                        // Realiza una consulta para obtener el nombre del rol basado en el IdRol
+                        var nombreRol = await contextoBD.Rol
+                                                        .Where(ur => ur.RolID == IdRol)
+                                                        .Select(ur => ur.NombreRol)
+                                                        .FirstOrDefaultAsync();
+                        return nombreRol; // Retorna el nombre del rol
+                    }
+                }
+                catch (Exception e)
+                {
+                    // Manejo de errores, por ejemplo, loguear la excepción
+                    throw e;
+                }
+        }
 
     }
 }
