@@ -166,23 +166,24 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             // Comprobar si el usuario tiene el rol de Administrador
             if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-            
-            var Eliminar = await LRol.Eliminar(IdObjeto, nameClaim);
-            if (Eliminar)
-            {
-                return RedirectToAction("Index", "Rol", new { Mensaje = "Eliminado" });
-            }
-            else
-            {
-                return RedirectToAction("Index", "Rol", new { Mensaje = "Error" });
-            }
 
+                var Eliminar = await LRol.Eliminar(IdObjeto, nameClaim);
+                if (Eliminar)
+                {
+                    return RedirectToAction("Index", "Rol", new { Mensaje = "Eliminado" });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Rol", new { Mensaje = "Error" });
+                }
+            }
             else
             {
                 // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
                 return RedirectToAction("AccesoDenegado", "Home");
             }
-
         }
+
     }
 }
+

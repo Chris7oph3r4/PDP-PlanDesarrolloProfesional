@@ -157,6 +157,8 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Eliminar(int IdObjeto)
         {
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
             // Obtener el claim de email o username del usuario autenticado
             var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
             // Obtener el objeto usuario basado en el email o username
@@ -168,9 +170,6 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
 
-                var Eliminar = await LJerarquias.Eliminar(IdObjeto);
-            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
-            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
             var Eliminar = await LJerarquias.Eliminar(IdObjeto, nameClaim);
                 if (Eliminar)
