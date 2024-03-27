@@ -35,6 +35,7 @@ builder.Services.AddScoped<IRango, LRango>();
 builder.Services.AddScoped<IRequisito, LRequisito>();
 builder.Services.AddScoped<IPlanDesarrolloProfesional, LPlanDesarrolloProfesional>();
 builder.Services.AddScoped<IBitacora, LBitacora>();
+builder.Services.AddScoped<ICumplimientoRequisito, LCumplimientoRequisito>();
 #endregion Inyeccion de dependencias
 
 var app = builder.Build();
