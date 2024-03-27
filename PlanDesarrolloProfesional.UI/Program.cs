@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PlanDesarrolloProfesional.Models.Models.Configuracion;
 using System.Text.Json.Serialization;
+using System.Security.Claims;
+using Microsoft.Extensions.DependencyInjection;
+using PlanDesarrolloProfesional.Models.Models;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +28,7 @@ builder.Services.AddAuthentication(options =>
     .AddCookie()
     .AddOpenIdConnect(options =>
     {
+        options.Events.OnTicketReceived += Parameters.OnTicketReceivedFunc;
         options.Authority = "https://login.microsoftonline.com/6b4bdb6e-4b58-4a85-8791-10ad1dcb170b";
         options.ClientId = "a95eaa0b-c624-4c6f-98e4-2f49bd4b91e7";
         options.ClientSecret = "Tu-Client-Secret";
@@ -35,6 +40,7 @@ builder.Services.AddAuthentication(options =>
         {
             ValidateIssuer = false, // Puedes ajustar esto según tus necesidades
         };
+        
     });
 
 
@@ -143,3 +149,49 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Login}/{id?}");
 
 app.Run();
+
+public static class Parameters
+{
+    public static Task OnTicketReceivedFunc(TicketReceivedContext context)
+    {
+        context.ReturnUri = "/Home/Index";
+        var client = new HttpClient();
+        var correo = context.Principal.FindFirst(ClaimTypes.Name)?.Value;
+        var json = client.GetStringAsync($"https://localhost:7071/api/v1/Usuario/ObtenerPorCorreo?correo={correo}").Result;
+        var usuario = JsonConvert.DeserializeObject<UsuarioModel>(json);
+
+        if (usuario == null)
+        {
+            context.HandleResponse();
+            context.Response.Redirect("/Shared/Error");
+            return Task.CompletedTask;
+        }
+        //else if (usuario.)
+        //{
+        //    context.Response.Redirect("/Home/DesactivadoLogin");
+        //    context.HandleResponse(); // Suppress the exception
+        //    return Task.CompletedTask;
+        //}
+        else
+        {
+            try
+            {
+                ((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("NameDB", usuario.Nombre.ToString()));
+                ((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("RolID", usuario.RolID.ToString()));
+                //((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("IdRol", usuario.IdRol.ToString()));
+                //((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("IdEmpresa", usuario.IdEmpresa.ToString()));
+                //((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("Nombre", usuario.Nombre));
+                //((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("Rol", usuario.Rol));
+                //((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("Correo", usuario.Correo));
+                //((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("UrlFoto", usuario.UrlFoto ?? ""));
+                return Task.FromResult(context.Principal);
+
+            }
+            catch
+            {
+                throw;
+            }
+        }
+    }
+
+}

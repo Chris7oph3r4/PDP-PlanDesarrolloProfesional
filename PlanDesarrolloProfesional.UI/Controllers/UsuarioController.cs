@@ -25,15 +25,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         
         public async Task<ActionResult> Index(string Mensaje)
         {
-            // Obtener el claim de email o username del usuario autenticado
-            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
-            // Obtener el objeto usuario basado en el email o username
-            var usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
-            // Ahora que tienes el objeto usuario, puedes obtener el RolID
-            string nombreRol = await LRoles.ObtenerNombreDelRol(usuario.RolID);
+            
 
             // Comprobar si el usuario tiene el rol de Administrador
-            if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            if (User?.FindFirst("RolID")?.Value == "1") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
                 if (Mensaje != "")
             {
