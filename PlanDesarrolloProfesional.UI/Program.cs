@@ -115,7 +115,12 @@ AppSettings.APIEndpoints.PlanDesarrolloProfesional_Eliminar = builder.Configurat
 //El consumo de Endpoints de Bitacora
 AppSettings.APIEndpoints.Bitacora_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Bitacora_Listar").Value;
 
-
+//EL consumo de Endpoints de Cumplinetos Profesional
+AppSettings.APIEndpoints.CumplimientoRequisito_Agregar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_Agregar").Value;
+AppSettings.APIEndpoints.CumplimientoRequisito_Actualizar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_Actualizar").Value;
+AppSettings.APIEndpoints.CumplimientoRequisito_Obtener = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_Obtener").Value;
+AppSettings.APIEndpoints.CumplimientoRequisito_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_Listar").Value;
+AppSettings.APIEndpoints.CumplimientoRequisito_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_Eliminar").Value;
 
 #endregion ConfiguracionAPI
 
