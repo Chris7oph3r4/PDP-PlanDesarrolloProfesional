@@ -65,7 +65,11 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
 
 
             public static string Bitacora_Listar { get; set; }
-
+            public static string CumplimientoRequisito_Agregar { get; set; }
+            public static string CumplimientoRequisito_Obtener { get; set; }
+            public static string CumplimientoRequisito_Actualizar { get; set; }
+            public static string CumplimientoRequisito_Listar { get; set; }
+            public static string CumplimientoRequisito_Eliminar { get; set; }
         }
     }
 }
