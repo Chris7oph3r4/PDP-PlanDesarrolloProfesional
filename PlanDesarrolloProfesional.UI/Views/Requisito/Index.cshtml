@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PlanDesarrolloProfesional.Models.Models.RequisitoModel>
+﻿@model IEnumerable<PlanDesarrolloProfesional.Models.Models.RequisitoViewModel>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Requisito";
@@ -27,7 +27,6 @@
                     <thead>
                         <tr>
                             <th>NombreRequisito</th>
-                            <th>Estado</th>
                             <th>Rango</th>
 
                         </tr>
@@ -38,8 +37,7 @@
                         {
                             <tr>
                                 <td data-label="Valor1">@item.NombreRequisito</td>
-                                <td data-label="Valor1">@item.Estado</td>
-                                <td data-label="Valor1">@item.RangoID</td>
+                                <td data-label="Valor1">@item.RangoNombre</td>
 
                                 <td class="text-start" data-label="Acciones">
                                     <div class="dropdown">

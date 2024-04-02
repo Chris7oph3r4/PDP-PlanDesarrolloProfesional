@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using PlanDesarrolloProfesional.DataAccess;
 using PlanDesarrolloProfesional.Interface;
 using PlanDesarrolloProfesional.Models.Models;
@@ -21,13 +22,14 @@ namespace PlanDesarrolloProfesional.Logic
 
         }
 
-        public async Task<RangoModel> Agregar(RangoModel Modelo)
+        public async Task<RangoModel> Agregar(List<object> Modelo)
         {
+            RangoModel Model;
             try
             {
-                var respuesta = await _DARango.Agregar(Modelo.ConvertBD());
-                Modelo = new RangoModel(respuesta);
-                return Modelo;
+                var respuesta = await _DARango.Agregar(JsonConvert.DeserializeObject<RangoModel>(Modelo[0]?.ToString()).ConvertBD(), Modelo[1]?.ToString());
+                Model = new RangoModel(respuesta);
+                return Model;
             }
             catch (Exception e)
             {
@@ -77,13 +79,14 @@ namespace PlanDesarrolloProfesional.Logic
         //    }
         //}
 
-        public async Task<RangoModel> Actualizar(RangoModel modelo)
+        public async Task<RangoModel> Actualizar(List<object> Modelo)
         {
+            RangoModel model;
             try
             {
-                var Objeto = await _DARango.Actualizar(modelo.ConvertBD());
-                modelo = new RangoModel(Objeto);
-                return modelo;
+                var Objeto = await _DARango.Actualizar(JsonConvert.DeserializeObject<RangoModel>(Modelo[0]?.ToString()).ConvertBD(), Modelo[1]?.ToString());
+                model = new RangoModel(Objeto);
+                return model;
             }
             catch (Exception e)
             {
@@ -105,11 +108,11 @@ namespace PlanDesarrolloProfesional.Logic
         //    }
         //}
 
-        public async Task<bool> Eliminar(int IdRango)
+        public async Task<bool> Eliminar(int IdRango, string nameclaim)
         {
             try
             {
-                bool Objeto = await _DARango.Eliminar(IdRango);
+                bool Objeto = await _DARango.Eliminar(IdRango, nameclaim);
                 return Objeto;
             }
             catch (Exception e)

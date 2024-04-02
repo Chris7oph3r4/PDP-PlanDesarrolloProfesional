@@ -88,9 +88,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Agregar(RequisitoModel Modelo)
         {
-       
-            Modelo.RangoID = 1;
-            var Agregar = await LRequisito.Agregar(Modelo);
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+            //Modelo.RangoID = 1;
+            var Agregar = await LRequisito.Agregar(Modelo,nameClaim);
             if (Agregar.RequisitoID != null)
             {
                 Modelo = new RequisitoModel();
@@ -125,9 +126,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         {
 
             RequisitoModel Usuario = await LRequisito.Obtener(Modelo.RequisitoID);
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
-
-            var Modificar = await LRequisito.Actualizar(Modelo);
+            var Modificar = await LRequisito.Actualizar(Modelo, nameClaim);
             if (Modificar.RequisitoID != null)
             {
                 return RedirectToAction("Index", "Requisito", new { Mensaje = "Modifica" });
@@ -143,8 +145,9 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         public async Task<ActionResult> Eliminar(int IdObjeto)
         {
 
-
-            var Eliminar = await LRequisito.Eliminar(IdObjeto);
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+            var Eliminar = await LRequisito.Eliminar(IdObjeto, nameClaim);
             if (Eliminar)
             {
                 return RedirectToAction("Index", "Requisito", new { Mensaje = "Eliminado" });

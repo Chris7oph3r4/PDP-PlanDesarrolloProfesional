@@ -33,10 +33,12 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
 
         #region Métodos
 
-        public async Task<RangoModel> Agregar(RangoModel RangoModel)
+        public async Task<RangoModel> Agregar(RangoModel RangoModel, string nameclaim)
         {
-
-            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Rango_Agregar), RangoModel/*, await Token()*/);
+            List<object> lista = new List<object>();
+            lista.Add(RangoModel);
+            lista.Add(nameclaim);
+            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Rango_Agregar), lista/*, await Token()*/);
             RangoModel Objeto = JsonConvert.DeserializeObject<RangoModel>(ObjetoJson);
 
             return Objeto;
@@ -60,10 +62,12 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
         //    return Objeto;
         //}
 
-        public async Task<RangoModel> Actualizar(RangoModel RangoModel)
+        public async Task<RangoModel> Actualizar(RangoModel RangoModel, string nameclaim)
         {
-
-            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Rango_Actualizar), RangoModel/*, await Token()*/);
+            List<object> lista = new List<object>();
+            lista.Add(RangoModel);
+            lista.Add(nameclaim);
+            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Rango_Actualizar), lista/*, await Token()*/);
             RangoModel Objeto = JsonConvert.DeserializeObject<RangoModel>(ObjetoJson);
 
             return Objeto;
@@ -86,10 +90,10 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
             return ListaRangosModel;
         }
 
-        public async Task<bool> Eliminar(int IdRango)
+        public async Task<bool> Eliminar(int IdRango, string nameclaim)
         {
 
-            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Rango_Eliminar, IdRango.ToString())/*, await Token()*/);
+            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Rango_Eliminar, IdRango.ToString(), nameclaim)/*, await Token()*/);
             bool Objeto = JsonConvert.DeserializeObject<bool>(ObjetoJson);
 
             return Objeto;

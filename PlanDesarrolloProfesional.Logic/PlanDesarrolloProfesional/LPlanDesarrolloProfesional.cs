@@ -1,4 +1,5 @@
-﻿using PlanDesarrolloProfesional.DataAccess;
+﻿using Newtonsoft.Json;
+using PlanDesarrolloProfesional.DataAccess;
 using PlanDesarrolloProfesional.Interface;
 using PlanDesarrolloProfesional.Models.Models;
 using System;
@@ -17,13 +18,14 @@ namespace PlanDesarrolloProfesional.Logic
             _DAPlanDesarrollo = new DAPlanDesarrolloProfesional();
         }
 
-        public async Task<PlanesDesarrolloProfesionalModel> Agregar(PlanesDesarrolloProfesionalModel Modelo)
+        public async Task<PlanesDesarrolloProfesionalModel> Agregar(List<object> Modelo)
         {
+            PlanesDesarrolloProfesionalModel Model;
             try
             {
-                var respuesta = await _DAPlanDesarrollo.Agregar(Modelo.ConvertBD());
-                Modelo = new PlanesDesarrolloProfesionalModel(respuesta);
-                return Modelo;
+                var respuesta = await _DAPlanDesarrollo.Agregar(JsonConvert.DeserializeObject<PlanesDesarrolloProfesionalModel>(Modelo[0]?.ToString()).ConvertBD(), Modelo[1]?.ToString());
+                Model = new PlanesDesarrolloProfesionalModel(respuesta);
+                return Model;
             }
             catch (Exception e)
             {
@@ -60,25 +62,26 @@ namespace PlanDesarrolloProfesional.Logic
                 return new List<PlanDesarrolloProfesionalViewModel>().AsEnumerable();
             }
         }
-        public async Task<PlanesDesarrolloProfesionalModel> Actualizar(PlanesDesarrolloProfesionalModel modelo)
+        public async Task<PlanesDesarrolloProfesionalModel> Actualizar(List<object> modelo)
         {
+            PlanesDesarrolloProfesionalModel model;
             try
             {
-                var Objeto = await _DAPlanDesarrollo.Actualizar(modelo.ConvertBD());
-                modelo = new PlanesDesarrolloProfesionalModel(Objeto);
-                return modelo;
+                var Objeto = await _DAPlanDesarrollo.Actualizar(JsonConvert.DeserializeObject<PlanesDesarrolloProfesionalModel>(modelo[0]?.ToString()).ConvertBD(), modelo[1]?.ToString());
+                model = new PlanesDesarrolloProfesionalModel(Objeto);
+                return model;
             }
             catch (Exception e)
             {
                 return null;
             }
         }
-        public async Task<bool> Eliminar(int IdPlan)
+        public async Task<bool> Eliminar(int IdPlan, string nameclaim)
         {
             try
             {
 
-                bool Objeto = await _DAPlanDesarrollo.Eliminar(IdPlan);
+                bool Objeto = await _DAPlanDesarrollo.Eliminar(IdPlan, nameclaim);
                 return Objeto;
             }
             catch (Exception e)

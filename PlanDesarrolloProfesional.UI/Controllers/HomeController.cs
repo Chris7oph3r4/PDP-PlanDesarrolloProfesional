@@ -8,6 +8,9 @@ using PlanDesarrolloProfesional.UI.Models;
 using System.Diagnostics;
 using System.Security.Claims;
 
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Http;
+
 namespace PlanDesarrolloProfesional.UI.Controllers
 {
     [Authorize]
