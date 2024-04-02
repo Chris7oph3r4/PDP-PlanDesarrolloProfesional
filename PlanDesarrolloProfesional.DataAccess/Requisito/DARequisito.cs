@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using PlanDesarrolloProfesional.Models.Models;
 using System;
 using System.Collections.Generic;
@@ -10,15 +11,27 @@ namespace PlanDesarrolloProfesional.DataAccess
 {
     public class DARequisito
     {
+        DABitacora bitDA = new DABitacora();
         public DARequisito() { }
 
-        public async Task<Requisito> Agregar(Requisito Modelo)
+        public async Task<Requisito> Agregar(Requisito Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
                     var AgregarObjeto = ContextoBD.Add(Modelo);
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha agregado el requisito con el Id " + Modelo.RequisitoID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return Modelo;
                 }
                 catch (Exception e)
@@ -62,13 +75,25 @@ namespace PlanDesarrolloProfesional.DataAccess
             }
         }
 
-        public async Task<Requisito> Actualizar(Requisito Modelo)
+        public async Task<Requisito> Actualizar(Requisito Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
                     ContextoBD.Entry(Modelo).State = EntityState.Modified;
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha actualizado el requisito con el Id " + Modelo.RequisitoID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return Modelo;
                 }
                 catch (Exception e)
@@ -119,9 +144,9 @@ namespace PlanDesarrolloProfesional.DataAccess
         //    }
         //}
 
-        public async Task<bool> Eliminar(int IdRequisito)
+        public async Task<bool> Eliminar(int IdRequisito, string nameclaim)
         {
-
+            Bitacora bitmodel = new Bitacora();
             var Requisito = await Obtener(IdRequisito);
 
             if (Requisito != null)
@@ -131,6 +156,16 @@ namespace PlanDesarrolloProfesional.DataAccess
 
                     ContextoBD.Entry(Requisito).State = EntityState.Deleted;
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha eliminado el requisito con el Id " + IdRequisito.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+
+                    };
+
+                    await bitDA.Agregar(bitmodel);
                 }
             }
 

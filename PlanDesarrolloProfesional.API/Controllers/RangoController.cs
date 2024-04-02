@@ -23,7 +23,7 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpPost]
         [Route("Agregar")]
-        public async Task<RangoModel> Agregar(RangoModel Modelo)
+        public async Task<RangoModel> Agregar(List<object> Modelo)
         {
             var Objeto = await _IRango.Agregar(Modelo);
             return Objeto;
@@ -66,7 +66,7 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpPost]
         [Route("Actualizar")]
-        public async Task<RangoModel> Actualizar(RangoModel Modelo)
+        public async Task<RangoModel> Actualizar(List<object> Modelo)
         {
             if (Modelo == null) throw new Exception("Modelo Nulo");
             var ModeloActualizado = await _IRango.Actualizar(Modelo);
@@ -86,10 +86,10 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpGet]
         [Route("Eliminar")]
-        public async Task<bool> Eliminar(int IdRango)
+        public async Task<bool> Eliminar(int IdRango, string nameclaim)
         {
             if (IdRango == 0) throw new Exception("Código Nulo");
-            var Modelo = await _IRango.Eliminar(IdRango);
+            var Modelo = await _IRango.Eliminar(IdRango,nameclaim);
             return Modelo;
         }
     }

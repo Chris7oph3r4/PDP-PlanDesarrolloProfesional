@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using PlanDesarrolloProfesional.Models.Models;
 using System;
 using System.Collections;
@@ -11,15 +12,27 @@ namespace PlanDesarrolloProfesional.DataAccess
 {
     public class DAUsuario
     {
+        private DABitacora bitDA = new DABitacora();
         public DAUsuario() { }
 
-        public async Task<Usuario> Agregar(Usuario Modelo)
+        public async Task<Usuario> Agregar(Usuario Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
                     var AgregarObjeto = ContextoBD.Add(Modelo);
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha agregado el usuario con el Id " + Modelo.UsuarioID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return Modelo;
                 }
                 catch (Exception e)
@@ -29,8 +42,9 @@ namespace PlanDesarrolloProfesional.DataAccess
         }
 
 
-        public async Task<UsuarioAgregarViewModel> AgregarAreas(UsuarioAgregarViewModel Modelo)
+        public async Task<UsuarioAgregarViewModel> AgregarAreas(UsuarioAgregarViewModel Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
@@ -48,6 +62,16 @@ namespace PlanDesarrolloProfesional.DataAccess
 
                     }
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha agregado areas al usuario con el Id " + Modelo.UsuarioID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return Modelo;
                 }
                 catch (Exception e)
@@ -55,8 +79,9 @@ namespace PlanDesarrolloProfesional.DataAccess
                     throw e;
                 }
         }
-        public async Task<UsuarioAgregarViewModel> AgregarNuevasAreas(UsuarioAgregarViewModel Modelo)
+        public async Task<UsuarioAgregarViewModel> AgregarNuevasAreas(UsuarioAgregarViewModel Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
@@ -74,6 +99,16 @@ namespace PlanDesarrolloProfesional.DataAccess
 
                     }
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha agregado areas al usuario con el Id " + Modelo.UsuarioID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return Modelo;
                 }
                 catch (Exception e)
@@ -81,8 +116,9 @@ namespace PlanDesarrolloProfesional.DataAccess
                     throw e;
                 }
         }
-        public async Task<UsuarioAgregarViewModel> AgregarSupervisor(UsuarioAgregarViewModel Modelo)
+        public async Task<UsuarioAgregarViewModel> AgregarSupervisor(UsuarioAgregarViewModel Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
@@ -92,6 +128,15 @@ namespace PlanDesarrolloProfesional.DataAccess
                     };
                     var AgregarSupervisor = ContextoBD.Add(Supervisor);
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha agregado el supervisor al usuario con el Id " + Modelo.UsuarioID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
 
 
                     return Modelo;
@@ -249,13 +294,24 @@ namespace PlanDesarrolloProfesional.DataAccess
             }
         }
 
-        public async Task<Usuario> ActualizarUsuario(Usuario Modelo)
+        public async Task<Usuario> ActualizarUsuario(Usuario Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
                     ContextoBD.Entry(Modelo).State = EntityState.Modified;
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha actualizado el usuario con el Id " + Modelo.UsuarioID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return Modelo;
                 }
                 catch (Exception e)
@@ -288,8 +344,9 @@ namespace PlanDesarrolloProfesional.DataAccess
         //            throw e;
         //        }
         //}
-        public async Task<bool> ActualizarSupervisorUsuario(UsuarioAgregarViewModel Modelo)
+        public async Task<bool> ActualizarSupervisorUsuario(UsuarioAgregarViewModel Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
             {
                 try
@@ -308,6 +365,16 @@ namespace PlanDesarrolloProfesional.DataAccess
                         // ContextoBD.Entry(supervisorAsignado).State = EntityState.Modified;
 
                         await ContextoBD.SaveChangesAsync();
+
+                        bitmodel = new Bitacora()
+                        {
+                            Descripcion = "Se ha actualizado el supervisor al usuario con el Id " + Modelo.UsuarioID.ToString(),
+                            Usuario = nameclaim,
+                            Fecha = DateTime.Now
+                        };
+
+                        await bitDA.Agregar(bitmodel);
+
                         return true;
                     }
 
@@ -363,9 +430,9 @@ namespace PlanDesarrolloProfesional.DataAccess
         //    }
         //}
 
-        public async Task<bool> Eliminar(int IdUsuario)
+        public async Task<bool> Eliminar(int IdUsuario, string nameclaim)
         {
-     
+            Bitacora bitmodel = new Bitacora();
             var Usuario = await Obtener(IdUsuario);
 
             if (Usuario != null)
@@ -385,6 +452,16 @@ namespace PlanDesarrolloProfesional.DataAccess
                     Usuario.Eliminado = true;
                     ContextoBD.Entry(Usuario).State = EntityState.Modified;
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha eliminado el usuario con el Id " + IdUsuario.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return true;
                 }
             }
@@ -393,9 +470,9 @@ namespace PlanDesarrolloProfesional.DataAccess
 
         }
 
-        public async Task<bool> EliminarUsuarioArea(List<int> areasPorEliminar)
+        public async Task<bool> EliminarUsuarioArea(List<int> areasPorEliminar, string nameclaim)
         {
-
+            Bitacora bitmodel = new Bitacora();
             if (areasPorEliminar != null && areasPorEliminar.Any())
             {
                 using (var ContextoBD = new PlanDesarrolloProfesionalContext())
@@ -410,10 +487,22 @@ namespace PlanDesarrolloProfesional.DataAccess
                         if (usuarioArea != null)
                         {
                             usuarioArea.Eliminado = true;
+
+                            bitmodel = new Bitacora()
+                            {
+                                Descripcion = "Se ha eliminado la area con el Id " + usuarioArea.AreaID + " del usuario con el Id " + usuarioArea.UsuarioID,
+                                Usuario = nameclaim,
+                                Fecha = DateTime.Now
+                            };
+
+                            await bitDA.Agregar(bitmodel);
+
                         }
                     }
 
                     await ContextoBD.SaveChangesAsync();
+
+                    
                 }
             }
 

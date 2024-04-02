@@ -33,10 +33,12 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
 
         #region Métodos
 
-        public async Task<RequisitoModel> Agregar(RequisitoModel RequisitoModel)
+        public async Task<RequisitoModel> Agregar(RequisitoModel RequisitoModel, string nameclaim)
         {
-
-            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Requisito_Agregar), RequisitoModel/*, await Token()*/);
+            List<object> lista = new List<object>();
+            lista.Add(RequisitoModel);
+            lista.Add(nameclaim);
+            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Requisito_Agregar), lista/*, await Token()*/);
             RequisitoModel Objeto = JsonConvert.DeserializeObject<RequisitoModel>(ObjetoJson);
 
             return Objeto;
@@ -60,28 +62,30 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
         //    return Objeto;
         //}
 
-        public async Task<RequisitoModel> Actualizar(RequisitoModel RequisitoModel)
+        public async Task<RequisitoModel> Actualizar(RequisitoModel RequisitoModel, string nameclaim)
         {
-
-            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Requisito_Actualizar), RequisitoModel/*, await Token()*/);
+            List<object> lista = new List<object>();
+            lista.Add(RequisitoModel);
+            lista.Add(nameclaim);
+            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Requisito_Actualizar), lista/*, await Token()*/);
             RequisitoModel Objeto = JsonConvert.DeserializeObject<RequisitoModel>(ObjetoJson);
 
             return Objeto;
         }
 
-        public async Task<List<RequisitoModel>> Listar()
+        public async Task<List<RequisitoViewModel>> Listar()
         {
 
             var ListaSolicitudeJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Requisito_Listar)/*, await Token()*/);
-            List<RequisitoModel> ListaRequisitoModel = JsonConvert.DeserializeObject<List<RequisitoModel>>(ListaSolicitudeJson);
+            List<RequisitoViewModel> ListaRequisitoModel = JsonConvert.DeserializeObject<List<RequisitoViewModel>>(ListaSolicitudeJson);
 
             return ListaRequisitoModel;
         }
 
-        public async Task<bool> Eliminar(int IdRequisito)
+        public async Task<bool> Eliminar(int IdRequisito, string nameclaim)
         {
 
-            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Requisito_Eliminar, IdRequisito.ToString())/*, await Token()*/);
+            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Requisito_Eliminar, IdRequisito.ToString(), nameclaim)/*, await Token()*/);
             bool Objeto = JsonConvert.DeserializeObject<bool>(ObjetoJson);
 
             return Objeto;

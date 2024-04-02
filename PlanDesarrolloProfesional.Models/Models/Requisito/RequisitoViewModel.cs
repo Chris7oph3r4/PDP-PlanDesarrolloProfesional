@@ -23,4 +23,6 @@ public class RequisitoViewModel
 
     public int RangoID { get; set; }
 
+    public string RangoNombre { get; set; }
+
 }

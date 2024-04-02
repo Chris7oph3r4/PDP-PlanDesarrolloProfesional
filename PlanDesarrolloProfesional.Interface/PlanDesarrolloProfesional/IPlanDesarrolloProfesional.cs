@@ -9,10 +9,10 @@ namespace PlanDesarrolloProfesional.Interface
 {
     public interface IPlanDesarrolloProfesional
     {
-        Task<PlanesDesarrolloProfesionalModel> Agregar(PlanesDesarrolloProfesionalModel Modelo);
+        Task<PlanesDesarrolloProfesionalModel> Agregar(List<object> Modelo);
         Task<PlanDesarrolloProfesionalViewModel> Obtener(int IdPlan);
-        Task<PlanesDesarrolloProfesionalModel> Actualizar(PlanesDesarrolloProfesionalModel modelo);
+        Task<PlanesDesarrolloProfesionalModel> Actualizar(List<object> modelo);
         Task<IEnumerable<PlanDesarrolloProfesionalViewModel>> Listar();
-        Task<bool> Eliminar(int IdPlan);
+        Task<bool> Eliminar(int IdPlan, string nameclaim);
     }
 }

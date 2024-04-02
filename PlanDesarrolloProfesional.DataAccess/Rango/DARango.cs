@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using PlanDesarrolloProfesional.Models.Models;
 using System;
 using System.Collections.Generic;
@@ -10,15 +11,28 @@ namespace PlanDesarrolloProfesional.DataAccess
 {
     public class DARango
     {
+        private DABitacora bitDA = new DABitacora();
         public DARango() { }
 
-        public async Task<Rango> Agregar(Rango Modelo)
+        public async Task<Rango> Agregar(Rango Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
                     var AgregarObjeto = ContextoBD.Add(Modelo);
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha agregado el rango con el Id " + Modelo.RangoID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return Modelo;
                 }
                 catch (Exception e)
@@ -82,13 +96,24 @@ namespace PlanDesarrolloProfesional.DataAccess
             }
         }
 
-        public async Task<Rango> Actualizar(Rango Modelo)
+        public async Task<Rango> Actualizar(Rango Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
                     ContextoBD.Entry(Modelo).State = EntityState.Modified;
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha actualizado el rango con el Id " + Modelo.RangoID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return Modelo;
                 }
                 catch (Exception e)
@@ -139,9 +164,9 @@ namespace PlanDesarrolloProfesional.DataAccess
         //    }
         //}
 
-        public async Task<bool> Eliminar(int IdRango)
+        public async Task<bool> Eliminar(int IdRango, string nameclaim)
         {
-
+            Bitacora bitmodel = new Bitacora();
             var Rango = await Obtener(IdRango);
 
             if (Rango != null)
@@ -151,6 +176,17 @@ namespace PlanDesarrolloProfesional.DataAccess
 
                     ContextoBD.Entry(Rango).State = EntityState.Deleted;
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha eliminar el rango con el Id " + IdRango.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                 }
             }
 

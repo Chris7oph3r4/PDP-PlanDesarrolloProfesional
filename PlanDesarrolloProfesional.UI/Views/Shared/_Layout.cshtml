@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims;
+@using PlanDesarrolloProfesional.UI.Controllers;
 @{
     // Obtener el ClaimsPrincipal actual
     var claimsPrincipal = Context.User as ClaimsPrincipal;
@@ -66,12 +67,15 @@
                     </li>
                     
                     <li class="nav-item nav-category">Gestion de Planes</li>
-                    <li class="nav-item">
-                        <a asp-controller="PlanDesarrolloProfesional" asp-action="Index" class="nav-link">
-                            <i class="link-icon" data-feather="box"></i>
-                            <span class="link-title">Plan Desarrollo Profesional</span>
-                        </a>
-                    </li>
+                    @if (roleClaim == "1" || roleClaim == "7"|| string.IsNullOrEmpty(roleClaim?.ToString()))
+                    {
+                        <li class="nav-item">
+                            <a asp-controller="PlanDesarrolloProfesional" asp-action="Index" class="nav-link">
+                                <i class="link-icon" data-feather="box"></i>
+                                <span class="link-title">Plan Desarrollo Profesional</span>
+                            </a>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a asp-controller="Area" asp-action="Index" class="nav-link">
                             <i class="link-icon" data-feather="box"></i>

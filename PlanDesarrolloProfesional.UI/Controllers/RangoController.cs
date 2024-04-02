@@ -53,8 +53,9 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Agregar(RangoModel Modelo)
         {
-
-            var Agregar = await LRango.Agregar(Modelo);
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+            var Agregar = await LRango.Agregar(Modelo,nameClaim);
             if (Agregar.RangoID != null)
             {
                 Modelo = new RangoModel();
@@ -86,10 +87,11 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Modificar(RangoModel Modelo)
         {
-
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
             RangoModel Usuario = await LRango.Obtener(Modelo.RangoID);
 
-            var Modificar = await LRango.Actualizar(Modelo);
+            var Modificar = await LRango.Actualizar(Modelo,nameClaim);
             if (Modificar.RangoID != null)
             {
                 return RedirectToAction("Index", "Rango", new { Mensaje = "Modifica" });
@@ -105,8 +107,9 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         public async Task<ActionResult> Eliminar(int IdObjeto)
         {
 
-
-            var Eliminar = await LRango.Eliminar(IdObjeto);
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+            var Eliminar = await LRango.Eliminar(IdObjeto,nameClaim);
             if (Eliminar)
             {
                 return RedirectToAction("Index", "Rango", new { Mensaje = "Eliminado" });

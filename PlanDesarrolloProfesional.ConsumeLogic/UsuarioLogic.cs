@@ -33,19 +33,24 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
 
         #region Métodos
 
-        public async Task<UsuarioModel> Agregar(UsuarioModel UsuarioModel)
+        public async Task<UsuarioModel> Agregar(UsuarioModel UsuarioModel, string nameclaim)
         {
-            
-            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Usuario_Agregar), UsuarioModel/*, await Token()*/);
+            List<object> lista = new List<object>();
+            lista.Add(UsuarioModel);
+            lista.Add(nameclaim);
+            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Usuario_Agregar), lista/*, await Token()*/);
             UsuarioModel Objeto = JsonConvert.DeserializeObject<UsuarioModel>(ObjetoJson);
 
             return Objeto;
         }
 
-        public async Task<UsuarioAgregarViewModel> AgregarUsuarioAreaJerarquia(UsuarioAgregarViewModel UsuarioViewModel)
+        public async Task<UsuarioAgregarViewModel> AgregarUsuarioAreaJerarquia(UsuarioAgregarViewModel UsuarioViewModel, string nameclaim)
         {
+            List<object> lista = new List<object>();
+            lista.Add(UsuarioViewModel);
+            lista.Add(nameclaim);
 
-            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Usuario_AgregarViewModel), UsuarioViewModel/*, await Token()*/);
+            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Usuario_AgregarViewModel), lista/*, await Token()*/);
             UsuarioAgregarViewModel Objeto = JsonConvert.DeserializeObject<UsuarioAgregarViewModel>(ObjetoJson);
 
             return Objeto;
@@ -85,10 +90,12 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
         //    return Objeto;
         //}
 
-        public async Task<UsuarioAgregarViewModel> Actualizar(UsuarioAgregarViewModel UsuarioModel)
+        public async Task<UsuarioAgregarViewModel> Actualizar(UsuarioAgregarViewModel UsuarioModel, string nameclaim)
         {
-          
-            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Usuario_Actualizar), UsuarioModel/*, await Token()*/);
+            List<object> lista = new List<object>();
+            lista.Add(UsuarioModel);
+            lista.Add(nameclaim);
+            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Usuario_Actualizar), lista/*, await Token()*/);
             UsuarioAgregarViewModel Objeto = JsonConvert.DeserializeObject<UsuarioAgregarViewModel>(ObjetoJson);
 
             return Objeto;
@@ -111,10 +118,10 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
             return ListaUsuarioModel;
         }
 
-        public async Task<bool> Eliminar(int IdUsuario)
+        public async Task<bool> Eliminar(int IdUsuario, string nameclaim)
         {
        
-            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Usuario_Eliminar, IdUsuario.ToString())/*, await Token()*/);
+            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Usuario_Eliminar, IdUsuario.ToString(), nameclaim)/*, await Token()*/);
             bool Objeto = JsonConvert.DeserializeObject<bool>(ObjetoJson);
 
             return Objeto;

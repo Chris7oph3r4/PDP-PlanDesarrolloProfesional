@@ -23,7 +23,7 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpPost]
         [Route("Agregar")]
-        public async Task<RequisitoModel> Agregar(RequisitoModel Modelo)
+        public async Task<RequisitoModel> Agregar(List<object> Modelo)
         {
             var Objeto = await _IRequisito.Agregar(Modelo);
             return Objeto;
@@ -39,7 +39,7 @@ namespace PlanDesarrolloProfesional.API.Controllers
         }
         [HttpGet]
         [Route("Listar")]
-        public async Task<IEnumerable<RequisitoModel>> Listar()
+        public async Task<IEnumerable<RequisitoViewModel>> Listar()
         {
             var Lista = await _IRequisito.Listar();
             if (Lista == null) throw new Exception("Modelo Nulo");
@@ -58,7 +58,7 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpPost]
         [Route("Actualizar")]
-        public async Task<RequisitoModel> Actualizar(RequisitoModel Modelo)
+        public async Task<RequisitoModel> Actualizar(List<object> Modelo)
         {
             if (Modelo == null) throw new Exception("Modelo Nulo");
             var ModeloActualizado = await _IRequisito.Actualizar(Modelo);
@@ -78,10 +78,10 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpGet]
         [Route("Eliminar")]
-        public async Task<bool> Eliminar(int IdRequisito)
+        public async Task<bool> Eliminar(int IdRequisito, string nameclaim)
         {
             if (IdRequisito == 0) throw new Exception("Código Nulo");
-            var Modelo = await _IRequisito.Eliminar(IdRequisito);
+            var Modelo = await _IRequisito.Eliminar(IdRequisito, nameclaim);
             return Modelo;
         }
     }

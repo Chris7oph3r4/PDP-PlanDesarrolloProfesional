@@ -106,10 +106,12 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Agregar(UsuarioAgregarViewModel Modelo)
         {
-            //convertir usuariosagregarviewmodel a usuariomodel
-            //    Foreach de area
+
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+
             Modelo.CodigoDaloo = Guid.NewGuid();
-            var Agregar = await LUsuario.AgregarUsuarioAreaJerarquia(Modelo);
+            var Agregar = await LUsuario.AgregarUsuarioAreaJerarquia(Modelo,nameClaim);
             
             if (Agregar.UsuarioID != null)
             {
@@ -166,9 +168,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         {
 
             UsuarioAgregarViewModel Usuario = await LUsuario.ObtenerUA(Modelo.UsuarioID);
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
-
-            var Modificar = await LUsuario.Actualizar(Modelo);
+            var Modificar = await LUsuario.Actualizar(Modelo,nameClaim);
             if (Modificar.UsuarioID != null)
             {
                 return RedirectToAction("Index", "Usuario", new { Mensaje = "Modifica" });
@@ -193,8 +196,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             // Comprobar si el usuario tiene el rol de Administrador
             if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
+                var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+                var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
-                var Eliminar = await LUsuario.Eliminar(IdObjeto);
+                var Eliminar = await LUsuario.Eliminar(IdObjeto,nameClaim);
             if (Eliminar)
             {
                 return RedirectToAction("Index", "Usuario", new { Mensaje = "Eliminado" });

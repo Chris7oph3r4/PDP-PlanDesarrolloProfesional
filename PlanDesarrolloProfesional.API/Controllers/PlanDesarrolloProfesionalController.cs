@@ -21,7 +21,7 @@ namespace PlanDesarrolloProfesional.API.Controllers
         }
         [HttpPost]
         [Route("Agregar")]
-        public async Task<PlanesDesarrolloProfesionalModel> Agregar(PlanesDesarrolloProfesionalModel Modelo)
+        public async Task<PlanesDesarrolloProfesionalModel> Agregar(List<object> Modelo)
         {
             var Objeto = await _IPlanDesarrollo.Agregar(Modelo);
             return Objeto;
@@ -46,7 +46,7 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpPost]
         [Route("Actualizar")]
-        public async Task<PlanesDesarrolloProfesionalModel> Actualizar(PlanesDesarrolloProfesionalModel Modelo)
+        public async Task<PlanesDesarrolloProfesionalModel> Actualizar(List<object> Modelo)
         {
             if (Modelo == null) throw new Exception("Modelo Nulo");
             var ModeloActualizado = await _IPlanDesarrollo.Actualizar(Modelo);
@@ -54,10 +54,10 @@ namespace PlanDesarrolloProfesional.API.Controllers
         }
         [HttpGet]
         [Route("Eliminar")]
-        public async Task<bool> Eliminar(int IdPlan)
+        public async Task<bool> Eliminar(int IdPlan, string nameclaim)
         {
             if (IdPlan == 0) throw new Exception("Código Nulo");
-            var Modelo = await _IPlanDesarrollo.Eliminar(IdPlan);
+            var Modelo = await _IPlanDesarrollo.Eliminar(IdPlan, nameclaim);
             return Modelo;
         }
     }

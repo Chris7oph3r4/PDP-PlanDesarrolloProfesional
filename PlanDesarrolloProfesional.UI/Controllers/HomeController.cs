@@ -8,6 +8,9 @@ using PlanDesarrolloProfesional.UI.Models;
 using System.Diagnostics;
 using System.Security.Claims;
 
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Http;
+
 namespace PlanDesarrolloProfesional.UI.Controllers
 {
     [Authorize]
@@ -40,22 +43,22 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             var existingNombreClaim = claimsPrincipal?.FindFirst("NameDB");
 
             // Si no tiene un claim de rol, agregar uno
-            if (existingRoleClaim == null)
-            {
-                // Crear un nuevo claim de rol
-                var newRoleClaim = new Claim(ClaimTypes.Role, usuario.RolID.ToString());
-                //var newRoleClaim = new Claim(ClaimTypes.Role, usuario.Rol.ToString());
+            //if (existingRoleClaim == null)
+            //{
+            //    // Crear un nuevo claim de rol
+            //    var newRoleClaim = new Claim(ClaimTypes.Role, usuario.RolID.ToString());
+            //    //var newRoleClaim = new Claim(ClaimTypes.Role, usuario.Rol.ToString());
 
-                // Crear un nuevo ClaimsIdentity y agregar el nuevo claim de rol
-                var claimsIdentity = new ClaimsIdentity(claimsPrincipal.Identity);
-                claimsIdentity.AddClaim(newRoleClaim);
+            //    // Crear un nuevo ClaimsIdentity y agregar el nuevo claim de rol
+            //    var claimsIdentity = new ClaimsIdentity(claimsPrincipal.Identity);
+            //    claimsIdentity.AddClaim(newRoleClaim);
 
-                // Crear un nuevo ClaimsPrincipal con el ClaimsIdentity actualizado
-                var newClaimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            //    // Crear un nuevo ClaimsPrincipal con el ClaimsIdentity actualizado
+            //    var newClaimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
-                // Actualizar el ClaimsPrincipal en el contexto actual
-                HttpContext.User = newClaimsPrincipal;
-            }
+            //    // Actualizar el ClaimsPrincipal en el contexto actual
+            //    HttpContext.User = newClaimsPrincipal;
+            //}
             if (existingNombreClaim == null)
             {
                 // Crear un nuevo claim personalizado
@@ -63,10 +66,19 @@ namespace PlanDesarrolloProfesional.UI.Controllers
 
                 // Crear un nuevo ClaimsIdentity y agregar el nuevo claim personalizado
                 var claimsIdentity = new ClaimsIdentity(claimsPrincipal.Identity);
+                
                 claimsIdentity.AddClaim(newNombreClaim);
 
+
+                if (existingRoleClaim == null)
+                {
+                    // Crear un nuevo claim de rol
+                    var newRoleClaim = new Claim(ClaimTypes.Role, usuario.RolID.ToString());
+                    claimsIdentity.AddClaim(newRoleClaim);
+                }              
+
                 // Crear un nuevo ClaimsPrincipal con el ClaimsIdentity actualizado
-                var newClaimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                var newClaimsPrincipal = new ClaimsPrincipal(claimsPrincipal);
 
                 // Actualizar el ClaimsPrincipal en el contexto actual
                 HttpContext.User = newClaimsPrincipal;
