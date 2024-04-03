@@ -1,0 +1,189 @@
+﻿@model PlanDesarrolloProfesional.Models.Models.CumplimientoRequisitoModel
+@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Modificar Requisitos del Plan Desarrollo";
+    // var fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
+    //List<Contingencia.Models.RolesModel> RolesList = ViewBag.Roles;
+    // List<PlanDesarrolloProfesional.Models.Models.UsuarioModel> Colaboradores = ViewBag.Colaborador;
+    // List<PlanDesarrolloProfesional.Models.Models.RutaModel> RutaList = ViewBag.Rutas;
+    // List<PlanDesarrolloProfesional.Models.Models.RangoModel> RangoList = ViewBag.Rangos;
+    // List<PlanDesarrolloProfesional.Models.Models.RequisitoModel> RequisitoList = ViewBag.Requisito;
+
+}
+
+<div class="card o-hidden border-0 shadow-lg my-4">
+    <div class="card-body col-12">
+        <div class="col">
+            <div class="p-3">
+                <div class="col-sm-9 mb-3 mb-sm-0">
+                    <h4 class="mb-4 text-center">Modificar Requisito</h4>
+                </div>
+            </div>
+            <form action="@Url.Action("Modificar", "CumplimientoRequisito")" method="post" enctype="multipart/form-data" class="form">
+                @Html.HiddenFor(model => model.CumplimientoRequisitoID)
+                <div class="form-group row  mt-2">
+                    <div class="col-sm-2">
+                        <label for="RequisitoID" class="float-left font-weight-bold h5">Requisito ID</label>
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.RequisitoID, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
+                      @*   <input asp-for="RequisitoID" type="number" class="col-12 form-control" /> *@
+                        <span asp-validation-for="RequisitoID" class="col-12 text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row  mt-2">
+                    <div class="col-sm-2">
+                        <label for="ColaboradorID" class="float-left font-weight-bold h5">Colaborador ID</label>
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.ColaboradorID, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
+                        @* <input asp-for="ColaboradorID" type="number" class="col-12 form-control" /> *@
+                        <span asp-validation-for="ColaboradorID" class="col-12 text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row  mt-2">
+                    <div class="col-sm-2">
+                        <label for="FechaObtencion" class="float-left font-weight-bold h5">Fecha de Obtención</label>
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.FechaObtencion, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
+                        @* <input asp-for="FechaObtencion" type="date" class="col-12 form-control" value="fechaActual" /> *@
+                        <span asp-validation-for="FechaObtencion" class="col-12 text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row  mt-2">
+                    <div class="col-sm-2">
+                        <label for="URLEvidencia" class="float-left font-weight-bold h5">URL Evidencia</label>
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.URLEvidencia, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
+                        @* <input asp-for="URLEvidencia" type="text" class="col-12 form-control" /> *@
+                        <span asp-validation-for="URLEvidencia" class="col-12 text-danger"></span>
+                    </div>
+                </div>
+
+   
+
+                <div class="form-group row mt-2">
+                    <div class="col-sm-2">
+                        <label for="PlanDesarrolloID" class="float-left font-weight-bold h5">Plan Desarrollo ID</label>
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.PlanDesarrolloID, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
+                        @* <input asp-for="PlanDesarrolloID" type="number" class="col-12 form-control" /> *@
+                        <span asp-validation-for="PlanDesarrolloID" class="col-12 text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row mt-2">
+                <div class="col-sm-2">
+                <label for="FechaArpobacion" class="float-left font-weight-bold h5">Fecha de Aprobación</label>
+                </div>
+                <div class="col-sm-4">
+                        @Html.EditorFor(model => model.FechaArpobacion, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
+               @*  <input asp-for="FechaArpobacion" type="date" class="col-12 form-control" value="fechaActual" /> *@
+                        <span asp-validation-for="FechaArpobacion" class="col-12 text-danger"></span>
+                </div>
+                </div>
+
+                <div class="form-group row mt-2">
+                    <div class="col-sm-6">
+                        <!-- Div para el primer botón -->
+                        <button class="btn btn-primary btn-block" type="submit">Modificar<i class="fas fa-fw fa-plus"></i></button>
+                    </div>
+                    <div class="col-sm-6">
+                        <!-- Div para el segundo botón -->
+                        <a class="btn btn-secondary btn-block" asp-controller="CumplimientoRequisito" asp-action="Index">Regresar</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @*     <script>
+        $(document).ready(function () {
+            // Manejar el evento de cambio del dropdown de rutas
+            $("#Rango").change(function () {
+                // Obtener el valor seleccionado de la ruta
+                var selectedRango = $(this).val();
+                $("#RRemover").removeClass("d-none");
+
+                // Hacer una llamada AJAX para obtener los rangos de la ruta seleccionada
+                $.ajax({
+                    url: '/CumplimientoRequisito/ObtenerRequisitoPorRango', // Reemplaza 'TuController' con el nombre de tu controlador
+                    type: 'GET',
+                    data: { rutaId: selectedRango },
+                    success: function (data) {
+                        console.log(data);
+                        // Limpiar y actualizar el dropdown de rangos
+                        $("#RequisitoRango").empty();
+                        $.each(data, function (index, item) {
+                            $("#RequisitoRango").append('<option value="' + item.RequisitoID + '">' + item.NombreRequisito + '</option>');
+                        });
+                    },
+                    error: function () {
+                        alert('Error al obtener los requisito.');
+                    }
+                });
+            });
+        });
+    </script> *@
+}
+
+@*
+                <div class="row mt-2">
+                    @if (RutaList != null)
+                    {
+                        <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione una Ruta</label></div>
+                        <div class="col-sm-4">
+
+                            <select class="float-right col-12 form-control" id="Ruta" name="Ruta">
+                                <option value="">Seleccione la ruta:</option>
+                                @foreach (var ruta in RutaList)
+                                {
+                                    <option value="@ruta.RutaID">@ruta.NombreRuta</option>
+                                }
+                            </select>
+
+
+                        </div>
+                    }
+
+
+                </div>
+                <div class="row mt-2">
+                    @if (RangoList != null)
+                    {
+                        <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione una Rango</label></div>
+                        <div class="col-sm-4">
+
+                            <select class="float-right col-12 form-control" id="Ruta" name="Ruta">
+                                <option value="">Seleccione la ruta:</option>
+                                @foreach (var rango in RangoList)
+                                {
+                                    <option value="@rango.RangoID">@rango.NombreRango</option>
+                                }
+                            </select>
+
+
+                        </div>
+                    }
+
+
+                </div>
+
+
+                <div class="row mt-2 d-none" id="RangoRemover">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione un Requisito</label></div>
+                    <div class="col-sm-4 ">
+                        @Html.DropDownListFor(m => m.RequisitoID, new SelectList(RangoList, "RequisitoID", "NombreRequisito"), "Seleccione el requisito:", new { @class = "float-right col-12 form-control", @id = "RequisitoRango" })
+                        @Html.ValidationMessageFor(model => model.RequisitoID, "")
+                        <input hidden value="@Model.RequisitoID" name="Requisito" id="RequisitoRango" />
+                    </div>
+
+                </div> *@

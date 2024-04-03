@@ -103,6 +103,7 @@ AppSettings.APIEndpoints.Requisito_Agregar = builder.Configuration.GetSection("P
 AppSettings.APIEndpoints.Requisito_Actualizar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Actualizar").Value;
 AppSettings.APIEndpoints.Requisito_Obtener = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Obtener").Value;
 AppSettings.APIEndpoints.Requisito_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Listar").Value;
+AppSettings.APIEndpoints.Requisito_RequisitoPorRango = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_RequisitoPorRango").Value;
 AppSettings.APIEndpoints.Requisito_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Eliminar").Value;
 
 //El consumo de Endpoints de Plan de Desarrollo Profesional

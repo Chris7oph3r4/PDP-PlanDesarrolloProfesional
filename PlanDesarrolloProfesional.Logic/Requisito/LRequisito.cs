@@ -139,5 +139,23 @@ namespace PlanDesarrolloProfesional.Logic
                 return false;
             }
         }
+
+
+        public Task<IEnumerable<RequisitoModel>> RequisitoPorRango(int IdRango)
+        {
+            try
+            {
+                var ListaObjetoBD = _DARequisito.RequisitoPorRango(IdRango);
+
+
+                return ListaObjetoBD;
+            }
+            catch (Exception e)
+            {
+                //await LRegistro_Error.AgregarInterno(e.ToString(), "", e.InnerException != null ? e.InnerException.HResult.ToString() : "", "0");
+
+                return (Task<IEnumerable<RequisitoModel>>)Enumerable.Empty<RequisitoModel>();
+            }
+        }
     }
 }

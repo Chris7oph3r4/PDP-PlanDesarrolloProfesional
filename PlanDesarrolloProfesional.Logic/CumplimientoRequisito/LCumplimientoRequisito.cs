@@ -1,4 +1,5 @@
-﻿using PlanDesarrolloProfesional.DataAccess;
+﻿using Microsoft.Extensions.Configuration;
+using PlanDesarrolloProfesional.DataAccess;
 using PlanDesarrolloProfesional.Interface;
 using PlanDesarrolloProfesional.Models.Models;
 using System;
@@ -11,24 +12,25 @@ namespace PlanDesarrolloProfesional.Logic
 {
     public class LCumplimientoRequisito : ICumplimientoRequisito
     {
-        private DACumplimientoRequisito _DACumplimiento;
+        private DACumplimientoRequisito _DACumplimientoRequisito;
 
-        public LCumplimientoRequisito()
+
+        public LCumplimientoRequisito(IConfiguration configuration)
         {
-            _DACumplimiento = new DACumplimientoRequisito();
+            _DACumplimientoRequisito = new DACumplimientoRequisito();
+
         }
 
-        public async Task<CumplimientoRequisitoModel> Agregar(CumplimientoRequisitoModel modelo)
+        public async Task<CumplimientoRequisitoModel> Agregar(CumplimientoRequisitoModel Modelo)
         {
             try
             {
-                var respuesta = await _DACumplimiento.Agregar(modelo.ConvertBD());
-                modelo = new CumplimientoRequisitoModel(respuesta);
-                return modelo;
+                var respuesta = await _DACumplimientoRequisito.Agregar(Modelo.ConvertBD());
+                Modelo = new CumplimientoRequisitoModel(respuesta);
+                return Modelo;
             }
             catch (Exception e)
             {
-                // Manejo de errores
                 return null;
             }
         }
@@ -37,57 +39,81 @@ namespace PlanDesarrolloProfesional.Logic
         {
             try
             {
-                var respuesta = await _DACumplimiento.Obtener(IdCumplimientoRequisito);
-                var modelo = new CumplimientoRequisitoModel(respuesta);
-                return modelo;
+                CumplimientoRequisitoModel Objeto = new CumplimientoRequisitoModel(await _DACumplimientoRequisito.Obtener(IdCumplimientoRequisito));
+                return Objeto;
             }
             catch (Exception e)
             {
-                // Manejo de errores
                 return null;
             }
         }
-
         public async Task<IEnumerable<CumplimientoRequisitoModel>> Listar()
         {
             try
             {
-                var lista = await _DACumplimiento.Listar();
-                var listaModelo = lista.Select(c => new CumplimientoRequisitoModel(c)).ToList();
-                return listaModelo;
+                var ListaObjetoBD = await _DACumplimientoRequisito.Listar();
+                IEnumerable<CumplimientoRequisitoModel> ListaRespuestaModel = ListaObjetoBD.Select(ObjetoBD => new CumplimientoRequisitoModel(ObjetoBD)).ToList();
+
+                return ListaRespuestaModel;
             }
             catch (Exception e)
             {
-                // Manejo de errores
+                //await LRegistro_Error.AgregarInterno(e.ToString(), "", e.InnerException != null ? e.InnerException.HResult.ToString() : "", "0");
+
                 return new List<CumplimientoRequisitoModel>().AsEnumerable();
             }
         }
+
+        //public async Task<CumplimientoRequisitoModel> Inactivar(int IdCumplimientoRequisito)
+        //{
+        //    try
+        //    {
+        //        CumplimientoRequisitoModel Objeto = new CumplimientoRequisitoModel(await _DACumplimientoRequisito.Inactivar(IdCumplimientoRequisito));
+        //        return Objeto;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return null;
+        //    }
+        //}
 
         public async Task<CumplimientoRequisitoModel> Actualizar(CumplimientoRequisitoModel modelo)
         {
             try
             {
-                var respuesta = await _DACumplimiento.Actualizar(modelo.ConvertBD());
-                modelo = new CumplimientoRequisitoModel(respuesta);
+                var Objeto = await _DACumplimientoRequisito.Actualizar(modelo.ConvertBD());
+                modelo = new CumplimientoRequisitoModel(Objeto);
                 return modelo;
             }
             catch (Exception e)
             {
-                // Manejo de errores
                 return null;
             }
         }
+
+        //public async Task<IEnumerable<RequisitoViewModel>> ListarPorUsuario(int IdUsuario)
+        //{
+        //    try
+        //    {
+        //        var Lista = await _DAPRequisito.ListarPorUsuario(IdUsuario);
+
+        //        return Lista;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return new List<RequisitoViewModel>().AsEnumerable();
+        //    }
+        //}
 
         public async Task<bool> Eliminar(int IdCumplimientoRequisito)
         {
             try
             {
-                bool resultado = await _DACumplimiento.Eliminar(IdCumplimientoRequisito);
-                return resultado;
+                bool Objeto = await _DACumplimientoRequisito.Eliminar(IdCumplimientoRequisito);
+                return Objeto;
             }
             catch (Exception e)
             {
-                // Manejo de errores
                 return false;
             }
         }

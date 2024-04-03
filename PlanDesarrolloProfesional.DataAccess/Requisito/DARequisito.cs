@@ -173,5 +173,26 @@ namespace PlanDesarrolloProfesional.DataAccess
 
         }
 
+
+        public async Task<IEnumerable<RequisitoModel>> RequisitoPorRango(int IdRango)
+        {
+            using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+            {
+                try
+                {
+                    IEnumerable<RequisitoModel> Lista = await ContextoBD.Requisito
+                    .Where(Requisito => Requisito.RangoID == IdRango)
+                    .Select(Requisito => new RequisitoModel(Requisito))
+                    .ToListAsync().ConfigureAwait(false);
+
+                    return Lista;
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+            }
+        }
+
     }
 }
