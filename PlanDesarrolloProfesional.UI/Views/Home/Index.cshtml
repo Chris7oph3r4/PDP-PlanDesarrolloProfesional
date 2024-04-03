@@ -1,8 +1,21 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var nameDbClaim = User?.FindFirst("NameDB")?.Value;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Bienvenido! @nameDbClaim </h1>
+    <p class="mb-4">
+        Dashboard Principal
+    </p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+
+        <iframe title="BI Reporte" width="100%" height="900" src="https://app.powerbi.com/reportEmbed?reportId=2ac0ea83-073c-4409-b87e-6a7a2c6e4fc5&autoAuth=true&ctid=6b4bdb6e-4b58-4a85-8791-10ad1dcb170b" frameborder="0" allowFullScreen="true"></iframe>
+
+    </div>
+
 </div>

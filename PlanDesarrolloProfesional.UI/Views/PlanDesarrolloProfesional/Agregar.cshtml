@@ -25,7 +25,7 @@
             <form action="@Url.Action("Agregar","PlanDesarrolloProfesional")" method="post" enctype="multipart/form-data" class="form">
 
                 <div class="row mt-2">
-                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Supervisor Asignado</label></div>
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Colaborador a Registrar</label></div>
                     <div class="col-sm-4">
                         @Html.DropDownListFor(m => m.ColaboradorID, new SelectList(Colaboradores, "UsuarioID", "Nombre"), "Colaborador a Registrar:", new { @class = "float-right form-control", @id = "Colaborador" })
                         @Html.ValidationMessageFor(model => model.ColaboradorID, "")

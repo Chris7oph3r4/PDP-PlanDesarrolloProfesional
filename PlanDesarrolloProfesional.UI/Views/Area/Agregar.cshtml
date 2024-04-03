@@ -22,45 +22,12 @@
             <form action="@Url.Action("Agregar","Area")" method="post" enctype="multipart/form-data" class="form">
 
 
-                @*  <br />
-                <div class="form-group row">
-                <div class="col-sm-12 mb-3 mb-sm-0">
-                <label for="Tipo">Rol</label>
-                <div class="col-6">
-                @Html.DropDownListFor(m => m.Tipo, new SelectList(RolesList, "Codigo", "Nombre"), "Seleccione el rol:", new { @class = "float-right form-control", @id = "Rol" })
-                @Html.ValidationMessageFor(model => model.Tipo, "")
-                <input hidden value="@Model.Tipo" name="Tipo" id="Tipo" />
-                <span asp-validation-for="Tipo" class="col-12 text-danger"></span>
-                </div>
-                </div>
-                </div>
-                <br />
-                <div class="form-group row">
-                <div class="col-sm-12 mb-3 mb-sm-0">
-                <label for="Tipo">Plantel</label>
-                <div class="col-6">
-                @Html.DropDownListFor(m => m.FKPlantel, new SelectList(PlantelesList, "Codigo", "Descripcion"), "Seleccione el plantel:", new { @class = "float-right form-control", @id = "Plantel" })
-                @Html.ValidationMessageFor(model => model.FKPlantel, "")
-                <input hidden value="@Model.FKPlantel" name="FKPlantel" id="FKPlantel" />
-                <span asp-validation-for="FKPlantel" class="col-12 text-danger"></span>
-                </div>
-                </div>
-                </div>*@
-
 
                 <br />
-                @* <div class="form-group row">
-                <div class="col-sm-12 mb-3 mb-sm-0">
-                <label for="Nombre">Nombre</label>
-                <div class="col-6">
-                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new {@class="form-control rounded-3 border border-info"}})
-                <input hidden value="@Model.Nombre" name="Nombre" id="Nombre" />
-                </div>
-                </div>
-                </div>*@
+            
                 <div class="form-group row">
                     <div class="col-sm-2">
-                        <label class="float-left font-weight-bold h5">Nombre de la área</label>
+                        <label class="float-left font-weight-bold h5">Nombre del área</label>
                     </div>
                     <div class="col-sm-4">
                         <input asp-for="Nombre" type="text" class="col-12 form-control" />

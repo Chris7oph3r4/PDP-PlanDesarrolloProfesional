@@ -159,6 +159,7 @@ public static class Parameters
         var correo = context.Principal.FindFirst(ClaimTypes.Name)?.Value;
         var json = client.GetStringAsync($"https://localhost:7071/api/v1/Usuario/ObtenerPorCorreo?correo={correo}").Result;
         var usuario = JsonConvert.DeserializeObject<UsuarioModel>(json);
+        var rol = client.GetStringAsync($"https://localhost:7071/api/v1/Rol/ObtenerNombreDeLRol?IdRol={usuario.RolID.ToString()}").Result;
 
         if (usuario == null)
         {
@@ -177,7 +178,7 @@ public static class Parameters
             try
             {
                 ((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("NameDB", usuario.Nombre.ToString()));
-                ((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("RolID", usuario.RolID.ToString()));
+                ((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("RolID", rol));
                 //((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("IdRol", usuario.IdRol.ToString()));
                 //((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("IdEmpresa", usuario.IdEmpresa.ToString()));
                 //((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("Nombre", usuario.Nombre));

@@ -26,7 +26,7 @@
             <form action="@Url.Action("Modificar","Usuario")" method="post" enctype="multipart/form-data" class="form">
 
 
-               @Html.HiddenFor(model => model.UsuarioID);
+               @Html.HiddenFor(model => model.UsuarioID)
                 <div class="row">
                     <div class="col-sm-2"><label class="float-left font-weight-bold h5">Nombre del Usuario</label></div>
                     <div class="col-sm-4">

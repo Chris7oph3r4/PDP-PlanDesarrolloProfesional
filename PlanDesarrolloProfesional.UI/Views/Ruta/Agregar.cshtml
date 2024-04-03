@@ -23,63 +23,28 @@
             <form action="@Url.Action("Agregar","Ruta")" method="post" enctype="multipart/form-data" class="form">
 
 
-                @*  <br />
-                <div class="form-group row">
-                <div class="col-sm-12 mb-3 mb-sm-0">
-                <label for="Tipo">Ruta</label>
-                <div class="col-6">
-                @Html.DropDownListFor(m => m.Tipo, new SelectList(RutaesList, "Codigo", "Nombre"), "Seleccione el Ruta:", new { @class = "float-right form-contRuta", @id = "Ruta" })
-                @Html.ValidationMessageFor(model => model.Tipo, "")
-                <input hidden value="@Model.Tipo" name="Tipo" id="Tipo" />
-                <span asp-validation-for="Tipo" class="col-12 text-danger"></span>
-                </div>
-                </div>
-                </div>
-                <br />
-                <div class="form-group row">
-                <div class="col-sm-12 mb-3 mb-sm-0">
-                <label for="Tipo">Plantel</label>
-                <div class="col-6">
-                @Html.DropDownListFor(m => m.FKPlantel, new SelectList(PlantelesList, "Codigo", "Descripcion"), "Seleccione el plantel:", new { @class = "float-right form-contRuta", @id = "Plantel" })
-                @Html.ValidationMessageFor(model => model.FKPlantel, "")
-                <input hidden value="@Model.FKPlantel" name="FKPlantel" id="FKPlantel" />
-                <span asp-validation-for="FKPlantel" class="col-12 text-danger"></span>
-                </div>
-                </div>
-                </div>*@
-
-
-                <br />
-                @* <div class="form-group row">
-                <div class="col-sm-12 mb-3 mb-sm-0">
-                <label for="Nombre">Nombre</label>
-                <div class="col-6">
-                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new {@class="form-contRuta rounded-3 border border-info"}})
-                <input hidden value="@Model.Nombre" name="Nombre" id="Nombre" />
-                </div>
-                </div>
-                </div>*@
-                <div class="row">
-                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Nombre del Ruta</label></div>
-                    <div class="col-sm-4">
-                        <input asp-for="NombreRuta" type="text" class="col-12 form-contRuta" />
-                        <span asp-validation-for="NombreRuta" class="col-12 text-danger"></span>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Descripción del Ruta</label></div>
-                    <div class="col-sm-4">
-                        <input asp-for="Descripcion" type="text" class="col-12 form-contRuta" />
-                        <span asp-validation-for="Descripcion" class="col-12 text-danger"></span>
-                    </div>
-                </div>
-                <div class="row">
+                <div class="row mt-2">
                     <div class="col-sm-2"><label class="float-left font-weight-bold h5">Area</label></div>
                     <div class="col-sm-4">
                         @Html.DropDownListFor(model=>model.AreaID, new SelectList(AreasList,"AreaID","Nombre"), "Seleccione el area:", new {@class="float-right form-control"})
                     </div>
                 </div>
+                <div class="row mt-2">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Nombre del Ruta</label></div>
+                    <div class="col-sm-4">
+                        <input asp-for="NombreRuta" type="text" class="col-12 form-control" />
+                        <span asp-validation-for="NombreRuta" class="col-12 text-danger"></span>
+                    </div>
+                </div>
+     
+                <div class="row mt-2">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Descripción del Ruta</label></div>
+                    <div class="col-sm-4">
+                        <input asp-for="Descripcion" type="text" class="col-12 form-control" />
+                        <span asp-validation-for="Descripcion" class="col-12 text-danger"></span>
+                    </div>
+                </div>
+                
 
 
 

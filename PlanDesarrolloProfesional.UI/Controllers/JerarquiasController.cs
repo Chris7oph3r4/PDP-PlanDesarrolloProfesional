@@ -22,15 +22,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         }
         public async Task<ActionResult> Index(string Mensaje)
         {
-            // Obtener el claim de email o username del usuario autenticado
-            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
-            // Obtener el objeto usuario basado en el email o username
-            var usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
-            // Ahora que tienes el objeto usuario, puedes obtener el RolID
-            string nombreRol = await LRoles.ObtenerNombreDelRol(usuario.RolID);
+           
 
             // Comprobar si el usuario tiene el rol de Administrador
-            if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            if (User?.FindFirst("RolID")?.Value == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
                 if (Mensaje != "")
                 {
@@ -51,15 +46,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
 
         public async Task<ActionResult> Agregar(string Mensaje)
         {
-            // Obtener el claim de email o username del usuario autenticado
-            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
-            // Obtener el objeto usuario basado en el email o username
-            var usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
-            // Ahora que tienes el objeto usuario, puedes obtener el RolID
-            string nombreRol = await LRoles.ObtenerNombreDelRol(usuario.RolID);
+           
 
             // Comprobar si el usuario tiene el rol de Administrador
-            if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            if (User?.FindFirst("RolID")?.Value == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
 
                 if (Mensaje != "")
@@ -103,15 +93,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
 
         public async Task<ActionResult> Modificar(int JerarquiaID, string Mensaje)
         {
-            // Obtener el claim de email o username del usuario autenticado
-            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
-            // Obtener el objeto usuario basado en el email o username
-            var usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
-            // Ahora que tienes el objeto usuario, puedes obtener el RolID
-            string nombreRol = await LRoles.ObtenerNombreDelRol(usuario.RolID);
+           
 
             // Comprobar si el usuario tiene el rol de Administrador
-            if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            if (User?.FindFirst("RolID")?.Value == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
 
                 if (Mensaje != "")
@@ -160,14 +145,9 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
             var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
             // Obtener el claim de email o username del usuario autenticado
-            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
-            // Obtener el objeto usuario basado en el email o username
-            var usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
-            // Ahora que tienes el objeto usuario, puedes obtener el RolID
-            string nombreRol = await LRoles.ObtenerNombreDelRol(usuario.RolID);
 
             // Comprobar si el usuario tiene el rol de Administrador
-            if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            if (User?.FindFirst("RolID")?.Value == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
 
 
