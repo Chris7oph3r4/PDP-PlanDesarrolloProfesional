@@ -1,15 +1,20 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PlanDesarrolloProfesional.Interface;
 using PlanDesarrolloProfesional.Models.Models;
 
 namespace PlanDesarrolloProfesional.API.Controllers
 {
-    [Route("api/v1/[controller]")]
+    //[Authorize]
     [ApiController]
+    [Route("api/v1/[controller]/")]
     public class CumplimientoRequisitoController : ControllerBase
     {
+        #region atributos
+
         private readonly ICumplimientoRequisito _ICumplimientoRequisito;
+
+        #endregion atributos
 
         public CumplimientoRequisitoController(ICumplimientoRequisito ICumplimientoRequisito)
         {
@@ -18,47 +23,66 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpPost]
         [Route("Agregar")]
-        public async Task<CumplimientoRequisitoModel> Agregar(CumplimientoRequisitoModel modelo)
+        public async Task<CumplimientoRequisitoModel> Agregar(CumplimientoRequisitoModel Modelo)
         {
-            
-            var objeto = await _ICumplimientoRequisito.Agregar(modelo);
-            return objeto;
+            var Objeto = await _ICumplimientoRequisito.Agregar(Modelo);
+            return Objeto;
         }
 
         [HttpGet]
         [Route("Obtener")]
         public async Task<CumplimientoRequisitoModel> Obtener(int IdCumplimientoRequisito)
         {
-            if (IdCumplimientoRequisito == 0 || IdCumplimientoRequisito == null) throw new Exception("Codigo Nulo");
-            var modelo = await _ICumplimientoRequisito.Obtener(IdCumplimientoRequisito);     
-            return modelo;
+            if (IdCumplimientoRequisito == 0 || IdCumplimientoRequisito == null) throw new Exception("Código Nulo");
+            var Modelo = await _ICumplimientoRequisito.Obtener(IdCumplimientoRequisito);
+            return Modelo;
         }
-
         [HttpGet]
         [Route("Listar")]
         public async Task<IEnumerable<CumplimientoRequisitoModel>> Listar()
         {
-            var lista = await _ICumplimientoRequisito.Listar();
-            if (lista == null) throw new Exception("Modelo Nulo");
-            return lista;
+            var Lista = await _ICumplimientoRequisito.Listar();
+            if (Lista == null) throw new Exception("Modelo Nulo");
+
+            return Lista;
         }
+
+        //[HttpGet]
+        //[Route("Inactivar")]
+        //public async Task<CumplimientoRequisitoModel> Inactivar(int IdCumplimientoRequisito)
+        //{
+        //    if (IdCumplimientoRequisito == 0) throw new Exception("Código Nulo");
+        //    var Modelo = await _ICumplimientoRequisito.Inactivar(IdCumplimientoRequisito);
+        //    return Modelo;
+        //}
 
         [HttpPost]
         [Route("Actualizar")]
-        public async Task<CumplimientoRequisitoModel> Actualizar(CumplimientoRequisitoModel modelo)
+        public async Task<CumplimientoRequisitoModel> Actualizar(CumplimientoRequisitoModel Modelo)
         {
-            if (modelo == null) throw new Exception ("Modelo nulo");
-            var modeloActualizado = await _ICumplimientoRequisito.Actualizar(modelo);
-            return modeloActualizado;
+            if (Modelo == null) throw new Exception("Modelo Nulo");
+            var ModeloActualizado = await _ICumplimientoRequisito.Actualizar(Modelo);
+            return ModeloActualizado;
         }
 
-        [HttpDelete]
+        //[HttpGet]
+        //[Route("ListarPorUsuario")]
+        //public async Task<IEnumerable<RequisitoViewModel>> ListarPorUsuario(int IdUsuario)
+        //{
+        //    var Lista = await _ICumplimientoRequisito.ListarPorUsuario(IdUsuario);
+        //    if (Lista == null) throw new Exception("Modelo Nulo");
+
+        //    return Lista;
+        //}
+
+
+        [HttpGet]
         [Route("Eliminar")]
         public async Task<bool> Eliminar(int IdCumplimientoRequisito)
         {
-            if (IdCumplimientoRequisito <= 0) throw new Exception("ID inválido");
-            var resultado = await _ICumplimientoRequisito.Eliminar(IdCumplimientoRequisito);
-            return resultado;
+            if (IdCumplimientoRequisito == 0) throw new Exception("Código Nulo");
+            var Modelo = await _ICumplimientoRequisito.Eliminar(IdCumplimientoRequisito);
+            return Modelo;
         }
     }
 }

@@ -10,36 +10,33 @@ namespace PlanDesarrolloProfesional.DataAccess
 {
     public class DACumplimientoRequisito
     {
-        public DACumplimientoRequisito()
-        {
+        public DACumplimientoRequisito() { }
 
-        }
-
-        public async Task<CumplimientoRequisito> Agregar(CumplimientoRequisito modelo)
+        public async Task<CumplimientoRequisito> Agregar(CumplimientoRequisito Modelo)
         {
-            using (var contextoBD = new PlanDesarrolloProfesionalContext())
-            {
+            using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
-                    var agregarObjeto = contextoBD.Add(modelo);
-                    await contextoBD.SaveChangesAsync();
-                    return modelo;
+                    var AgregarObjeto = ContextoBD.Add(Modelo);
+                    await ContextoBD.SaveChangesAsync();
+                    return Modelo;
                 }
                 catch (Exception e)
                 {
                     throw e;
                 }
-            }
         }
 
         public async Task<CumplimientoRequisito> Obtener(int IdCumplimientoRequisito)
         {
             try
             {
-                using (var contextoBD = new PlanDesarrolloProfesionalContext())
+                using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 {
-                    CumplimientoRequisito SolicitudesBD = await contextoBD.CumplimientoRequisito
+                    CumplimientoRequisito SolicitudesBD = await ContextoBD
+                        .CumplimientoRequisito
                         .FirstOrDefaultAsync(s => s.CumplimientoRequisitoID == IdCumplimientoRequisito);
+
                     return SolicitudesBD;
                 }
             }
@@ -48,71 +45,98 @@ namespace PlanDesarrolloProfesional.DataAccess
                 throw e;
             }
         }
-
         public async Task<IEnumerable<CumplimientoRequisito>> Listar()
         {
-            using (var contextoBD = new PlanDesarrolloProfesionalContext())
+            using (var ContextoBD = new PlanDesarrolloProfesionalContext())
             {
                 try
                 {
-                    IEnumerable<CumplimientoRequisito> lista = await contextoBD.CumplimientoRequisito.ToListAsync();
-                    return lista;
+                    IEnumerable<CumplimientoRequisito> Lista = await ContextoBD.CumplimientoRequisito.ToListAsync();
+
+                    return Lista;
                 }
                 catch (Exception e)
                 {
-                    throw e;
+                    return null;
                 }
             }
         }
 
-        public async Task<CumplimientoRequisito> Actualizar(CumplimientoRequisito modelo)
+        public async Task<CumplimientoRequisito> Actualizar(CumplimientoRequisito Modelo)
         {
-            using (var contextoBD = new PlanDesarrolloProfesionalContext())
-            {
+            using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
-                    contextoBD.Entry(modelo).State = EntityState.Modified;
-                    await contextoBD.SaveChangesAsync();
-                    return modelo;
+                    ContextoBD.Entry(Modelo).State = EntityState.Modified;
+                    await ContextoBD.SaveChangesAsync();
+                    return Modelo;
                 }
                 catch (Exception e)
                 {
                     throw e;
                 }
-            }
         }
+
+        //public async Task<CumplimientoRequisito> Inactivar(int IdCumplimientoRequisito)
+        //{
+        //    using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+        //        try
+        //        {
+        //            CumplimientoRequisito modelo = await ContextoBD
+        //                .CumplimientoRequisito
+        //                .FirstOrDefaultAsync(s => s.IdCumplimientoRequisito == IdCumplimientoRequisito);
+        //            modelo.Estado = false;
+        //            CumplimientoRequisito modeloActualizado = await Actualizar(modelo);
+        //            return modeloActualizado;
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            throw e;
+        //        }
+        //}
+
+        //public async Task<IEnumerable<RequisitoViewModel>> ListarPorUsuario(int IdUsuario)
+        //{
+        //    using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+        //    {
+        //        try
+        //        {
+        //            var ListaRequisitos = await ContextoBD.CumplimientoRequisito.Where(
+        //                x => x.Fkusuario == IdUsuario).Select(
+        //                data => new RequisitoViewModel
+        //                {
+        //                    IdCumplimientoRequisito = data.IdCumplimientoRequisito,
+        //                    Usuario = data.FkusuarioNavigation.NombreUsuario,
+        //                    Estado = data.Estado == true ? "Activo" : "Inactivo",
+        //                    DescripcionRequisito = data.DescripcionRequisito,
+        //                }).ToListAsync();
+        //            return ListaRequisitos;
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            throw e;
+        //        }
+        //    }
+        //}
+
         public async Task<bool> Eliminar(int IdCumplimientoRequisito)
         {
-            try
+
+            var CumplimientoRequisito = await Obtener(IdCumplimientoRequisito);
+
+            if (CumplimientoRequisito != null)
             {
-                using (var contextoBD = new PlanDesarrolloProfesionalContext())
+                using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 {
-                    var cumplimiento = await contextoBD.CumplimientoRequisito
-                        .Include(c => c.PlanDesarrollo) // Asegúrate de que esta propiedad de navegación exista y esté correctamente configurada
-                        .FirstOrDefaultAsync(c => c.CumplimientoRequisitoID == IdCumplimientoRequisito);
 
-                    if (cumplimiento != null && cumplimiento.PlanDesarrollo != null)
-                    {
-                        // Aquí actualizas el estado del plan de desarrollo profesional asociado
-                        cumplimiento.PlanDesarrollo.Estado = 1; // Asumiendo que 'Estado' es un campo que indica si el plan está activo o no
-                        contextoBD.Entry(cumplimiento.PlanDesarrollo).State = EntityState.Modified;
-
-                        await contextoBD.SaveChangesAsync();
-                        return true;
-                    }
+                    ContextoBD.Entry(CumplimientoRequisito).State = EntityState.Deleted;
+                    await ContextoBD.SaveChangesAsync();
                 }
-                return false;
             }
-            catch (Exception e)
-            {
-                throw e;
-            }
+
+            return true;
+
         }
 
     }
-
-
-
-
 }
-

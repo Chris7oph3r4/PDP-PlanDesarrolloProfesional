@@ -56,6 +56,16 @@ namespace PlanDesarrolloProfesional.API.Controllers
         //    return Modelo;
         //}
 
+        [HttpGet]
+        [Route("RangoPorRutas")]
+        public async Task<IEnumerable<RequisitoModel>> RequisitoPorRango(int idRango)
+        {
+            var Lista = await _IRequisito.RequisitoPorRango(idRango);
+            if (Lista == null) throw new Exception("Modelo Nulo");
+
+            return Lista;
+        }
+
         [HttpPost]
         [Route("Actualizar")]
         public async Task<RequisitoModel> Actualizar(RequisitoModel Modelo)

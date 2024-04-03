@@ -16,6 +16,8 @@ namespace PlanDesarrolloProfesional.Interface
         Task<RequisitoModel> Actualizar(RequisitoModel modelo);
         //Task<IEnumerable<RequisitoViewModel>> ListarPorUsuario(int IdUsuario);
         Task<IEnumerable<RequisitoModel>> Listar();
+
+        Task<IEnumerable<RequisitoModel>> RequisitoPorRango(int idRango);
         Task<bool> Eliminar(int IdRequisito);
     }
 }
