@@ -31,7 +31,7 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpGet]
         [Route("Obtener")]
-        public async Task<CumplimientoRequisitoModel> Obtener(int IdCumplimientoRequisito)
+        public async Task<CumplimientoRequisitoViewModel> Obtener(int IdCumplimientoRequisito)
         {
             if (IdCumplimientoRequisito == 0 || IdCumplimientoRequisito == null) throw new Exception("Código Nulo");
             var Modelo = await _ICumplimientoRequisito.Obtener(IdCumplimientoRequisito);
@@ -39,13 +39,25 @@ namespace PlanDesarrolloProfesional.API.Controllers
         }
         [HttpGet]
         [Route("Listar")]
-        public async Task<IEnumerable<CumplimientoRequisitoModel>> Listar()
+        public async Task<IEnumerable<CumplimientoRequisitoViewModel>> Listar()
         {
             var Lista = await _ICumplimientoRequisito.Listar();
             if (Lista == null) throw new Exception("Modelo Nulo");
 
             return Lista;
         }
+
+        [HttpGet]
+        [Route("ListarPorPlanDesarrolloID")]
+        public async Task<ActionResult<IEnumerable<CumplimientoRequisitoViewModel>>> ListarPorPlanDesarrolloID(int planDesarrolloID)
+        {
+
+            var Lista = await _ICumplimientoRequisito.ListarPorPlanDesarrolloID(planDesarrolloID);
+            if (Lista == null) throw new Exception("Modelo Nulo");
+
+            return Ok  (Lista);
+        }
+
 
         //[HttpGet]
         //[Route("Inactivar")]

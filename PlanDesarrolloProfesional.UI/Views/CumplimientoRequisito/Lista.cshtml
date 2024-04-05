@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<PlanDesarrolloProfesional.Models.Models.CumplimientoRequisitoViewModel>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Requisito";
+    ViewData["Title"] = "Lista";
 }
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Requisito</h1>
+    <h1 class="h3 mb-2 text-gray-800">Lista</h1>
     <p class="mb-4">
-        Lista de Requisitos
+        Lista
     </p>
 
     <!-- DataTales Example -->
@@ -18,9 +18,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">@Model.Count() Registros</h6>
         </div>
-        <div class="card-header py-3">
-            <a href="@Url.Action("Agregar", "CumplimientoRequisito", new { })" class="btn btn-primary btn-user btn-block">Agregar</a>
-        </div>
+
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
@@ -31,7 +29,7 @@
                             <th>Colaborador</th>
                             <th>Evidencia</th>
                             <th>Fecha Obtenida </th>
-                            
+
 
                         </tr>
                     </thead>
@@ -40,13 +38,13 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                
+
                                 <td data-label="Valor1">@item.PlanDesarrolloID</td>
                                 <td data-label="Valor1">@item.NombreRequisito</td>
                                 <td data-label="Valor1">@item.NombreColaborador</td>
                                 <td data-label="Valor1">@item.URLEvidencia</td>
                                 <td data-label="Valor1">@item.FechaObtencion.ToString("dd/MM/yyyy")</td>
-                               
+
 
 
                                 <td class="text-start" data-label="Acciones">

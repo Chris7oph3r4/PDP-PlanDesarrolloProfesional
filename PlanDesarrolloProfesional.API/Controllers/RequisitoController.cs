@@ -57,10 +57,10 @@ namespace PlanDesarrolloProfesional.API.Controllers
         //}
 
         [HttpGet]
-        [Route("RangoPorRutas")]
-        public async Task<IEnumerable<RequisitoModel>> RequisitoPorRango(int idRango)
+        [Route("RequisitoPorRango")]
+        public async Task<IEnumerable<RequisitoModel>> RequisitoPorRango(int idRango, int PlanDesarrolloID)
         {
-            var Lista = await _IRequisito.RequisitoPorRango(idRango);
+            var Lista = await _IRequisito.RequisitoPorRango(idRango, PlanDesarrolloID);
             if (Lista == null) throw new Exception("Modelo Nulo");
 
             return Lista;

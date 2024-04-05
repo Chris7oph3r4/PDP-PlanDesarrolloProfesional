@@ -35,11 +35,11 @@ namespace PlanDesarrolloProfesional.Logic
             }
         }
 
-        public async Task<CumplimientoRequisitoModel> Obtener(int IdCumplimientoRequisito)
+        public async Task<CumplimientoRequisitoViewModel> Obtener(int IdCumplimientoRequisito)
         {
             try
             {
-                CumplimientoRequisitoModel Objeto = new CumplimientoRequisitoModel(await _DACumplimientoRequisito.Obtener(IdCumplimientoRequisito));
+                CumplimientoRequisitoViewModel Objeto = await _DACumplimientoRequisito.Obtener(IdCumplimientoRequisito);
                 return Objeto;
             }
             catch (Exception e)
@@ -47,22 +47,40 @@ namespace PlanDesarrolloProfesional.Logic
                 return null;
             }
         }
-        public async Task<IEnumerable<CumplimientoRequisitoModel>> Listar()
+        public async Task<IEnumerable<CumplimientoRequisitoViewModel>> Listar()
         {
             try
             {
                 var ListaObjetoBD = await _DACumplimientoRequisito.Listar();
-                IEnumerable<CumplimientoRequisitoModel> ListaRespuestaModel = ListaObjetoBD.Select(ObjetoBD => new CumplimientoRequisitoModel(ObjetoBD)).ToList();
+                //IEnumerable<CumplimientoRequisitoModel> ListaRespuestaModel = ListaObjetoBD.Select(ObjetoBD => new CumplimientoRequisitoModel(ObjetoBD)).ToList();
 
-                return ListaRespuestaModel;
+                return ListaObjetoBD;
             }
             catch (Exception e)
             {
                 //await LRegistro_Error.AgregarInterno(e.ToString(), "", e.InnerException != null ? e.InnerException.HResult.ToString() : "", "0");
 
-                return new List<CumplimientoRequisitoModel>().AsEnumerable();
+                return new List<CumplimientoRequisitoViewModel>().AsEnumerable();
             }
         }
+
+        public async Task<IEnumerable<CumplimientoRequisitoViewModel>> ListarPorPlanDesarrolloID(int planDesarrolloID)
+        {
+            try
+            {
+          
+                var ListaObjetoBD = await _DACumplimientoRequisito.ListarPorPlanDesarrolloID(planDesarrolloID);
+
+              
+                return ListaObjetoBD;
+            }
+            catch (Exception e)
+            {
+
+                return new List<CumplimientoRequisitoViewModel>().AsEnumerable();
+            }
+        }
+
 
         //public async Task<CumplimientoRequisitoModel> Inactivar(int IdCumplimientoRequisito)
         //{

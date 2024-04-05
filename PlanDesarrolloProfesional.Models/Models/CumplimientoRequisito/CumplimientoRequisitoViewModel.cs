@@ -18,8 +18,14 @@ namespace PlanDesarrolloProfesional.Models.Models
         public int CumplimientoRequisitoID { get; set; }
 
         public int RequisitoID { get; set; }
-
+        public string NombreRequisito { get; set; }
+        public int RangoID { get; set; }
+        public string NombreRango { get; set; }
+        public int RutaID { get; set; }
+        public string NombreRuta { get; set; }
         public int ColaboradorID { get; set; }
+
+        public string NombreColaborador { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime FechaRegistro { get; set; }

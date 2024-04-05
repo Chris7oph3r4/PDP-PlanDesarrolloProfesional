@@ -42,11 +42,11 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
             return Objeto;
         }
 
-        public async Task<CumplimientoRequisitoModel> Obtener(int IdCumplimientoRequisito)
+        public async Task<CumplimientoRequisitoViewModel> Obtener(int IdCumplimientoRequisito)
         {
 
             var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.CumplimientoRequisito_Obtener, IdCumplimientoRequisito.ToString())/*, await Token()*/);
-            CumplimientoRequisitoModel Objeto = JsonConvert.DeserializeObject<CumplimientoRequisitoModel>(ObjetoJson);
+            CumplimientoRequisitoViewModel Objeto = JsonConvert.DeserializeObject<CumplimientoRequisitoViewModel>(ObjetoJson);
 
             return Objeto;
         }
@@ -69,14 +69,24 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
             return Objeto;
         }
 
-        public async Task<List<CumplimientoRequisitoModel>> Listar()
+        public async Task<List<CumplimientoRequisitoViewModel>> Listar()
         {
 
             var ListaSolicitudeJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.CumplimientoRequisito_Listar)/*, await Token()*/);
-            List<CumplimientoRequisitoModel> ListaRequisitoModel = JsonConvert.DeserializeObject<List<CumplimientoRequisitoModel>>(ListaSolicitudeJson);
+            List<CumplimientoRequisitoViewModel> ListaRequisitoModel = JsonConvert.DeserializeObject<List<CumplimientoRequisitoViewModel>>(ListaSolicitudeJson);
 
             return ListaRequisitoModel;
         }
+
+        public async Task<List<CumplimientoRequisitoViewModel>> ListarPorPlanDesarrolloID(int planDesarrolloID)
+        {
+            var ListaSolicitudeJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.CumplimientoRequisito_ListarPorPlanDesarrolloID, planDesarrolloID.ToString())/*, await Token()*/);
+            List<CumplimientoRequisitoViewModel> ListaRequisitoModel = JsonConvert.DeserializeObject<List<CumplimientoRequisitoViewModel>>(ListaSolicitudeJson);
+
+            return ListaRequisitoModel;
+        }
+
+
 
         public async Task<bool> Eliminar(int IdCumplimientoRequisito)
         {

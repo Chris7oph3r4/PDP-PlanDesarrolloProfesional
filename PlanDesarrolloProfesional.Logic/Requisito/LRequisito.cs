@@ -141,11 +141,11 @@ namespace PlanDesarrolloProfesional.Logic
         }
 
 
-        public Task<IEnumerable<RequisitoModel>> RequisitoPorRango(int IdRango)
+        public Task<IEnumerable<RequisitoModel>> RequisitoPorRango(int IdRango, int PlanDesarrolloID)
         {
             try
             {
-                var ListaObjetoBD = _DARequisito.RequisitoPorRango(IdRango);
+                var ListaObjetoBD = _DARequisito.RequisitoPorRango(IdRango, PlanDesarrolloID);
 
 
                 return ListaObjetoBD;

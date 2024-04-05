@@ -3,11 +3,12 @@
     //Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Crear Requisitos del Plan Desarrollo";
     var fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
-    //List<Contingencia.Models.RolesModel> RolesList = ViewBag.Roles;
-    // List<PlanDesarrolloProfesional.Models.Models.UsuarioModel> Colaboradores = ViewBag.Colaborador;
-    // List<PlanDesarrolloProfesional.Models.Models.RutaModel> RutaList = ViewBag.Rutas;
-    // List<PlanDesarrolloProfesional.Models.Models.RangoModel> RangoList = ViewBag.Rangos;
-    // List<PlanDesarrolloProfesional.Models.Models.RequisitoModel> RequisitoList = ViewBag.Requisito;
+    // List<Contingencia.Models.RolesModel> RolesList = ViewBag.Roles;
+    List<PlanDesarrolloProfesional.Models.Models.UsuarioModel> Colaboradores = ViewBag.Colaborador;
+    List<PlanDesarrolloProfesional.Models.Models.RutaModel> RutaList = ViewBag.Rutas;
+    List<PlanDesarrolloProfesional.Models.Models.RangoModel> RangoList = ViewBag.Rangos;
+    List<PlanDesarrolloProfesional.Models.Models.RequisitoModel> RequisitoList = ViewBag.Requisito;
+    List<PlanDesarrolloProfesional.Models.Models.RequisitoModel> RequisitosFiltrados = ViewBag.RequisitosFiltrados;
 
 }
 
@@ -19,27 +20,33 @@
             <h4 class="mb-4 text-center">Agregar Requisito</h4>
             </div>
             </div>
+
+
             <form action="@Url.Action("Agregar", "CumplimientoRequisito")" method="post" enctype="multipart/form-data" class="form">
 
+                <input asp-for="PlanDesarrolloID" type="hidden" />
+                <input asp-for="ColaboradorID" type="hidden" />
+
                 <div class="form-group row  mt-2">
                     <div class="col-sm-2">
-                    <label for="RequisitoID" class="float-left font-weight-bold h5">Requisito ID</label>
+                        <label for="Colaborador" class="float-left font-weight-bold h5">Colaborador ID</label>
+
                     </div>
                     <div class="col-sm-4">
-                        <input asp-for="RequisitoID" type="number" class="col-12 form-control" />
+                        <span id="NombreColaborador">@ViewBag.NombreColaborador</span>
+                        
                     </div>
                 </div>
 
                 <div class="form-group row  mt-2">
                     <div class="col-sm-2">
-                    <label for="ColaboradorID" class="float-left font-weight-bold h5">Colaborador ID</label>
+                    <label for="Requisitos" class="float-left font-weight-bold h5">Requisitos</label>
                     </div>
                     <div class="col-sm-4">
-                        <input asp-for="ColaboradorID" type="number" class="col-12 form-control" />
+                        @Html.DropDownList("RequisitoSeleccionado", new SelectList(ViewBag.RequisitosFiltrados, "RequisitoID", "NombreRequisito"), "Selecciona un Requisito", new { @class = "form-control col-12" })
                     </div>
-                </div>
 
-                <div class="form-group row  mt-2">
+                </div> <div class="form-group row  mt-2">
                     <div class="col-sm-2">
                     <label for="FechaObtencion" class="float-left font-weight-bold h5">Fecha de Obtención</label>
                     </div>
@@ -57,16 +64,6 @@
                     </div>
                 </div>
 
-                
-
-                <div class="form-group row mt-2">
-                    <div class="col-sm-2">
-                    <label for="PlanDesarrolloID" class="float-left font-weight-bold h5">Plan Desarrollo ID</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input asp-for="PlanDesarrolloID" type="number" class="col-12 form-control" />
-                    </div>
-                </div>
 
 @*                 <div class="form-group row mt-2">
                     <div class="col-sm-2">
@@ -90,86 +87,53 @@
     </div>
 </div>
 
-@section Scripts {
-@*     <script>
-        $(document).ready(function () {
-            // Manejar el evento de cambio del dropdown de rutas
-            $("#Rango").change(function () {
-                // Obtener el valor seleccionado de la ruta
-                var selectedRango = $(this).val();
-                $("#RRemover").removeClass("d-none");
-
-                // Hacer una llamada AJAX para obtener los rangos de la ruta seleccionada
-                $.ajax({
-                    url: '/CumplimientoRequisito/ObtenerRequisitoPorRango', // Reemplaza 'TuController' con el nombre de tu controlador
-                    type: 'GET',
-                    data: { rutaId: selectedRango },
-                    success: function (data) {
-                        console.log(data);
-                        // Limpiar y actualizar el dropdown de rangos
-                        $("#RequisitoRango").empty();
-                        $.each(data, function (index, item) {
-                            $("#RequisitoRango").append('<option value="' + item.RequisitoID + '">' + item.NombreRequisito + '</option>');
-                        });
-                    },
-                    error: function () {
-                        alert('Error al obtener los requisito.');
-                    }
-                });
-            });
-        });
-    </script> *@
-}
-
-@*
-                <div class="row mt-2">
-                    @if (RutaList != null)
-                    {
-                        <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione una Ruta</label></div>
-                        <div class="col-sm-4">
-
-                            <select class="float-right col-12 form-control" id="Ruta" name="Ruta">
-                                <option value="">Seleccione la ruta:</option>
-                                @foreach (var ruta in RutaList)
-                                {
-                                    <option value="@ruta.RutaID">@ruta.NombreRuta</option>
-                                }
-                            </select>
 
 
-                        </div>
-                    }
+<script>
+    // $(document).ready(function () {
+    //     $("#Ruta").change(function () {
+    //         var selectedRuta = $(this).val();
+    //         $("#RangoRemover").removeClass("d-none");
 
+    //         //Código para manejar la carga de rangos
 
-                </div>
-                <div class="row mt-2">
-                    @if (RangoList != null)
-                    {
-                        <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione una Rango</label></div>
-                        <div class="col-sm-4">
+    //         $.ajax({
+    //             url: '/Requisito/ObtenerRangosPorRuta', // Asegúrate de que esta URL sea correcta
+    //             type: 'GET',
+    //             data: { rutaId: selectedRuta },
+    //             success: function (data) {
+    //                 console.log(data);
+    //                 // Limpiar y actualizar el dropdown de rangos
+    //                 $("#Rango").empty(); // Corregido el ID aquí
+    //                 $("#Rango").append('<option value="">Seleccione la ruta:</option>'); // Opción predeterminada
+    //                 $.each(data, function (index, item) {
+    //                     $("#Rango").append('<option value="' + item.RangoID + '">' + item.NombreRango + '</option>');
+    //                 });
+    //             },
+    //             error: function () {
+    //                 alert('Error al obtener los rangos.');
+    //             }
+    //         });
+    //     });
 
-                            <select class="float-right col-12 form-control" id="Ruta" name="Ruta">
-                                <option value="">Seleccione la ruta:</option>
-                                @foreach (var rango in RangoList)
-                                {
-                                    <option value="@rango.RangoID">@rango.NombreRango</option>
-                                }
-                            </select>
+    //     // Manejar el cambio en el desplegable de Rangos
+    //     $("#Rango").change(function () {
+    //         var selectedRango = $(this).val();
 
-
-                        </div>
-                    }
-
-
-                </div>
-
-
-                <div class="row mt-2 d-none" id="RangoRemover">
-                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione un Requisito</label></div>
-                    <div class="col-sm-4 ">
-                        @Html.DropDownListFor(m => m.RequisitoID, new SelectList(RangoList, "RequisitoID", "NombreRequisito"), "Seleccione el requisito:", new { @class = "float-right col-12 form-control", @id = "RequisitoRango" })
-                        @Html.ValidationMessageFor(model => model.RequisitoID, "")
-                        <input hidden value="@Model.RequisitoID" name="Requisito" id="RequisitoRango" />
-                    </div>
-
-                </div> *@
+    //         $.ajax({
+    //             url: '/Requisito/ObtenerRequisitosPorRango', // Verifica esta URL también
+    //             type: 'GET',
+    //             data: { rangoId: selectedRango },
+    //             success: function (data) {
+    //                 $("#Requisito").empty();
+    //                 $.each(data, function (index, item) {
+    //                     $("#Requisito").append('<option value="' + item.RequisitoID + '">' + item.NombreRequisito + '</option>');
+    //                 });
+    //             },
+    //             error: function () {
+    //                 alert('Error al obtener los requisitos.');
+    //             }
+    //         });
+    //     });
+    // });
+</script>

@@ -122,6 +122,8 @@ AppSettings.APIEndpoints.CumplimientoRequisito_Actualizar = builder.Configuratio
 AppSettings.APIEndpoints.CumplimientoRequisito_Obtener = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_Obtener").Value;
 AppSettings.APIEndpoints.CumplimientoRequisito_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_Listar").Value;
 AppSettings.APIEndpoints.CumplimientoRequisito_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_Eliminar").Value;
+AppSettings.APIEndpoints.CumplimientoRequisito_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_Eliminar").Value; 
+AppSettings.APIEndpoints.CumplimientoRequisito_ListarPorPlanDesarrolloID = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_ListarPorPlanDesarrolloID").Value;
 
 #endregion ConfiguracionAPI
 
