@@ -12,11 +12,38 @@ namespace PlanDesarrolloProfesional.DataAccess
     {
         public DACumplimientoRequisito() { }
 
+        //public async Task<CumplimientoRequisito> Agregar(CumplimientoRequisito Modelo)
+        //{
+        //    using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+        //        try
+        //        {
+        //            bool planExists = await ContextoBD.PlanesDesarrolloProfesional
+        //                                              .AnyAsync(p => p.PlanDesarrolloID == Modelo.PlanDesarrolloID);
+        //            if (!planExists)
+        //            {
+        //                throw new InvalidOperationException("El PlanDesarrollo especificado no existe.");
+        //            }
+        //            var AgregarObjeto = ContextoBD.Add(Modelo);
+        //            await ContextoBD.SaveChangesAsync();
+        //            return Modelo;
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            throw e;
+        //        }
+        //}
+
         public async Task<CumplimientoRequisito> Agregar(CumplimientoRequisito Modelo)
         {
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
+                    bool planExists = await ContextoBD.PlanesDesarrolloProfesional
+                                                      .AnyAsync(p => p.PlanDesarrolloID == Modelo.PlanDesarrolloID);
+                    if (!planExists)
+                    {
+                        throw new InvalidOperationException("El PlanDesarrollo especificado no existe.");
+                    }
                     var AgregarObjeto = ContextoBD.Add(Modelo);
                     await ContextoBD.SaveChangesAsync();
                     return Modelo;
@@ -27,15 +54,35 @@ namespace PlanDesarrolloProfesional.DataAccess
                 }
         }
 
-        public async Task<CumplimientoRequisito> Obtener(int IdCumplimientoRequisito)
+        public async Task<CumplimientoRequisitoViewModel> Obtener(int IdCumplimientoRequisito)
         {
             try
             {
                 using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 {
-                    CumplimientoRequisito SolicitudesBD = await ContextoBD
+                    CumplimientoRequisitoViewModel SolicitudesBD = await ContextoBD
                         .CumplimientoRequisito
-                        .FirstOrDefaultAsync(s => s.CumplimientoRequisitoID == IdCumplimientoRequisito);
+                        .Where(p => p.CumplimientoRequisitoID == IdCumplimientoRequisito)
+                                                      .Select(s => new CumplimientoRequisitoViewModel()
+                                                      {
+                                                          CumplimientoRequisitoID = s.CumplimientoRequisitoID,
+                                                          RequisitoID = s.RequisitoID,
+                                                          NombreRequisito = s.Requisito.NombreRequisito,
+                                                          RangoID = s.PlanDesarrollo.RangoID,
+                                                          NombreRango = s.Requisito.Rango.NombreRango,
+                                                          NombreRuta = s.Requisito.Rango.Ruta.NombreRuta,
+                                                          RutaID = s.Requisito.Rango.RutaID,
+                                                          
+                                                          ColaboradorID = s.ColaboradorID,
+                                                          FechaRegistro = s.FechaRegistro,
+                                                          FechaObtencion = s.FechaObtencion,
+                                                          URLEvidencia = s.URLEvidencia,
+                                                          AprobadoPorSupervisor = s.AprobadoPorSupervisor,
+                                                          PlanDesarrolloID = s.PlanDesarrolloID,
+                                                          FechaArpobacion = s.FechaArpobacion
+
+                                                      }).FirstAsync();
+                        //.FirstOrDefaultAsync(s => s.CumplimientoRequisitoID == IdCumplimientoRequisito);
 
                     return SolicitudesBD;
                 }
@@ -45,13 +92,35 @@ namespace PlanDesarrolloProfesional.DataAccess
                 throw e;
             }
         }
-        public async Task<IEnumerable<CumplimientoRequisito>> Listar()
+
+        public async Task<IEnumerable<CumplimientoRequisitoViewModel>> Listar()
         {
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
             {
                 try
                 {
-                    IEnumerable<CumplimientoRequisito> Lista = await ContextoBD.CumplimientoRequisito.ToListAsync();
+                    //IEnumerable<CumplimientoRequisito> Lista = await ContextoBD.CumplimientoRequisito.ToListAsync();
+
+                    IEnumerable<CumplimientoRequisitoViewModel> Lista = ContextoBD.CumplimientoRequisito
+                        .Select(s => new CumplimientoRequisitoViewModel()
+                        {
+                            CumplimientoRequisitoID = s.CumplimientoRequisitoID,
+                            RequisitoID = s.RequisitoID,
+                            NombreRequisito = s.Requisito.NombreRequisito,
+                            RangoID = s.PlanDesarrollo.RangoID,
+                            NombreRango = s.Requisito.Rango.NombreRango,
+                            NombreRuta = s.Requisito.Rango.Ruta.NombreRuta,
+                            RutaID = s.Requisito.Rango.RutaID,
+                            NombreColaborador = s.PlanDesarrollo.Colaborador.Nombre,
+                            ColaboradorID = s.ColaboradorID,
+                            FechaRegistro = s.FechaRegistro,
+                            FechaObtencion = s.FechaObtencion,
+                            URLEvidencia = s.URLEvidencia,
+                            AprobadoPorSupervisor = s.AprobadoPorSupervisor,
+                            PlanDesarrolloID = s.PlanDesarrolloID,
+                            FechaArpobacion = s.FechaArpobacion
+
+                        }).ToList();
 
                     return Lista;
                 }
@@ -61,6 +130,47 @@ namespace PlanDesarrolloProfesional.DataAccess
                 }
             }
         }
+
+        public async Task<IEnumerable<CumplimientoRequisitoViewModel>> ListarPorPlanDesarrolloID(int planDesarrolloID)
+        {
+            using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+            {
+                try
+                {
+                    // Directamente esperamos la ejecución de la consulta ToListAsync y retornamos su resultado
+                    var lista = await ContextoBD.CumplimientoRequisito
+                        .Where(c => c.PlanDesarrolloID == planDesarrolloID) // Asegúrate que este campo exista en el modelo
+                        .Select(s => new CumplimientoRequisitoViewModel
+                        {
+                            CumplimientoRequisitoID = s.CumplimientoRequisitoID,
+                            RequisitoID = s.RequisitoID,
+                            NombreRequisito = s.Requisito.NombreRequisito,
+                            RangoID = s.PlanDesarrollo.RangoID,
+                            NombreRango = s.Requisito.Rango.NombreRango,
+                            NombreRuta = s.Requisito.Rango.Ruta.NombreRuta,
+                            RutaID = s.Requisito.Rango.RutaID,
+                            NombreColaborador = s.PlanDesarrollo.Colaborador.Nombre,
+                            ColaboradorID = s.ColaboradorID,
+                            FechaRegistro = s.FechaRegistro,
+                            FechaObtencion = s.FechaObtencion,
+                            URLEvidencia = s.URLEvidencia,
+                            AprobadoPorSupervisor = s.AprobadoPorSupervisor,
+                            PlanDesarrolloID = s.PlanDesarrolloID,
+                            FechaArpobacion = s.FechaArpobacion
+                        })
+                        .ToListAsync();
+
+                    return lista;
+                }
+                catch (Exception e)
+                {
+                    // Aquí deberías manejar la excepción de forma más adecuada, quizás registrando el error en un log.
+                    // Retornamos una lista vacía en caso de error
+                    return new List<CumplimientoRequisitoViewModel>();
+                }
+            }
+        }
+
 
         public async Task<CumplimientoRequisito> Actualizar(CumplimientoRequisito Modelo)
         {
@@ -122,19 +232,31 @@ namespace PlanDesarrolloProfesional.DataAccess
         public async Task<bool> Eliminar(int IdCumplimientoRequisito)
         {
 
-            var CumplimientoRequisito = await Obtener(IdCumplimientoRequisito);
+            var cumplimientoRequisito = await Obtener(IdCumplimientoRequisito);
 
-            if (CumplimientoRequisito != null)
+            if (cumplimientoRequisito != null)
             {
+                CumplimientoRequisito CumplimientoRequisito = new CumplimientoRequisito
+                {
+                    CumplimientoRequisitoID = cumplimientoRequisito.CumplimientoRequisitoID,
+                    PlanDesarrolloID = cumplimientoRequisito.PlanDesarrolloID,
+                    ColaboradorID = cumplimientoRequisito.ColaboradorID,
+                    FechaRegistro = cumplimientoRequisito.FechaRegistro,
+                    FechaObtencion = cumplimientoRequisito.FechaObtencion,
+                    URLEvidencia = cumplimientoRequisito.URLEvidencia,
+                    AprobadoPorSupervisor = cumplimientoRequisito.AprobadoPorSupervisor,
+                    FechaArpobacion = cumplimientoRequisito.FechaArpobacion,
+                 
+                };
                 using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 {
-
-                    ContextoBD.Entry(CumplimientoRequisito).State = EntityState.Deleted;
+                    ContextoBD.Entry(cumplimientoRequisito).State = EntityState.Modified;
                     await ContextoBD.SaveChangesAsync();
+                    return true;
                 }
             }
 
-            return true;
+            return false;
 
         }
 

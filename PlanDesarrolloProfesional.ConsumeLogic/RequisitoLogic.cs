@@ -78,10 +78,10 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
             return ListaRequisitoModel;
         }
 
-        public async Task<List<RequisitoModel>> RequisitoPorRango(int idRango)
+        public async Task<List<RequisitoModel>> RequisitoPorRango(int idRango, int PlanDesarrolloID)
         {
 
-            var ListaSolicitudeJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Requisito_RequisitoPorRango, idRango.ToString())/*, await Token()*/);
+            var ListaSolicitudeJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Requisito_RequisitoPorRango, idRango.ToString(), PlanDesarrolloID.ToString())/*, await Token()*/);
             List<RequisitoModel> ListaRequisitosModel = JsonConvert.DeserializeObject<List<RequisitoModel>>(ListaSolicitudeJson);
 
             return ListaRequisitosModel;

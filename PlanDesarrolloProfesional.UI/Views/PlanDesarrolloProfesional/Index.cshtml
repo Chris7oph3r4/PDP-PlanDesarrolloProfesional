@@ -55,6 +55,8 @@
                                             </a>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="@Url.Action("Modificar", "PlanDesarrolloProfesional", new {PlanDesarrolloID=item.PlanDesarrolloID })">Modificar</a>
+                                                <a class="dropdown-item" href="@Url.Action("Agregar", "CumplimientoRequisito", new { PlanDesarrolloID = item.PlanDesarrolloID })">Agregar Cumplimiento</a>
+                                                <a class="dropdown-item" href="@Url.Action("Lista", "CumplimientoRequisito", new { PlanDesarrolloID = item.PlanDesarrolloID })">Lista</a>
                                                 <a onclick="Eliminar(@item.PlanDesarrolloID)" href="#" class="dropdown-item" style="color:black;">Eliminar</a>
                                             </div>
                                         </div>

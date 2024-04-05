@@ -11,11 +11,14 @@ namespace PlanDesarrolloProfesional.Interface
     public interface ICumplimientoRequisito
     {
         Task<CumplimientoRequisitoModel> Agregar(CumplimientoRequisitoModel Modelo);
-        Task<CumplimientoRequisitoModel> Obtener(int IdCumplimientoRequisito);
+        Task<CumplimientoRequisitoViewModel> Obtener(int IdCumplimientoRequisito);
         //Task<CumplimientoRequisitoModel> Inactivar(int IdPedido);
         Task<CumplimientoRequisitoModel> Actualizar(CumplimientoRequisitoModel modelo);
         //Task<IEnumerable<RequisitoViewModel>> ListarPorUsuario(int IdUsuario);
-        Task<IEnumerable<CumplimientoRequisitoModel>> Listar();
+        Task<IEnumerable<CumplimientoRequisitoViewModel>> Listar();
+
+        Task<IEnumerable<CumplimientoRequisitoViewModel>> ListarPorPlanDesarrolloID(int planDesarrolloID);
+
         Task<bool> Eliminar(int IdCumplimientoRequisito);
     }
 }

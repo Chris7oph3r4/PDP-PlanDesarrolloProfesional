@@ -84,7 +84,6 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         }
 
 
-
         [HttpPost]
         public async Task<ActionResult> Agregar(RequisitoModel Modelo)
         {
