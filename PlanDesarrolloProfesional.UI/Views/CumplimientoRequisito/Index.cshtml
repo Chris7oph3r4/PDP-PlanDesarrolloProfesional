@@ -49,17 +49,14 @@
                                
 
 
+                               
                                 <td class="text-start" data-label="Acciones">
-                                    <div class="dropdown">
-                                        <a type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                            Acciones
-                                        </a>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="@Url.Action("Modificar", "CumplimientoRequisito", new {CumplimientoRequisitoID=item.CumplimientoRequisitoID })">Modificar</a>
-                                            <a onclick="Eliminar(@item.CumplimientoRequisitoID)" href="#" class="dropdown-item" style="color:black;">Eliminar</a>
-                                        </div>
-                                    </div>
+                                    <a class="btn btn-success" href="@Url.Action("Aprobar", "CumplimientoRequisito", new { CumplimientoRequisitoID = item.CumplimientoRequisitoID })">
+                                        Aprobación
+                                    </a>
                                 </td>
+
+                               
                             </tr>
                         }
                     </tbody>
@@ -105,10 +102,10 @@
             });
         }
 
-        else if ('@ViewBag.Mensaje' == "Modifica") {
+        else if ('@ViewBag.Mensaje' == "Aprobar") {
             Swal.fire({
                 title: "¡Acción exitosa!",
-                text: 'Se ha modificado el requisito del sistema',
+                text: 'Se ha aprobado el requisito del sistema',
                 type: "success",
                 showCancelButton: false,
                 showconfirmButton: false,
