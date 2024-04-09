@@ -72,7 +72,7 @@ namespace PlanDesarrolloProfesional.DataAccess
                                                           NombreRango = s.Requisito.Rango.NombreRango,
                                                           NombreRuta = s.Requisito.Rango.Ruta.NombreRuta,
                                                           RutaID = s.Requisito.Rango.RutaID,
-                                                          
+                                                          NombreColaborador = s.PlanDesarrollo.Colaborador.Nombre,
                                                           ColaboradorID = s.ColaboradorID,
                                                           FechaRegistro = s.FechaRegistro,
                                                           FechaObtencion = s.FechaObtencion,
@@ -83,6 +83,47 @@ namespace PlanDesarrolloProfesional.DataAccess
 
                                                       }).FirstAsync();
                         //.FirstOrDefaultAsync(s => s.CumplimientoRequisitoID == IdCumplimientoRequisito);
+
+                    return SolicitudesBD;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+
+        public async Task<CumplimientoRequisitoViewModel> ObtenerAprobado(int IdCumplimientoRequisito)
+        {
+            try
+            {
+                using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+                {
+                    CumplimientoRequisitoViewModel SolicitudesBD = await ContextoBD
+                        .CumplimientoRequisito
+                        .Where(p => p.CumplimientoRequisitoID == IdCumplimientoRequisito)
+                                                      .Select(s => new CumplimientoRequisitoViewModel()
+                                                      {
+                                                          CumplimientoRequisitoID = s.CumplimientoRequisitoID,
+                                                          RequisitoID = s.RequisitoID,
+                                                          NombreRequisito = s.Requisito.NombreRequisito,
+                                                          RangoID = s.PlanDesarrollo.RangoID,
+                                                          NombreRango = s.Requisito.Rango.NombreRango,
+                                                          NombreRuta = s.Requisito.Rango.Ruta.NombreRuta,
+                                                          RutaID = s.Requisito.Rango.RutaID,
+                                                          NombreColaborador = s.PlanDesarrollo.Colaborador.Nombre,
+                                                          ColaboradorID = s.ColaboradorID,
+                                                          FechaRegistro = s.FechaRegistro,
+                                                          FechaObtencion = s.FechaObtencion,
+                                                          URLEvidencia = s.URLEvidencia,
+                                                          AprobadoPorSupervisor = s.AprobadoPorSupervisor,
+                                                          PlanDesarrolloID = s.PlanDesarrolloID,
+                                                          FechaArpobacion = s.FechaArpobacion
+
+                                                      }).FirstAsync();
+                    //.FirstOrDefaultAsync(s => s.CumplimientoRequisitoID == IdCumplimientoRequisito);
 
                     return SolicitudesBD;
                 }

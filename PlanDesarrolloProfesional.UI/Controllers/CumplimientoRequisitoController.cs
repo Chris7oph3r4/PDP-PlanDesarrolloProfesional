@@ -87,9 +87,13 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             var RequisitosFiltrados = await LRequisito.RequisitoPorRango(rangoID, PlanDesarrolloID);
             ViewBag.RequisitosFiltrados = RequisitosFiltrados;
 
+            var nombreRango = await LRango.Obtener(rangoID);
+            ViewBag.NombreRango = nombreRango.NombreRango;
+
             // Carga de datos para los ViewBag, si es necesario
             ViewBag.Rango = await LRango.Listar();
             ViewBag.NombreColaborador = colaborador.Nombre;
+            
 
             return View(CumplimientoRequisito);
         }
@@ -153,16 +157,18 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         public async Task<ActionResult> Modificar(int CumplimientoRequisitoID, string Mensaje)
         {
 
+
             if (Mensaje != "")
             {
                 ViewBag.Mensaje = Mensaje;
             }
-           
+         
             ViewBag.Rango = await LRango.Listar();
             ViewBag.Requisito = await LRequisito.Listar();
             ViewBag.Colaborador = await LUsuario.Listar();
             CumplimientoRequisitoViewModel CumplimientoRequisito = await LCumplimientoRequisito.Obtener(CumplimientoRequisitoID);
-
+            var colaborador = await LUsuario.Obtener(CumplimientoRequisito.ColaboradorID);
+            ViewBag.NombreColaborador = colaborador.Nombre;
             return View(CumplimientoRequisito);
 
         }
@@ -188,6 +194,67 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             };
 
            
+            var Modificar = await LCumplimientoRequisito.Actualizar(Cumplimiento);
+            if (Modificar.CumplimientoRequisitoID != null)
+            {
+                return RedirectToAction("Index", "CumplimientoRequisito", new { Mensaje = "Modifica" });
+            }
+            else
+            {
+                return RedirectToAction("Index", "CumplimientoRequisito", new { Mensaje = "Error" });
+            }
+
+
+        }
+
+
+
+        public async Task<ActionResult> Aprobar(int CumplimientoRequisitoID, string Mensaje)
+        {
+
+            if (Mensaje != "")
+            {
+                ViewBag.Mensaje = Mensaje;
+            }
+
+            ViewBag.Rango = await LRango.Listar();
+            ViewBag.Requisito = await LRequisito.Listar();
+            ViewBag.Colaborador = await LUsuario.Listar();
+            CumplimientoRequisitoViewModel CumplimientoRequisito = await LCumplimientoRequisito.Obtener(CumplimientoRequisitoID);
+            var colaborador = await LUsuario.Obtener(CumplimientoRequisito.ColaboradorID);
+            var requisito = await LRequisito.Obtener(CumplimientoRequisito.RequisitoID);
+            var rango = await LRango.Obtener(CumplimientoRequisito.RangoID);
+            var ruta = await LRuta.Obtener(CumplimientoRequisito.RutaID);
+            ViewBag.NombreColaborador = colaborador.Nombre;
+            ViewBag.NombreRequisito = requisito.NombreRequisito;
+            ViewBag.NombreRango = rango.NombreRango;
+            ViewBag.NombreRuta = ruta.NombreRuta;
+
+            return View(CumplimientoRequisito);
+
+        }
+
+
+
+        [HttpPost]
+        public async Task<ActionResult> Aprobar(CumplimientoRequisitoViewModel Modelo)
+        {
+            CumplimientoRequisitoViewModel CumplimientoActual = await LCumplimientoRequisito.Obtener(Modelo.CumplimientoRequisitoID);
+            //CumplimientoRequisitoModel Usuario = await LCumplimientoRequisito.Obtener(Modelo.CumplimientoRequisitoID);
+            CumplimientoRequisitoModel Cumplimiento = new CumplimientoRequisitoModel
+            {
+                CumplimientoRequisitoID = CumplimientoActual.CumplimientoRequisitoID,
+                RequisitoID = CumplimientoActual.RequisitoID,
+                ColaboradorID = CumplimientoActual.ColaboradorID,
+                FechaRegistro = CumplimientoActual.FechaRegistro,
+                FechaObtencion = CumplimientoActual.FechaObtencion,
+                URLEvidencia = CumplimientoActual.URLEvidencia,
+                AprobadoPorSupervisor = Modelo.AprobadoPorSupervisor,
+                PlanDesarrolloID = CumplimientoActual.PlanDesarrolloID,
+                FechaArpobacion = Modelo.FechaArpobacion = DateTime.Now
+            };
+
+
             var Modificar = await LCumplimientoRequisito.Actualizar(Cumplimiento);
             if (Modificar.CumplimientoRequisitoID != null)
             {
