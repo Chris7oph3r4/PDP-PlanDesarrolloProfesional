@@ -220,7 +220,7 @@ namespace PlanDesarrolloProfesional.UI.Controllers
                 RequisitoID = Modelo.RequisitoSeleccionado,
                 ColaboradorID = CumplimientoActual.ColaboradorID,
                 FechaRegistro = CumplimientoActual.FechaRegistro,
-                FechaObtencion = Modelo.FechaObtencion,
+                FechaObtencion = Modelo.FechaObtencion.Date,
                 URLEvidencia = Modelo.URLEvidencia,
                 AprobadoPorSupervisor = CumplimientoActual.AprobadoPorSupervisor,
                 PlanDesarrolloID = CumplimientoActual.PlanDesarrolloID,
