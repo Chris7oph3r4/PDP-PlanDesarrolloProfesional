@@ -41,6 +41,9 @@ namespace PlanDesarrolloProfesional.Models.Models;
     [Required(ErrorMessage = "Campo Requerido")]
     public DateTime FechaRegistro { get; set; }
 
+
+    [DataType(DataType.Date)]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
     public DateTime FechaObtencion { get; set; }
 
     [StringLength(256)]

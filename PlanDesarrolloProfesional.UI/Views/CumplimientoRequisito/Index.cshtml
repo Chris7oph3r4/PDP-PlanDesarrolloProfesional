@@ -18,9 +18,6 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">@Model.Count() Registros</h6>
         </div>
-        <div class="card-header py-3">
-            <a href="@Url.Action("Agregar", "CumplimientoRequisito", new { })" class="btn btn-primary btn-user btn-block">Agregar</a>
-        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
@@ -31,6 +28,7 @@
                             <th>Colaborador</th>
                             <th>Evidencia</th>
                             <th>Fecha Obtenida </th>
+                            <th>Estado </th>
                             
 
                         </tr>
@@ -46,10 +44,25 @@
                                 <td data-label="Valor1">@item.NombreColaborador</td>
                                 <td data-label="Valor1">@item.URLEvidencia</td>
                                 <td data-label="Valor1">@item.FechaObtencion.ToString("dd/MM/yyyy")</td>
+                                <td data-label="Estado">
+                                    @switch (item.AprobadoPorSupervisor)
+                                    {
+                                        case 0:
+                                            @:Denegado
+                                            break;
+                                        case 1:
+                                            @:Aprobado
+                                            break;
+                                        case 2:
+                                            @:En revisión
+                                            break;
+                                        default:
+                                            @:No definido
+                                            break;
+                                    }
+                                </td>
                                
 
-
-                               
                                 <td class="text-start" data-label="Acciones">
                                     <a class="btn btn-success" href="@Url.Action("Aprobar", "CumplimientoRequisito", new { CumplimientoRequisitoID = item.CumplimientoRequisitoID })">
                                         Aprobación

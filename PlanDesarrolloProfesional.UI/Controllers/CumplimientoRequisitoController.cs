@@ -57,6 +57,7 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             }
 
             var CumplimientoRequisito = await LCumplimientoRequisito.ListarPorPlanDesarrolloID(planDesarrolloID);
+
             //var RangosFiltrados = await LRango.RangosPorRuta(3);
 
             return View(CumplimientoRequisito);
@@ -103,12 +104,13 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         {
             Modelo.RequisitoID = RequisitoSeleccionado;
             Modelo.FechaRegistro = DateTime.Now;
-            Modelo.AprobadoPorSupervisor = 1; // Verifica si esto debe ser dinámico o estático.
+            Modelo.AprobadoPorSupervisor = 2; // Verifica si esto debe ser dinámico o estático.
 
             var Agregar = await LCumplimientoRequisito.Agregar(Modelo);
             if (Agregar.CumplimientoRequisitoID != 0) // Asegúrate de que este es el criterio correcto para verificar la operación exitosa.
             {
-                return RedirectToAction("Index", "CumplimientoRequisito", new { Mensaje = "Agrega" });
+               
+                return RedirectToAction("Lista", "CumplimientoRequisito", new { planDesarrolloID = Modelo.PlanDesarrolloID, Mensaje = "Agrega" });
             }
             else
             {
@@ -156,19 +158,50 @@ namespace PlanDesarrolloProfesional.UI.Controllers
 
         public async Task<ActionResult> Modificar(int CumplimientoRequisitoID, string Mensaje)
         {
-
-
             if (Mensaje != "")
             {
                 ViewBag.Mensaje = Mensaje;
             }
-         
-            ViewBag.Rango = await LRango.Listar();
-            ViewBag.Requisito = await LRequisito.Listar();
-            ViewBag.Colaborador = await LUsuario.Listar();
+
+            // Aquí, asumiendo que ya has obtenido tu objeto CumplimientoRequisito desde la base de datos...
             CumplimientoRequisitoViewModel CumplimientoRequisito = await LCumplimientoRequisito.Obtener(CumplimientoRequisitoID);
-            var colaborador = await LUsuario.Obtener(CumplimientoRequisito.ColaboradorID);
+
+            // Aquí deberías tener el ID del plan de desarrollo asociado para filtrar los requisitos.
+            var planDesarrollo = await LPlanDesarrollo.Obtener(CumplimientoRequisito.PlanDesarrolloID);
+            int rangoID = planDesarrollo.RangoID;
+
+            // Obtén los requisitos filtrados basados en el rango.
+            var requisitosFiltrados = await LRequisito.RequisitoPorRango(rangoID, planDesarrollo.PlanDesarrolloID);
+
+            // Aquí obtienes el ID del requisito actual del modelo de CumplimientoRequisito.
+            var requisitoActualID = CumplimientoRequisito.RequisitoID;
+
+            // Lógica para verificar y añadir el requisito actual a la lista si es necesario.
+            if (!requisitosFiltrados.Any(r => r.RequisitoID == requisitoActualID))
+            {
+                var requisitoActual = await LRequisito.Obtener(requisitoActualID);
+                if (requisitoActual != null)
+                {
+                    requisitosFiltrados.Add(new RequisitoModel
+                    {
+                        RequisitoID = requisitoActual.RequisitoID,
+                        NombreRequisito = requisitoActual.NombreRequisito,
+                        // Agrega aquí más propiedades según sea necesario.
+                    });
+                }
+            }
+
+            ViewBag.RequisitosFiltrados = requisitosFiltrados;
+            var colaborador = await LUsuario.Obtener(CumplimientoRequisito.ColaboradorID);         
+            var requisito = await LRequisito.Obtener(CumplimientoRequisito.RequisitoID);
+            var rango = await LRango.Obtener(CumplimientoRequisito.RangoID);
+            var ruta = await LRuta.Obtener(CumplimientoRequisito.RutaID);
             ViewBag.NombreColaborador = colaborador.Nombre;
+            ViewBag.NombreRequisito = requisito.NombreRequisito;
+            ViewBag.NombreRango = rango.NombreRango;
+            ViewBag.NombreRuta = ruta.NombreRuta;
+
+
             return View(CumplimientoRequisito);
 
         }
@@ -179,29 +212,33 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         public async Task<ActionResult> Modificar(CumplimientoRequisitoViewModel Modelo)
         {
             CumplimientoRequisitoViewModel CumplimientoActual = await LCumplimientoRequisito.Obtener(Modelo.CumplimientoRequisitoID);
+           
             //CumplimientoRequisitoModel Usuario = await LCumplimientoRequisito.Obtener(Modelo.CumplimientoRequisitoID);
             CumplimientoRequisitoModel Cumplimiento = new CumplimientoRequisitoModel
             {
-                CumplimientoRequisitoID = Modelo.CumplimientoRequisitoID,
-                RequisitoID = Modelo.RequisitoID,
+                CumplimientoRequisitoID = CumplimientoActual.CumplimientoRequisitoID,
+                RequisitoID = Modelo.RequisitoSeleccionado,
                 ColaboradorID = CumplimientoActual.ColaboradorID,
                 FechaRegistro = CumplimientoActual.FechaRegistro,
                 FechaObtencion = Modelo.FechaObtencion,
                 URLEvidencia = Modelo.URLEvidencia,
-                AprobadoPorSupervisor = Modelo.AprobadoPorSupervisor = 1,
+                AprobadoPorSupervisor = CumplimientoActual.AprobadoPorSupervisor,
                 PlanDesarrolloID = CumplimientoActual.PlanDesarrolloID,
-                FechaArpobacion = Modelo.FechaArpobacion = DateTime.Now
-            };
+                FechaArpobacion = CumplimientoActual.FechaArpobacion = DateTime.Now
+                // Asumiendo que RequisitoSeleccionado viene del formulario
+               
+
+        };
 
            
             var Modificar = await LCumplimientoRequisito.Actualizar(Cumplimiento);
             if (Modificar.CumplimientoRequisitoID != null)
             {
-                return RedirectToAction("Index", "CumplimientoRequisito", new { Mensaje = "Modifica" });
+                return RedirectToAction("Lista", "CumplimientoRequisito", new { planDesarrolloID = Cumplimiento.PlanDesarrolloID, Mensaje = "Modifica" });
             }
             else
             {
-                return RedirectToAction("Index", "CumplimientoRequisito", new { Mensaje = "Error" });
+                return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
             }
 
 
@@ -270,20 +307,29 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Eliminar(int IdObjeto)
         {
+            // Obtener el objeto para saber el PlanDesarrolloID antes de eliminarlo.
+            var objeto = await LCumplimientoRequisito.Obtener(IdObjeto);
+            if (objeto == null)
+            {
+                // El objeto no fue encontrado; manejar este caso adecuadamente.
+                return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
+            }
 
+            var planDesarrolloID = objeto.PlanDesarrolloID; // Asumiendo que tienes esta propiedad.
 
             var Eliminar = await LCumplimientoRequisito.Eliminar(IdObjeto);
             if (Eliminar)
             {
-                return RedirectToAction("Index", "CumplimientoRequisito", new { Mensaje = "Eliminado" });
+                // Redirige a la vista 'Lista' del controlador 'CumplimientoRequisito'
+                // con el PlanDesarrolloID del objeto que acabas de eliminar.
+                return RedirectToAction("Lista", "CumplimientoRequisito", new { planDesarrolloID = planDesarrolloID, Mensaje = "Eliminado" });
             }
             else
             {
-                return RedirectToAction("Index", "CumplimientoRequisito", new { Mensaje = "Error" });
+                return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
             }
-
-
         }
+
 
     }
 }

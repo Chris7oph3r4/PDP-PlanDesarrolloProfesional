@@ -25,10 +25,13 @@
                     <thead>
                         <tr>
                             <th>Plan Desarrollo</th>
+                            <th>Ruta</th>
+                            <th>Rango</th>
                             <th>Requisito</th>
                             <th>Colaborador</th>
                             <th>Evidencia</th>
                             <th>Fecha Obtenida </th>
+                            <th>Estado</th>
 
 
                         </tr>
@@ -40,10 +43,29 @@
                             <tr>
 
                                 <td data-label="Valor1">@item.PlanDesarrolloID</td>
+                                <td data-label="Valor1">@item.NombreRuta</td>
+                                <td data-label="Valor1">@item.NombreRango</td>
                                 <td data-label="Valor1">@item.NombreRequisito</td>
                                 <td data-label="Valor1">@item.NombreColaborador</td>
                                 <td data-label="Valor1">@item.URLEvidencia</td>
                                 <td data-label="Valor1">@item.FechaObtencion.ToString("dd/MM/yyyy")</td>
+                                <td data-label="Estado">
+                                    @switch (item.AprobadoPorSupervisor)
+                                    {
+                                        case 0:
+                                            @:Denegado
+                                            break;
+                                        case 1:
+                                            @:Aprobado
+                                            break;
+                                        case 2:
+                                            @:En revisión
+                                            break;
+                                        default:
+                                            @:No definido
+                                            break;
+                                    }
+                                </td>
 
 
 
