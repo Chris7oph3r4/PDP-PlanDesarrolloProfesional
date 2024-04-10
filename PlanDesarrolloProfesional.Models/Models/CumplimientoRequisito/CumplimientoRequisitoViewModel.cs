@@ -27,10 +27,14 @@ namespace PlanDesarrolloProfesional.Models.Models
 
         public string NombreColaborador { get; set; }
 
+        public int RequisitoSeleccionado { get; set; }
+
+
         [Column(TypeName = "date")]
         public DateTime FechaRegistro { get; set; }
 
-        [Column(TypeName = "date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FechaObtencion { get; set; }
 
         public string URLEvidencia { get; set; }

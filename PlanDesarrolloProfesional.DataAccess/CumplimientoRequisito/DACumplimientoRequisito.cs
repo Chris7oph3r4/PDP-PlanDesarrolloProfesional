@@ -79,7 +79,8 @@ namespace PlanDesarrolloProfesional.DataAccess
                                                           URLEvidencia = s.URLEvidencia,
                                                           AprobadoPorSupervisor = s.AprobadoPorSupervisor,
                                                           PlanDesarrolloID = s.PlanDesarrolloID,
-                                                          FechaArpobacion = s.FechaArpobacion
+                                                          FechaArpobacion = s.FechaArpobacion,
+                                                          RequisitoSeleccionado = s.RequisitoID
 
                                                       }).FirstAsync();
                         //.FirstOrDefaultAsync(s => s.CumplimientoRequisitoID == IdCumplimientoRequisito);
@@ -121,6 +122,7 @@ namespace PlanDesarrolloProfesional.DataAccess
                                                           AprobadoPorSupervisor = s.AprobadoPorSupervisor,
                                                           PlanDesarrolloID = s.PlanDesarrolloID,
                                                           FechaArpobacion = s.FechaArpobacion
+                                                          
 
                                                       }).FirstAsync();
                     //.FirstOrDefaultAsync(s => s.CumplimientoRequisitoID == IdCumplimientoRequisito);
@@ -270,36 +272,61 @@ namespace PlanDesarrolloProfesional.DataAccess
         //    }
         //}
 
+        //public async Task<bool> Eliminar(int IdCumplimientoRequisito)
+        //{
+
+        //    var cumplimientoRequisito = await Obtener(IdCumplimientoRequisito);
+
+        //    if (cumplimientoRequisito != null)
+        //    {
+        //        CumplimientoRequisito CumplimientoRequisito = new CumplimientoRequisito
+        //        {
+        //            CumplimientoRequisitoID = cumplimientoRequisito.CumplimientoRequisitoID,
+        //            PlanDesarrolloID = cumplimientoRequisito.PlanDesarrolloID,
+        //            ColaboradorID = cumplimientoRequisito.ColaboradorID,
+        //            FechaRegistro = cumplimientoRequisito.FechaRegistro,
+        //            FechaObtencion = cumplimientoRequisito.FechaObtencion,
+        //            URLEvidencia = cumplimientoRequisito.URLEvidencia,
+        //            AprobadoPorSupervisor = cumplimientoRequisito.AprobadoPorSupervisor,
+        //            FechaArpobacion = cumplimientoRequisito.FechaArpobacion,
+
+        //        };
+        //        using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+        //        {
+        //            ContextoBD.Entry(cumplimientoRequisito).State = EntityState.Modified;
+        //            await ContextoBD.SaveChangesAsync();
+        //            return true;
+        //        }
+        //    }
+
+        //    return false;
+
+        //}
+
         public async Task<bool> Eliminar(int IdCumplimientoRequisito)
         {
-
-            var cumplimientoRequisito = await Obtener(IdCumplimientoRequisito);
-
-            if (cumplimientoRequisito != null)
+            using (var ContextoBD = new PlanDesarrolloProfesionalContext())
             {
-                CumplimientoRequisito CumplimientoRequisito = new CumplimientoRequisito
+                // Intentamos encontrar la entidad en la base de datos.
+                var entidadAEliminar = await ContextoBD.CumplimientoRequisito
+                                                       .FindAsync(IdCumplimientoRequisito);
+
+                // Verificamos si la entidad existe y si AprobadoPorSupervisor es igual a 2.
+                if (entidadAEliminar != null && entidadAEliminar.AprobadoPorSupervisor == 2)
                 {
-                    CumplimientoRequisitoID = cumplimientoRequisito.CumplimientoRequisitoID,
-                    PlanDesarrolloID = cumplimientoRequisito.PlanDesarrolloID,
-                    ColaboradorID = cumplimientoRequisito.ColaboradorID,
-                    FechaRegistro = cumplimientoRequisito.FechaRegistro,
-                    FechaObtencion = cumplimientoRequisito.FechaObtencion,
-                    URLEvidencia = cumplimientoRequisito.URLEvidencia,
-                    AprobadoPorSupervisor = cumplimientoRequisito.AprobadoPorSupervisor,
-                    FechaArpobacion = cumplimientoRequisito.FechaArpobacion,
-                 
-                };
-                using (var ContextoBD = new PlanDesarrolloProfesionalContext())
-                {
-                    ContextoBD.Entry(cumplimientoRequisito).State = EntityState.Modified;
+                    // Si existe y cumple la condición, la marcamos para eliminación.
+                    ContextoBD.CumplimientoRequisito.Remove(entidadAEliminar);
+
+                    // Guardamos los cambios en la base de datos.
                     await ContextoBD.SaveChangesAsync();
-                    return true;
+                    return true; // Retornamos true indicando que la eliminación fue exitosa.
                 }
             }
 
-            return false;
-
+            return false; // Si la entidad no se encontró o no cumple la condición, no se elimina.
         }
+
+
 
     }
 }
