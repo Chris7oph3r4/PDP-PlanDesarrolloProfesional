@@ -84,6 +84,13 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
             List<CumplimientoRequisitoViewModel> ListaRequisitoModel = JsonConvert.DeserializeObject<List<CumplimientoRequisitoViewModel>>(ListaSolicitudeJson);
 
             return ListaRequisitoModel;
+        }      
+        public async Task<List<CumplimientoRequisitoViewModel>> ObtenerAprobadosPorSupervisor(int supervisorID)
+        {
+            var ListaSolicitudeJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.CumplimientoRequisito_ObtenerAprobadosPorSupervisor, supervisorID.ToString())/*, await Token()*/);
+            List<CumplimientoRequisitoViewModel> ListaRequisitoModel = JsonConvert.DeserializeObject<List<CumplimientoRequisitoViewModel>>(ListaSolicitudeJson);
+
+            return ListaRequisitoModel;
         }
 
 
@@ -96,6 +103,8 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
 
             return Objeto;
         }
+
+     
         #endregion Métodos
 
         #region Funciones

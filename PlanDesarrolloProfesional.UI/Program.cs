@@ -90,7 +90,7 @@ AppSettings.APIEndpoints.Ruta_Obtener = builder.Configuration.GetSection("PlanDe
 AppSettings.APIEndpoints.Ruta_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Ruta_Listar").Value;
 AppSettings.APIEndpoints.Ruta_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Ruta_Eliminar").Value;
 
-//El consumo de Endpoints de Ruta
+//El consumo de Endpoints de Rango
 AppSettings.APIEndpoints.Rango_Agregar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rango_Agregar").Value;
 AppSettings.APIEndpoints.Rango_Actualizar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rango_Actualizar").Value;
 AppSettings.APIEndpoints.Rango_Obtener = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Rango_Obtener").Value;
@@ -123,6 +123,7 @@ AppSettings.APIEndpoints.CumplimientoRequisito_Obtener = builder.Configuration.G
 AppSettings.APIEndpoints.CumplimientoRequisito_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_Listar").Value;
 AppSettings.APIEndpoints.CumplimientoRequisito_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_Eliminar").Value;
 AppSettings.APIEndpoints.CumplimientoRequisito_ListarPorPlanDesarrolloID = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_ListarPorPlanDesarrolloID").Value;
+AppSettings.APIEndpoints.CumplimientoRequisito_ObtenerAprobadosPorSupervisor = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_ObtenerAprobadosPorSupervisor").Value;
 
 #endregion ConfiguracionAPI
 
@@ -185,6 +186,7 @@ public static class Parameters
             try
             {
                 ((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("NameDB", usuario.Nombre.ToString()));
+                ((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("UsuarioIDDB", usuario.UsuarioID.ToString()));
                 ((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("RolID", rol));
                 //((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("IdRol", usuario.IdRol.ToString()));
                 //((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("IdEmpresa", usuario.IdEmpresa.ToString()));

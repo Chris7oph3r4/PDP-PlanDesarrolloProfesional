@@ -66,7 +66,7 @@
                         <label for="FechaObtencion" class="float-left font-weight-bold h5">Fecha de Obtención</label>
                     </div>
                     <div class="col-sm-4">
-                        @Html.EditorFor(model => model.FechaObtencion, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
+                        @Html.EditorFor(model => model.FechaObtencion, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info"} })
                         @* <input asp-for="FechaObtencion" type="date" class="col-12 form-control" value="fechaActual" /> *@
                         <span asp-validation-for="FechaObtencion" class="col-12 text-danger"></span>
                     </div>

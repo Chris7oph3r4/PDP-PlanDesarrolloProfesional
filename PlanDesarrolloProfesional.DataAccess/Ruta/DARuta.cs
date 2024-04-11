@@ -104,6 +104,10 @@ namespace PlanDesarRutaloProfesional.DataAccess
                 }
         }
 
+
+
+       
+
         //public async Task<Ruta> Inactivar(int IdRuta)
         //{
         //    using (var ContextoBD = new PlanDesarRutaloProfesionalContext())

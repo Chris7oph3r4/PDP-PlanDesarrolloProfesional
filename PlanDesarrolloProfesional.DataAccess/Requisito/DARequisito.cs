@@ -180,55 +180,35 @@ namespace PlanDesarrolloProfesional.DataAccess
             {
                 using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 {
-                    // Primero, verifica si hay algún requisito aprobado para el PlanDesarrolloID específico
-                    bool hayRequisitosAprobados = await ContextoBD.CumplimientoRequisito
-                        .AnyAsync(cumplimiento => cumplimiento.PlanDesarrolloID == PlanDesarrolloID && cumplimiento.AprobadoPorSupervisor == 1);
+                    // Obtener los IDs de los requisitos aprobados con valores 1 o 2 para el PlanDesarrolloID específico
+                    var idsRequisitosAprobados = await ContextoBD.CumplimientoRequisito
+                        .Where(cumplimiento => cumplimiento.PlanDesarrolloID == PlanDesarrolloID &&
+                                               (cumplimiento.AprobadoPorSupervisor == 1 ||
+                                                cumplimiento.AprobadoPorSupervisor == 2))
+                        .Select(cumplimiento => cumplimiento.RequisitoID)
+                        .Distinct()
+                        .ToListAsync();
 
-                    if (!hayRequisitosAprobados)
-                    {
-                        // Si no hay requisitos aprobados para el PlanDesarrolloID, muestra todos los requisitos del rango
-                        return await ContextoBD.Requisito
-                            .Where(requisito => requisito.RangoID == IdRango)
-                            .Select(requisito => new RequisitoModel
-                            {
-                                RequisitoID = requisito.RequisitoID,
-                                NombreRequisito = requisito.NombreRequisito,
-                                // Agrega aquí más propiedades según sea necesario
-                            })
-                            .ToListAsync();
-                    }
-                    else
-                    {
-                        // Si hay requisitos aprobados, filtra para no incluir esos requisitos aprobados para el PlanDesarrolloID
-                        return await ContextoBD.Requisito
-                            .Where(requisito => requisito.RangoID == IdRango)
-                            .GroupJoin(ContextoBD.CumplimientoRequisito,
-                                       requisito => requisito.RequisitoID,
-                                       cumplimiento => cumplimiento.RequisitoID,
-                                       (requisito, cumplimientos) => new { requisito, cumplimientos })
-                            .SelectMany(
-                                rc => rc.cumplimientos.DefaultIfEmpty(), // Permite requisitos sin cumplimientos
-                                (rc, cumplimiento) => new { rc.requisito, cumplimiento }
-                            )
-                            // Excluir los requisitos aprobados para el PlanDesarrolloID específico
-                            .Where(rc => rc.cumplimiento == null || rc.cumplimiento.PlanDesarrolloID != PlanDesarrolloID || rc.cumplimiento.AprobadoPorSupervisor != 1)
-                            .Select(rc => new RequisitoModel
-                            {
-                                RequisitoID = rc.requisito.RequisitoID,
-                                NombreRequisito = rc.requisito.NombreRequisito,
-                                // Más propiedades según sea necesario
-                            })
-                            .Distinct()
-                            .ToListAsync();
-                    }
+                    // Devuelve todos los requisitos para el IdRango dado que no están en la lista de aprobados
+                    return await ContextoBD.Requisito
+                        .Where(requisito => requisito.RangoID == IdRango &&
+                                            !idsRequisitosAprobados.Contains(requisito.RequisitoID))
+                        .Select(requisito => new RequisitoModel
+                        {
+                            RequisitoID = requisito.RequisitoID,
+                            NombreRequisito = requisito.NombreRequisito,
+                            // Agrega aquí más propiedades según sea necesario
+                        })
+                        .ToListAsync();
                 }
             }
             catch (Exception e)
             {
-                // Manejo de errores
-                return null;
+                // Manejo de errores, considera usar logging
+                throw e; // o devuelve un valor de error adecuado
             }
         }
+
 
 
     }
