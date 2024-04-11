@@ -32,7 +32,6 @@
                             <th>Fecha Inicio del Plan</th>
                             <th>Rango</th>
                             <th>Estado</th>
-
                         </tr>
                     </thead>
 
@@ -47,6 +46,8 @@
                                     <td data-label="Valor3">@item.FechaInicio.ToString("dd/MM/yyyy")</td>
                                     <td data-label="Valor4">@item.NombreRango</td>
                                     <td data-label="Valor4">@((item.Estado == 1) ? "Finalizado" : "En Curso")</td>
+                                    
+
 
                                     <td class="text-start" data-label="Acciones">
                                         <div class="dropdown">
@@ -56,6 +57,16 @@
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="@Url.Action("Modificar", "PlanDesarrolloProfesional", new {PlanDesarrolloID=item.PlanDesarrolloID })">Modificar</a>
                                                 <a onclick="Eliminar(@item.PlanDesarrolloID)" href="#" class="dropdown-item" style="color:black;">Eliminar</a>
+                                            </div>
+                                        </div>
+                                    </td>    <td class="text-start" data-label="Cumplimientos">
+                                        <div class="dropdown">
+                                            <a type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                                Cumplimientos
+                                            </a>
+                                            <div class="dropdown-menu">                                              
+                                                <a class="dropdown-item" href="@Url.Action("Agregar", "CumplimientoRequisito", new { PlanDesarrolloID = item.PlanDesarrolloID })">Agregar Cumplimiento</a>
+                                                <a class="dropdown-item" href="@Url.Action("Lista", "CumplimientoRequisito", new { PlanDesarrolloID = item.PlanDesarrolloID })">Lista</a>                                           
                                             </div>
                                         </div>
                                     </td>

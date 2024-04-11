@@ -103,6 +103,7 @@ AppSettings.APIEndpoints.Requisito_Agregar = builder.Configuration.GetSection("P
 AppSettings.APIEndpoints.Requisito_Actualizar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Actualizar").Value;
 AppSettings.APIEndpoints.Requisito_Obtener = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Obtener").Value;
 AppSettings.APIEndpoints.Requisito_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Listar").Value;
+AppSettings.APIEndpoints.Requisito_RequisitoPorRango = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_RequisitoPorRango").Value;
 AppSettings.APIEndpoints.Requisito_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Requisito_Eliminar").Value;
 
 //El consumo de Endpoints de Plan de Desarrollo Profesional
@@ -115,7 +116,13 @@ AppSettings.APIEndpoints.PlanDesarrolloProfesional_Eliminar = builder.Configurat
 //El consumo de Endpoints de Bitacora
 AppSettings.APIEndpoints.Bitacora_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Bitacora_Listar").Value;
 
-
+//EL consumo de Endpoints de Cumplinetos Profesional
+AppSettings.APIEndpoints.CumplimientoRequisito_Agregar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_Agregar").Value;
+AppSettings.APIEndpoints.CumplimientoRequisito_Actualizar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_Actualizar").Value;
+AppSettings.APIEndpoints.CumplimientoRequisito_Obtener = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_Obtener").Value;
+AppSettings.APIEndpoints.CumplimientoRequisito_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_Listar").Value;
+AppSettings.APIEndpoints.CumplimientoRequisito_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_Eliminar").Value;
+AppSettings.APIEndpoints.CumplimientoRequisito_ListarPorPlanDesarrolloID = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:CumplimientoRequisito_ListarPorPlanDesarrolloID").Value;
 
 #endregion ConfiguracionAPI
 
@@ -159,6 +166,7 @@ public static class Parameters
         var correo = context.Principal.FindFirst(ClaimTypes.Name)?.Value;
         var json = client.GetStringAsync($"https://localhost:7071/api/v1/Usuario/ObtenerPorCorreo?correo={correo}").Result;
         var usuario = JsonConvert.DeserializeObject<UsuarioModel>(json);
+        var rol = client.GetStringAsync($"https://localhost:7071/api/v1/Rol/ObtenerNombreDeLRol?IdRol={usuario.RolID.ToString()}").Result;
 
         if (usuario == null)
         {
@@ -177,7 +185,7 @@ public static class Parameters
             try
             {
                 ((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("NameDB", usuario.Nombre.ToString()));
-                ((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("RolID", usuario.RolID.ToString()));
+                ((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("RolID", rol));
                 //((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("IdRol", usuario.IdRol.ToString()));
                 //((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("IdEmpresa", usuario.IdEmpresa.ToString()));
                 //((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("Nombre", usuario.Nombre));

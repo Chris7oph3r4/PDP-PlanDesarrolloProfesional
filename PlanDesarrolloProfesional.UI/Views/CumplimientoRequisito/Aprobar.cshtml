@@ -1,0 +1,133 @@
+﻿@model PlanDesarrolloProfesional.Models.Models.CumplimientoRequisitoViewModel
+@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Modificar Requisitos del Plan Desarrollo";
+    // var fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
+    //List<Contingencia.Models.RolesModel> RolesList = ViewBag.Roles;
+    List<PlanDesarrolloProfesional.Models.Models.UsuarioModel> Colaboradores = ViewBag.Colaborador;
+    List<PlanDesarrolloProfesional.Models.Models.RutaModel> RutaList = ViewBag.Rutas;
+    List<PlanDesarrolloProfesional.Models.Models.RangoModel> RangoList = ViewBag.Rangos;
+    List<PlanDesarrolloProfesional.Models.Models.RequisitoModel> RequisitoList = ViewBag.Requisito;
+
+}
+
+<div class="card o-hidden border-0 shadow-lg my-4">
+<div class="card-body col-12">
+    <div class="col">
+        <div class="p-3">
+            <div class="col-sm-9 mb-3 mb-sm-0">
+                <h4 class="mb-4 text-center">Aprobar Requisitos</h4>
+            </div>
+        </div>
+
+        <form action="@Url.Action("Aprobar", "CumplimientoRequisito")" method="post" enctype="multipart/form-data" class="form">
+            @Html.HiddenFor(model => model.CumplimientoRequisitoID)
+                <div class="form-group row mt-2">
+                    <div class="col-sm-2">
+                        <label for="NombreColaborador" class="float-left font-weight-bold h5">Colaborador</label>
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBox("NombreColaborador", (string)ViewBag.NombreColaborador, new { @class = "form-control", @disabled = "disabled" })
+                    </div>
+                </div>
+
+                <div class="form-group row mt-2">
+                    <div class="col-sm-2">
+                        <label for="NombreRuta" class="float-left font-weight-bold h5">Ruta</label>
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBox("NombreRuta", (string)ViewBag.NombreRuta, new { @class = "form-control", @disabled = "disabled" })
+                    </div>
+                </div>
+
+                <div class="form-group row mt-2">
+                    <div class="col-sm-2">
+                        <label for="NombreRango" class="float-left font-weight-bold h5">Rango</label>
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBox("NombreRango", (string)ViewBag.NombreRango, new { @class = "form-control", @disabled = "disabled" })
+                    </div>
+                </div>
+
+
+                <div class="form-group row mt-2">
+                    <div class="col-sm-2">
+                        <label for="NombreRequisito" class="float-left font-weight-bold h5">Requisito</label>
+                    </div>
+                    <div class="col-sm-4">
+                       
+                        @Html.TextBox("NombreRequisito", (string)ViewBag.NombreRequisito, new { @class = "form-control", @disabled = "disabled" })
+                    </div>
+                </div>
+
+            <div class="form-group row  mt-2">
+                <div class="col-sm-2">
+                    <label for="FechaObtencion" class="float-left font-weight-bold h5">Fecha de Obtención</label>
+                </div>
+                <div class="col-sm-4">
+                        @Html.EditorFor(model => model.FechaObtencion, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info", @disabled = "disabled" } })
+                    @* <input asp-for="FechaObtencion" type="date" class="col-12 form-control" value="fechaActual" /> *@
+                    <span asp-validation-for="FechaObtencion" class="col-12 text-danger"></span>
+                </div>
+            </div>
+
+
+
+            <div class="form-group row  mt-2">
+                <div class="col-sm-2">
+                    <label for="URLEvidencia" class="float-left font-weight-bold h5">URL Evidencia</label>
+                </div>
+                <div class="col-sm-4">
+                        @Html.EditorFor(model => model.URLEvidencia, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info", @disabled = "disabled" } })
+                    @* <input asp-for="URLEvidencia" type="text" class="col-12 form-control" /> *@
+                    <span asp-validation-for="URLEvidencia" class="col-12 text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="form-group row mt-2">
+                <div class="col-sm-2">
+                    <label for="AprobadoPorSupervisor" class="float-left font-weight-bold h5">Aprobación</label>
+                </div>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(model => model.AprobadoPorSupervisor,
+                             new SelectList(
+                             new List<Object>{
+                    new { value = 0, text = "Denegado"},
+                    new { value = 1, text = "Aprobado"}
+                    },
+                             "value",
+                             "text",
+                             Model.AprobadoPorSupervisor
+                             ),
+                             new { @class = "form-control rounded-3 border border-info" }
+                             )
+                    <span asp-validation-for="AprobadoPorSupervisor" class="col-12 text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="form-group row mt-2" style="display:none;">
+                <div class="col-sm-2">
+                    <label for="FechaArpobacion" class="float-left font-weight-bold h5">Fecha de Aprobación</label>
+                </div>
+                <div class="col-sm-4">
+                    @Html.EditorFor(model => model.FechaArpobacion, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
+                    <span asp-validation-for="FechaArpobacion" class="col-12 text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row mt-2">
+                <div class="col-sm-6">
+                    <!-- Div para el primer botón -->
+                    <button class="btn btn-primary btn-block" type="submit">Modificar<i class="fas fa-fw fa-plus"></i></button>
+                </div>
+                <div class="col-sm-6">
+                    <!-- Div para el segundo botón -->
+                    <a class="btn btn-secondary btn-block" asp-controller="CumplimientoRequisito" asp-action="Index">Regresar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>

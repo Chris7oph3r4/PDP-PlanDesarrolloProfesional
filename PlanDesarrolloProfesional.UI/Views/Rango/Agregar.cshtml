@@ -23,11 +23,17 @@
             <form action="@Url.Action("Agregar","Rango")" method="post" enctype="multipart/form-data" class="form">
 
 
-            
+                <div class="form-group row">
+                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Ruta</label></div>
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(model => model.RutaID, new SelectList(RutaList, "RutaID", "NombreRuta"), "Seleccione el ruta:", new { @class = "float-right form-control form-select" })
+                    </div>
+                </div>
+                <br/>
                 <div class="form-group row">
                     <div class="col-sm-2"><label class="float-left font-weight-bold h5">Nombre del Rango</label></div>
                     <div class="col-sm-4">
-                        <input asp-for="NombreRango" type="text" class="col-12 form-contRuta" />
+                        <input asp-for="NombreRango" type="text" class="col-12 form-control" />
                         <span asp-validation-for="NombreRango" class="col-12 text-danger"></span>
                     </div>
                 </div>
@@ -35,17 +41,12 @@
                 <div class="form-group row">
                     <div class="col-sm-2"><label class="float-left font-weight-bold h5">Descripción del Rango</label></div>
                     <div class="col-sm-4">
-                        <input asp-for="Descripcion" type="text" class="col-12 form-contRuta" />
+                        <input asp-for="Descripcion" type="text" class="col-12 form-control" />
                         <span asp-validation-for="Descripcion" class="col-12 text-danger"></span>
                     </div>
                 </div>
-                <br />
-                <div class="form-group row">
-                    <div class="col-sm-2"><label class="float-left font-weight-bold h5">Ruta</label></div>
-                    <div class="col-sm-4">
-                        @Html.DropDownListFor(model => model.RutaID, new SelectList(RutaList, "RutaID", "NombreRuta"), "Seleccione el ruta:", new { @class = "float-right form-control form-select" })
-                    </div>
-                </div>
+              
+                
 
 
 

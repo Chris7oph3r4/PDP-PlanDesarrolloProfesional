@@ -28,7 +28,7 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             
 
             // Comprobar si el usuario tiene el rol de Administrador
-            if (User?.FindFirst("RolID")?.Value == "1") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
                 if (Mensaje != "")
             {
@@ -66,15 +66,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
 
         public async Task<ActionResult> Agregar(string Mensaje)
         {
-            // Obtener el claim de email o username del usuario autenticado
-            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
-            // Obtener el objeto usuario basado en el email o username
-            var usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
-            // Ahora que tienes el objeto usuario, puedes obtener el RolID
-            string nombreRol = await LRoles.ObtenerNombreDelRol(usuario.RolID);
+         
 
             // Comprobar si el usuario tiene el rol de Administrador
-            if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
                 if (!string.IsNullOrEmpty(Mensaje))
                 {
@@ -101,10 +96,12 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Agregar(UsuarioAgregarViewModel Modelo)
         {
-            //convertir usuariosagregarviewmodel a usuariomodel
-            //    Foreach de area
+
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+
             Modelo.CodigoDaloo = Guid.NewGuid();
-            var Agregar = await LUsuario.AgregarUsuarioAreaJerarquia(Modelo);
+            var Agregar = await LUsuario.AgregarUsuarioAreaJerarquia(Modelo,nameClaim);
             
             if (Agregar.UsuarioID != null)
             {
@@ -123,15 +120,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
       
         public async Task<ActionResult> Modificar(int UsuarioID, string Mensaje)
         {
-            // Obtener el claim de email o username del usuario autenticado
-            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
-            // Obtener el objeto usuario basado en el email o username
-            var usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
-            // Ahora que tienes el objeto usuario, puedes obtener el RolID
-            string nombreRol = await LRoles.ObtenerNombreDelRol(usuario.RolID);
+            
 
             // Comprobar si el usuario tiene el rol de Administrador
-            if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
 
                 if (Mensaje != "")
@@ -161,9 +153,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         {
 
             UsuarioAgregarViewModel Usuario = await LUsuario.ObtenerUA(Modelo.UsuarioID);
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
-
-            var Modificar = await LUsuario.Actualizar(Modelo);
+            var Modificar = await LUsuario.Actualizar(Modelo,nameClaim);
             if (Modificar.UsuarioID != null)
             {
                 return RedirectToAction("Index", "Usuario", new { Mensaje = "Modifica" });
@@ -178,18 +171,15 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Eliminar(int IdObjeto)
         {
-            // Obtener el claim de email o username del usuario autenticado
-            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
-            // Obtener el objeto usuario basado en el email o username
-            var usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
-            // Ahora que tienes el objeto usuario, puedes obtener el RolID
-            string nombreRol = await LRoles.ObtenerNombreDelRol(usuario.RolID);
+           
 
             // Comprobar si el usuario tiene el rol de Administrador
-            if (nombreRol == "Administrador") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
+                var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+                var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
-                var Eliminar = await LUsuario.Eliminar(IdObjeto);
+                var Eliminar = await LUsuario.Eliminar(IdObjeto,nameClaim);
             if (Eliminar)
             {
                 return RedirectToAction("Index", "Usuario", new { Mensaje = "Eliminado" });

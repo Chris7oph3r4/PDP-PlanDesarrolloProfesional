@@ -10,14 +10,14 @@ namespace PlanDesarrolloProfesional.Interface
 
     public interface IRango
     {
-        Task<RangoModel> Agregar(RangoModel Modelo);
+        Task<RangoModel> Agregar(List<object> Modelo);
         Task<RangoModel> Obtener(int IdRango);
         //Task<RangoModel> Inactivar(int IdPedido);
-        Task<RangoModel> Actualizar(RangoModel modelo);
+        Task<RangoModel> Actualizar(List<object> modelo);
         //Task<IEnumerable<RolViewModel>> ListarPorUsuario(int IdUsuario);
         Task<IEnumerable<RangoModel>> Listar();
         Task<IEnumerable<RangoModel>> RangosPorRuta(int idRuta);
-        Task<bool> Eliminar(int IdRango);
+        Task<bool> Eliminar(int IdRango, string nameclaim);
     }
 }
 

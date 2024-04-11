@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PlanDesarrolloProfesional.ConsumeLogic;
 using PlanDesarrolloProfesional.Models.Models;
+using System.Security.Claims;
 
 namespace PlanDesarrolloProfesional.UI.Controllers
 {
@@ -55,7 +56,11 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             Modelo.FechaInicio = DateTime.Now;
             Modelo.Estado = 0;
             Modelo.Finalizado = false;
-            var Agregar = await LPlanDesarrollo.Agregar(Modelo);
+
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+
+            var Agregar = await LPlanDesarrollo.Agregar(Modelo, nameClaim);
 
             if (Agregar.PlanDesarrolloID != null)
             {
@@ -98,7 +103,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
                 Finalizado = Modelo.Finalizado
             };
 
-            var Modificar = await LPlanDesarrollo.Actualizar(Plan);
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+
+            var Modificar = await LPlanDesarrollo.Actualizar(Plan, nameClaim);
             if (Modificar.PlanDesarrolloID != null)
             {
                 return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Modifica" });
@@ -112,11 +120,12 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Eliminar(int IdObjeto)
+        public async Task<ActionResult> Eliminar(int IdObjeto, string nameclaim)
         {
+            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
-
-            var Eliminar = await LPlanDesarrollo.Eliminar(IdObjeto);
+            var Eliminar = await LPlanDesarrollo.Eliminar(IdObjeto, nameClaim);
             if (Eliminar)
             {
                 return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Eliminado" });
@@ -128,6 +137,8 @@ namespace PlanDesarrolloProfesional.UI.Controllers
 
 
         }
+
+
     }
 }
 

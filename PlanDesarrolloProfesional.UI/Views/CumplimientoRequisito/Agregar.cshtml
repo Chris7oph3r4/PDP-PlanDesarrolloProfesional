@@ -1,0 +1,150 @@
+﻿@model PlanDesarrolloProfesional.Models.Models.CumplimientoRequisitoModel
+@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Crear Requisitos del Plan Desarrollo";
+    var fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
+    // List<Contingencia.Models.RolesModel> RolesList = ViewBag.Roles;
+    List<PlanDesarrolloProfesional.Models.Models.UsuarioModel> Colaboradores = ViewBag.Colaborador;
+    List<PlanDesarrolloProfesional.Models.Models.RutaModel> RutaList = ViewBag.Rutas;
+    List<PlanDesarrolloProfesional.Models.Models.RangoModel> RangoList = ViewBag.Rangos;
+    List<PlanDesarrolloProfesional.Models.Models.RequisitoModel> RequisitoList = ViewBag.Requisito;
+    List<PlanDesarrolloProfesional.Models.Models.RequisitoModel> RequisitosFiltrados = ViewBag.RequisitosFiltrados;
+
+}
+
+<div class="card o-hidden border-0 shadow-lg my-4">
+    <div class="card-body col-12">
+        <div class="col">
+            <div class="p-3">
+            <div class="col-sm-9 mb-3 mb-sm-0">
+            <h4 class="mb-4 text-center">Agregar Requisito</h4>
+            </div>
+            </div>
+
+
+            <form action="@Url.Action("Agregar", "CumplimientoRequisito")" method="post" enctype="multipart/form-data" class="form">
+
+                <input asp-for="PlanDesarrolloID" type="hidden" />
+                <input asp-for="ColaboradorID" type="hidden" />
+
+                <div class="form-group row  mt-2">
+                    <div class="col-sm-2">
+                        <label for="Colaborador" class="float-left font-weight-bold h5">Colaborador ID</label>
+
+                    </div>
+                    <div class="col-sm-4">
+                        <span id="NombreColaborador">@ViewBag.NombreColaborador</span>
+                        
+                    </div>
+                </div>
+
+                <div class="form-group row  mt-2">
+                    <div class="col-sm-2">
+                        <label for="NombreRango" class="float-left font-weight-bold h5">Rango</label>
+
+                    </div>
+                    <div class="col-sm-4">
+                        <span id="NombreRango">@ViewBag.NombreRango</span>
+
+                    </div>
+                </div>
+
+                <div class="form-group row  mt-2">
+                    <div class="col-sm-2">
+                    <label for="Requisitos" class="float-left font-weight-bold h5">Requisitos</label>
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.DropDownList("RequisitoSeleccionado", new SelectList(ViewBag.RequisitosFiltrados, "RequisitoID", "NombreRequisito"), "Selecciona un Requisito", new { @class = "form-control col-12" })
+                    </div>
+
+                </div> <div class="form-group row  mt-2">
+                    <div class="col-sm-2">
+                    <label for="FechaObtencion" class="float-left font-weight-bold h5">Fecha de Obtención</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input asp-for="FechaObtencion" type="date" class="col-12 form-control" value="fechaActual" />
+                    </div>
+                </div>
+
+                <div class="form-group row  mt-2">
+                    <div class="col-sm-2">
+                    <label for="URLEvidencia" class="float-left font-weight-bold h5">URL Evidencia</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input asp-for="URLEvidencia" type="text" class="col-12 form-control" />
+                    </div>
+                </div>
+
+
+@*                 <div class="form-group row mt-2">
+                    <div class="col-sm-2">
+                    <label for="FechaArpobacion" class="float-left font-weight-bold h5">Fecha de Aprobación</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input asp-for="FechaArpobacion" type="date" class="col-12 form-control" value="fechaActual" />
+                    </div>
+                </div> *@
+
+                <div class="form-group row mt-2">
+                    <div class="col-sm-6">
+                        <button type="submit" class="btn btn-primary btn-block">Agregar <i class="fas fa-fw fa-plus"></i></button>
+                    </div>
+                    <div class="col-sm-6">
+                        <a asp-controller="CumplimientoRequisito" asp-action="Index" class="btn btn-secondary btn-block">Regresar</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    // $(document).ready(function () {
+    //     $("#Ruta").change(function () {
+    //         var selectedRuta = $(this).val();
+    //         $("#RangoRemover").removeClass("d-none");
+
+    //         //Código para manejar la carga de rangos
+
+    //         $.ajax({
+    //             url: '/Requisito/ObtenerRangosPorRuta', // Asegúrate de que esta URL sea correcta
+    //             type: 'GET',
+    //             data: { rutaId: selectedRuta },
+    //             success: function (data) {
+    //                 console.log(data);
+    //                 // Limpiar y actualizar el dropdown de rangos
+    //                 $("#Rango").empty(); // Corregido el ID aquí
+    //                 $("#Rango").append('<option value="">Seleccione la ruta:</option>'); // Opción predeterminada
+    //                 $.each(data, function (index, item) {
+    //                     $("#Rango").append('<option value="' + item.RangoID + '">' + item.NombreRango + '</option>');
+    //                 });
+    //             },
+    //             error: function () {
+    //                 alert('Error al obtener los rangos.');
+    //             }
+    //         });
+    //     });
+
+    //     // Manejar el cambio en el desplegable de Rangos
+    //     $("#Rango").change(function () {
+    //         var selectedRango = $(this).val();
+
+    //         $.ajax({
+    //             url: '/Requisito/ObtenerRequisitosPorRango', // Verifica esta URL también
+    //             type: 'GET',
+    //             data: { rangoId: selectedRango },
+    //             success: function (data) {
+    //                 $("#Requisito").empty();
+    //                 $.each(data, function (index, item) {
+    //                     $("#Requisito").append('<option value="' + item.RequisitoID + '">' + item.NombreRequisito + '</option>');
+    //                 });
+    //             },
+    //             error: function () {
+    //                 alert('Error al obtener los requisitos.');
+    //             }
+    //         });
+    //     });
+    // });
+</script>

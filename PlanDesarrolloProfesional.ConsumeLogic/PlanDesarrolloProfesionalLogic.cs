@@ -32,10 +32,12 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
 
         #region Métodos
 
-        public async Task<PlanesDesarrolloProfesionalModel> Agregar(PlanesDesarrolloProfesionalModel PlanDesarrolloModel)
+        public async Task<PlanesDesarrolloProfesionalModel> Agregar(PlanesDesarrolloProfesionalModel PlanDesarrolloModel, string nameclaim)
         {
-
-            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.PlanDesarrolloProfesional_Agregar), PlanDesarrolloModel/*, await Token()*/);
+            List<object> lista = new List<object>();
+            lista.Add(PlanDesarrolloModel);
+            lista.Add(nameclaim);
+            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.PlanDesarrolloProfesional_Agregar), lista/*, await Token()*/);
             PlanesDesarrolloProfesionalModel Objeto = JsonConvert.DeserializeObject<PlanesDesarrolloProfesionalModel>(ObjetoJson);
 
             return Objeto;
@@ -59,10 +61,12 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
         //    return Objeto;
         //}
 
-        public async Task<PlanesDesarrolloProfesionalModel> Actualizar(PlanesDesarrolloProfesionalModel PlanDesarrolloModel)
+        public async Task<PlanesDesarrolloProfesionalModel> Actualizar(PlanesDesarrolloProfesionalModel PlanDesarrolloModel, string nameclaim)
         {
-
-            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.PlanDesarrolloProfesional_Actualizar), PlanDesarrolloModel/*, await Token()*/);
+            List<object> lista = new List<object>();
+            lista.Add(PlanDesarrolloModel);
+            lista.Add(nameclaim);
+            var ObjetoJson = await ServicesRequest.DataRequestPOST(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.PlanDesarrolloProfesional_Actualizar), lista/*, await Token()*/);
             PlanesDesarrolloProfesionalModel Objeto = JsonConvert.DeserializeObject<PlanesDesarrolloProfesionalModel>(ObjetoJson);
 
             return Objeto;
@@ -77,10 +81,10 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
             return ListaJerarquiasModel;
         }
 
-        public async Task<bool> Eliminar(int IdPlan)
+        public async Task<bool> Eliminar(int IdPlan, string nameclaim)
         {
 
-            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.PlanDesarrolloProfesional_Eliminar, IdPlan.ToString())/*, await Token()*/);
+            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.PlanDesarrolloProfesional_Eliminar, IdPlan.ToString(), nameclaim)/*, await Token()*/);
             bool Objeto = JsonConvert.DeserializeObject<bool>(ObjetoJson);
 
             return Objeto;

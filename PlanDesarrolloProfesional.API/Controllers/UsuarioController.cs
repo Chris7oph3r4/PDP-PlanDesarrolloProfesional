@@ -21,14 +21,14 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpPost]
         [Route("Agregar")]
-        public async Task<UsuarioModel> Agregar(UsuarioModel Modelo)
+        public async Task<UsuarioModel> Agregar(List<object> Modelo)
         {
             var Objeto = await _IUsuario.Agregar(Modelo);
             return Objeto;
         }
         [HttpPost]
         [Route("AgregarViewModel")]
-        public async Task<UsuarioAgregarViewModel> AgregarViewModel(UsuarioAgregarViewModel Modelo)
+        public async Task<UsuarioAgregarViewModel> AgregarViewModel(List<object> Modelo)
         {
             var Objeto = await _IUsuario.AgregarUsuarioAreaJerarquia(Modelo);
             return Objeto;
@@ -89,7 +89,7 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpPost]
         [Route("Actualizar")]
-        public async Task<UsuarioAgregarViewModel> Actualizar(UsuarioAgregarViewModel Modelo)
+        public async Task<UsuarioAgregarViewModel> Actualizar(List<object> Modelo)
         {
             if (Modelo == null) throw new Exception("Modelo Nulo");
             var ModeloActualizado = await _IUsuario.Actualizar(Modelo);
@@ -109,10 +109,10 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpGet]
         [Route("Eliminar")]
-        public async Task<bool> Eliminar(int IdUsuario)
+        public async Task<bool> Eliminar(int IdUsuario, string nameClaim)
         {
             if (IdUsuario == 0) throw new Exception("Código Nulo");
-            var Modelo = await _IUsuario.Eliminar(IdUsuario);
+            var Modelo = await _IUsuario.Eliminar(IdUsuario, nameClaim);
             return Modelo;
         }
     }

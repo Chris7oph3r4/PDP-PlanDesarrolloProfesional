@@ -51,11 +51,13 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
             public static string Rango_Eliminar { get; set; }
             public static string Rango_Listar { get; set; }
             public static string Rango_RangoPorRutas { get; set; }
+
             public static string Requisito_Agregar { get; set; }
             public static string Requisito_Obtener { get; set; }
             public static string Requisito_Actualizar { get; set; }
             public static string Requisito_Eliminar { get; set; }
             public static string Requisito_Listar { get; set; }
+            public static string Requisito_RequisitoPorRango { get; set; }
 
             public static string PlanDesarrolloProfesional_Agregar { get; set; }
             public static string PlanDesarrolloProfesional_Obtener { get; set; }
@@ -66,6 +68,12 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
 
             public static string Bitacora_Listar { get; set; }
 
+            public static string CumplimientoRequisito_Agregar { get; set; }
+            public static string CumplimientoRequisito_Obtener { get; set; }
+            public static string CumplimientoRequisito_Actualizar { get; set; }
+            public static string CumplimientoRequisito_Listar { get; set; }
+            public static string CumplimientoRequisito_Eliminar { get; set; }
+            public static string CumplimientoRequisito_ListarPorPlanDesarrolloID { get; set; }
         }
     }
 }

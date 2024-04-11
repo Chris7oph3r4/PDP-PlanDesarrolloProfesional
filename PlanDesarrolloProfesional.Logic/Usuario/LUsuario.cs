@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using PlanDesarrolloProfesional.DataAccess;
 using PlanDesarrolloProfesional.Interface;
 using PlanDesarrolloProfesional.Models.Models;
@@ -22,23 +23,29 @@ namespace PlanDesarrolloProfesional.Logic
        
         }
 
-        public async Task<UsuarioModel> Agregar(UsuarioModel Modelo)
+        public async Task<UsuarioModel> Agregar(List<object> Modelo)
         {
+            UsuarioModel model;
             try
             {
-                var respuesta = await _DAUsuario.Agregar(Modelo.ConvertBD());
-                Modelo = new UsuarioModel(respuesta);
-                return Modelo;
+                var respuesta = await _DAUsuario.Agregar(JsonConvert.DeserializeObject<UsuarioModel>(Modelo[0]?.ToString()).ConvertBD(), Modelo[1]?.ToString());
+                model = new UsuarioModel(respuesta);
+                return model;
             }
             catch (Exception e)
             {
                 return null;
             }
         }
-        public async Task<UsuarioAgregarViewModel> AgregarUsuarioAreaJerarquia(UsuarioAgregarViewModel Modelo)
+        public async Task<UsuarioAgregarViewModel> AgregarUsuarioAreaJerarquia(List<object> Model)
         {
+            UsuarioAgregarViewModel Modelo;
+            string nameclaim;
             try
             {
+                Modelo = JsonConvert.DeserializeObject<UsuarioAgregarViewModel>(Model[0]?.ToString());
+                nameclaim = Model[1]?.ToString();
+
                 Usuario usuario = new Usuario
                 {
                     Nombre = Modelo.Nombre,
@@ -48,10 +55,10 @@ namespace PlanDesarrolloProfesional.Logic
                     Correo = Modelo.Correo,
                     CodigoDaloo = Modelo.CodigoDaloo
                 };
-                var respuesta = await _DAUsuario.Agregar(usuario);
+                var respuesta = await _DAUsuario.Agregar(usuario,nameclaim);
                 Modelo.UsuarioID = respuesta.UsuarioID;
-                var respuestaArea = await _DAUsuario.AgregarAreas(Modelo);
-                var respuestaSupervisor = await _DAUsuario.AgregarSupervisor(Modelo);
+                var respuestaArea = await _DAUsuario.AgregarAreas(Modelo, nameclaim);
+                var respuestaSupervisor = await _DAUsuario.AgregarSupervisor(Modelo, nameclaim);
                 
                 return respuestaSupervisor;
              
@@ -174,12 +181,12 @@ namespace PlanDesarrolloProfesional.Logic
         //    }
         //}
 
-        public async Task<bool> Eliminar(int IdUsuario)
+        public async Task<bool> Eliminar(int IdUsuario, string nameclaim)
         {
             try
             {
                 
-                bool Objeto = await _DAUsuario.Eliminar(IdUsuario);
+                bool Objeto = await _DAUsuario.Eliminar(IdUsuario, nameclaim);
                 return Objeto;
             }
             catch (Exception e)
@@ -188,25 +195,30 @@ namespace PlanDesarrolloProfesional.Logic
             }
         }
 
-        public async Task<UsuarioAgregarViewModel> Actualizar(UsuarioAgregarViewModel modelo)
+        public async Task<UsuarioAgregarViewModel> Actualizar(List<object> model)
         {
+            UsuarioAgregarViewModel modelo;
+            string nameclaim;
             try
-            {  
+            {
+                modelo = JsonConvert.DeserializeObject<UsuarioAgregarViewModel>(model[0]?.ToString());
+                nameclaim = model[1]?.ToString();
+
                 List<int> areasOriginales = await _DAUsuario.ObtenerAreasActuales(modelo.UsuarioID);
                 List<int> areasRecibidas = modelo.AreasID;
                 List<int> nuevasAreas = areasRecibidas.Except(areasOriginales).ToList();
                 List<int> areasPorEliminar = areasOriginales.Except(areasRecibidas).ToList();
 
-                var actualizarSupervisor = await _DAUsuario.ActualizarSupervisorUsuario(modelo);
+                var actualizarSupervisor = await _DAUsuario.ActualizarSupervisorUsuario(modelo, nameclaim);
 
                 if (nuevasAreas.Count() != 0)
                 {
-                    var respuestaArea = await _DAUsuario.AgregarAreas(modelo);
+                    var respuestaArea = await _DAUsuario.AgregarAreas(modelo, nameclaim);
                     
                 }
                 if (areasPorEliminar.Count() != 0)
                 {
-                    var eliminarUsuarioArea = await _DAUsuario.EliminarUsuarioArea(areasPorEliminar);
+                    var eliminarUsuarioArea = await _DAUsuario.EliminarUsuarioArea(areasPorEliminar, nameclaim);
                     
                 }
                 
@@ -221,7 +233,7 @@ namespace PlanDesarrolloProfesional.Logic
                     Correo = modelo.Correo,
                     CodigoDaloo = modelo.CodigoDaloo
                 };
-                var modificarUsuarioArea = await _DAUsuario.ActualizarUsuario(usuario);
+                var modificarUsuarioArea = await _DAUsuario.ActualizarUsuario(usuario, nameclaim);
 
                 var usuarioActualizado = await _DAUsuario.ObtenerUA(modelo.UsuarioID);
 

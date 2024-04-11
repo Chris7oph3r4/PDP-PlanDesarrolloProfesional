@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using PlanDesarrolloProfesional.Models.Models;
 using System;
 using System.Collections.Generic;
@@ -10,16 +11,29 @@ namespace PlanDesarrolloProfesional.DataAccess
 {
     public class DAPlanDesarrolloProfesional
     {
+        DABitacora bitDA = new DABitacora();
+
         public DAPlanDesarrolloProfesional()
         {        
         }
-        public async Task<PlanesDesarrolloProfesional> Agregar(PlanesDesarrolloProfesional Modelo)
+        public async Task<PlanesDesarrolloProfesional> Agregar(PlanesDesarrolloProfesional Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
                     var AgregarObjeto = ContextoBD.Add(Modelo);
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha agregado el plan de desarrollo profesional con el Id " + Modelo.PlanDesarrolloID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return Modelo;
                 }
                 catch (Exception e)
@@ -92,13 +106,24 @@ namespace PlanDesarrolloProfesional.DataAccess
             }
         }
 
-        public async Task<PlanesDesarrolloProfesional> Actualizar(PlanesDesarrolloProfesional Modelo)
+        public async Task<PlanesDesarrolloProfesional> Actualizar(PlanesDesarrolloProfesional Modelo, string nameclaim)
         {
+            Bitacora bitmodel = new Bitacora();
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
                 try
                 {
                     ContextoBD.Entry(Modelo).State = EntityState.Modified;
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha actualizado el plan de desarrollo profesional con el Id " + Modelo.PlanDesarrolloID.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return Modelo;
                 }
                 catch (Exception e)
@@ -107,9 +132,9 @@ namespace PlanDesarrolloProfesional.DataAccess
                 }
         }
 
-        public async Task<bool> Eliminar(int IdPlanDesarrolloProfesional)
+        public async Task<bool> Eliminar(int IdPlanDesarrolloProfesional, string nameclaim)
         {
-
+            Bitacora bitmodel = new Bitacora();
             var PlanDesarrolloProfesional = await Obtener(IdPlanDesarrolloProfesional);
 
             if (PlanDesarrolloProfesional != null)
@@ -127,6 +152,16 @@ namespace PlanDesarrolloProfesional.DataAccess
                 {
                     ContextoBD.Entry(PlanDesarrollo).State = EntityState.Modified;
                     await ContextoBD.SaveChangesAsync();
+
+                    bitmodel = new Bitacora()
+                    {
+                        Descripcion = "Se ha eliminado el plan de desarrollo profesional con el Id " + IdPlanDesarrolloProfesional.ToString(),
+                        Usuario = nameclaim,
+                        Fecha = DateTime.Now
+                    };
+
+                    await bitDA.Agregar(bitmodel);
+
                     return true;
                 }
             }

@@ -1,16 +1,16 @@
-﻿@model IEnumerable<PlanDesarrolloProfesional.Models.Models.RequisitoViewModel>
+﻿@model IEnumerable<PlanDesarrolloProfesional.Models.Models.CumplimientoRequisitoViewModel>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Requisito";
+    ViewData["Title"] = "Lista";
 }
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Requisito</h1>
+    <h1 class="h3 mb-2 text-gray-800">Lista</h1>
     <p class="mb-4">
-        Lista de Requisitos
+        Lista
     </p>
 
     <!-- DataTales Example -->
@@ -18,16 +18,21 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">@Model.Count() Registros</h6>
         </div>
-        <div class="card-header py-3">
-            <a href="@Url.Action("Agregar", "Requisito", new { })" class="btn btn-primary btn-user btn-block">Agregar</a>
-        </div>
+
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>NombreRequisito</th>
+                            <th>Plan Desarrollo</th>
+                            <th>Ruta</th>
                             <th>Rango</th>
+                            <th>Requisito</th>
+                            <th>Colaborador</th>
+                            <th>Evidencia</th>
+                            <th>Fecha Obtenida </th>
+                            <th>Estado</th>
+
 
                         </tr>
                     </thead>
@@ -36,8 +41,33 @@
                         @foreach (var item in Model)
                         {
                             <tr>
+
+                                <td data-label="Valor1">@item.PlanDesarrolloID</td>
+                                <td data-label="Valor1">@item.NombreRuta</td>
+                                <td data-label="Valor1">@item.NombreRango</td>
                                 <td data-label="Valor1">@item.NombreRequisito</td>
-                                <td data-label="Valor1">@item.RangoNombre</td>
+                                <td data-label="Valor1">@item.NombreColaborador</td>
+                                <td data-label="Valor1">@item.URLEvidencia</td>
+                                <td data-label="Valor1">@item.FechaObtencion.ToString("dd/MM/yyyy")</td>
+                                <td data-label="Estado">
+                                    @switch (item.AprobadoPorSupervisor)
+                                    {
+                                        case 0:
+                                            @:Denegado
+                                            break;
+                                        case 1:
+                                            @:Aprobado
+                                            break;
+                                        case 2:
+                                            @:En revisión
+                                            break;
+                                        default:
+                                            @:No definido
+                                            break;
+                                    }
+                                </td>
+
+
 
                                 <td class="text-start" data-label="Acciones">
                                     <div class="dropdown">
@@ -45,8 +75,8 @@
                                             Acciones
                                         </a>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="@Url.Action("Modificar", "Requisito", new {RequisitoID=item.RequisitoID })">Modificar</a>
-                                            <a onclick="Eliminar(@item.RequisitoID)" href="#" class="dropdown-item" style="color:black;">Eliminar</a>
+                                            <a class="dropdown-item" href="@Url.Action("Modificar", "CumplimientoRequisito", new {CumplimientoRequisitoID=item.CumplimientoRequisitoID })">Modificar</a>
+                                            <a onclick="Eliminar(@item.CumplimientoRequisitoID)" href="#" class="dropdown-item" style="color:black;">Eliminar</a>
                                         </div>
                                     </div>
                                 </td>
@@ -54,7 +84,7 @@
                         }
                     </tbody>
                 </table>
-                @using (Html.BeginForm("Eliminar", "Requisito", FormMethod.Post, new { id = "EliminarRequisito" }))
+                @using (Html.BeginForm("Eliminar", "CumplimientoRequisito", FormMethod.Post, new { id = "EliminarCumplimientoRequisito" }))
                 {
                     <input type="hidden" id="IdObjeto" name="IdObjeto" />
                     @*<input type="hidden" id="Justificacion" name="Justificacion" />*@
@@ -145,8 +175,8 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Aquí colocas el código que se ejecutará si el usuario hace clic en "Sí, eliminar"
-                        $('#IdObjeto').val(RequisitoID);
-                        $("#EliminarRequisito").submit();
+                    $('#IdObjeto').val(RequisitoID);
+                    $("#EliminarCumplimientoRequisito").submit();
 
                 } else {
                     // Aquí colocas el código que se ejecutará si el usuario hace clic en "Cancelar" o fuera del cuadro de confirmación

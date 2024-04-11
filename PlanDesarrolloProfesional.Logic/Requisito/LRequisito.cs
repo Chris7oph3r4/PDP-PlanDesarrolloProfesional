@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using PlanDesarrolloProfesional.DataAccess;
 using PlanDesarrolloProfesional.Interface;
 using PlanDesarrolloProfesional.Models.Models;
@@ -13,21 +14,24 @@ namespace PlanDesarrolloProfesional.Logic
     public class LRequisito : IRequisito
     {
         private DARequisito _DARequisito;
+        private DARango _DARango;
 
 
         public LRequisito(IConfiguration configuration)
         {
             _DARequisito = new DARequisito();
+            _DARango = new DARango();   
 
         }
 
-        public async Task<RequisitoModel> Agregar(RequisitoModel Modelo)
+        public async Task<RequisitoModel> Agregar(List<object> Modelo)
         {
+            RequisitoModel Model;
             try
             {
-                var respuesta = await _DARequisito.Agregar(Modelo.ConvertBD());
-                Modelo = new RequisitoModel(respuesta);
-                return Modelo;
+                var respuesta = await _DARequisito.Agregar(JsonConvert.DeserializeObject<RequisitoModel>(Modelo[0]?.ToString()).ConvertBD(), Modelo[1]?.ToString());
+                Model = new RequisitoModel(respuesta);
+                return Model;
             }
             catch (Exception e)
             {
@@ -47,20 +51,37 @@ namespace PlanDesarrolloProfesional.Logic
                 return null;
             }
         }
-        public async Task<IEnumerable<RequisitoModel>> Listar()
+        public async Task<IEnumerable<RequisitoViewModel>> Listar()
         {
             try
             {
+                List<RequisitoViewModel> requisitos = new List<RequisitoViewModel>();
                 var ListaObjetoBD = await _DARequisito.Listar();
                 IEnumerable<RequisitoModel> ListaRespuestaModel = ListaObjetoBD.Select(ObjetoBD => new RequisitoModel(ObjetoBD)).ToList();
 
-                return ListaRespuestaModel;
+                foreach (RequisitoModel item in ListaRespuestaModel)
+                {
+                    if (item.Estado.Equals(0)) { 
+                        Rango rangomodel = await _DARango.Obtener(item.RangoID);
+                        RequisitoViewModel modelo = new RequisitoViewModel()
+                        {
+                            Estado = item.Estado,
+                            NombreRequisito = item.NombreRequisito,
+                            RangoID = item.RangoID,
+                            RangoNombre = rangomodel.NombreRango,
+                            RequisitoID = item.RequisitoID
+                        };
+                        requisitos.Add(modelo);
+                    }
+                }
+
+                return requisitos;
             }
             catch (Exception e)
             {
                 //await LRegistro_Error.AgregarInterno(e.ToString(), "", e.InnerException != null ? e.InnerException.HResult.ToString() : "", "0");
 
-                return new List<RequisitoModel>().AsEnumerable();
+                return new List<RequisitoViewModel>().AsEnumerable();
             }
         }
 
@@ -77,13 +98,14 @@ namespace PlanDesarrolloProfesional.Logic
         //    }
         //}
 
-        public async Task<RequisitoModel> Actualizar(RequisitoModel modelo)
+        public async Task<RequisitoModel> Actualizar(List<object> modelo)
         {
+            RequisitoModel model;
             try
             {
-                var Objeto = await _DARequisito.Actualizar(modelo.ConvertBD());
-                modelo = new RequisitoModel(Objeto);
-                return modelo;
+                var Objeto = await _DARequisito.Actualizar(JsonConvert.DeserializeObject<RequisitoModel>(modelo[0]?.ToString()).ConvertBD(), modelo[1]?.ToString());
+                model = new RequisitoModel(Objeto);
+                return model;
             }
             catch (Exception e)
             {
@@ -105,16 +127,34 @@ namespace PlanDesarrolloProfesional.Logic
         //    }
         //}
 
-        public async Task<bool> Eliminar(int IdRequisito)
+        public async Task<bool> Eliminar(int IdRequisito, string nameclaim)
         {
             try
             {
-                bool Objeto = await _DARequisito.Eliminar(IdRequisito);
+                bool Objeto = await _DARequisito.Eliminar(IdRequisito,nameclaim);
                 return Objeto;
             }
             catch (Exception e)
             {
                 return false;
+            }
+        }
+
+
+        public Task<IEnumerable<RequisitoModel>> RequisitoPorRango(int IdRango, int PlanDesarrolloID)
+        {
+            try
+            {
+                var ListaObjetoBD = _DARequisito.RequisitoPorRango(IdRango, PlanDesarrolloID);
+
+
+                return ListaObjetoBD;
+            }
+            catch (Exception e)
+            {
+                //await LRegistro_Error.AgregarInterno(e.ToString(), "", e.InnerException != null ? e.InnerException.HResult.ToString() : "", "0");
+
+                return (Task<IEnumerable<RequisitoModel>>)Enumerable.Empty<RequisitoModel>();
             }
         }
     }
