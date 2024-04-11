@@ -7,7 +7,7 @@
     List<PlanDesarrolloProfesional.Models.Models.UsuarioModel> Colaboradores = ViewBag.Colaborador;
     List<PlanDesarrolloProfesional.Models.Models.RutaModel> RutaList = ViewBag.Rutas;
     List<PlanDesarrolloProfesional.Models.Models.RangoModel> RangoList = ViewBag.Rangos;
-    List<PlanDesarrolloProfesional.Models.Models.RequisitoModel> RequisitoList = ViewBag.Requisito;
+    List<PlanDesarrolloProfesional.Models.Models.RequisitoViewModel> RequisitoList = ViewBag.Requisito;
     List<PlanDesarrolloProfesional.Models.Models.RequisitoModel> RequisitosFiltrados = ViewBag.RequisitosFiltrados;
 
 }
@@ -33,8 +33,7 @@
 
                     </div>
                     <div class="col-sm-4">
-                        <span id="NombreColaborador">@ViewBag.NombreColaborador</span>
-                        
+                        @Html.TextBox("NombreColaborador", (string)ViewBag.NombreColaborador, new { @class = "form-control", @disabled = "disabled" })
                     </div>
                 </div>
 
@@ -44,8 +43,7 @@
 
                     </div>
                     <div class="col-sm-4">
-                        <span id="NombreRango">@ViewBag.NombreRango</span>
-
+                        @Html.TextBox("NombreRango", (string)ViewBag.NombreRango, new { @class = "form-control", @disabled = "disabled" })
                     </div>
                 </div>
 
@@ -90,7 +88,7 @@
                         <button type="submit" class="btn btn-primary btn-block">Agregar <i class="fas fa-fw fa-plus"></i></button>
                     </div>
                     <div class="col-sm-6">
-                        <a asp-controller="CumplimientoRequisito" asp-action="Index" class="btn btn-secondary btn-block">Regresar</a>
+                        <a asp-controller="PlanDesarrolloProfesional" asp-action="Index" class="btn btn-secondary btn-block">Regresar</a>
                     </div>
                 </div>
             </form>

@@ -57,6 +57,16 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
             return Ok  (Lista);
         }
+                [HttpGet]
+        [Route("ObtenerAprobadosPorSupervisor")]
+        public async Task<ActionResult<IEnumerable<CumplimientoRequisitoViewModel>>> ObtenerAprobadosPorSupervisor(int supervisorID)
+        {
+
+            var Lista = await _ICumplimientoRequisito.ObtenerAprobadosPorSupervisor(supervisorID);
+            if (Lista == null) throw new Exception("Modelo Nulo");
+
+            return Ok  (Lista);
+        }
 
 
         //[HttpGet]

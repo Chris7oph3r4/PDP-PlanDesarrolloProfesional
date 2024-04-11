@@ -96,6 +96,9 @@ namespace PlanDesarrolloProfesional.DataAccess
             }
         }
 
+
+
+
         public async Task<Rango> Actualizar(Rango Modelo, string nameclaim)
         {
             Bitacora bitmodel = new Bitacora();

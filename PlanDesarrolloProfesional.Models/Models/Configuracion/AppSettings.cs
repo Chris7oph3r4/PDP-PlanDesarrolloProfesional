@@ -75,6 +75,8 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
             public static string CumplimientoRequisito_Listar { get; set; }
             public static string CumplimientoRequisito_Eliminar { get; set; }
             public static string CumplimientoRequisito_ListarPorPlanDesarrolloID { get; set; }
+            public static string Rango_ObtenerRutaPorRangoID { get; set; }
+            public static string CumplimientoRequisito_ObtenerAprobadosPorSupervisor { get; set; }
         }
     }
 }

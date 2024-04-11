@@ -81,6 +81,23 @@ namespace PlanDesarrolloProfesional.Logic
             }
         }
 
+        public async Task<IEnumerable<CumplimientoRequisitoViewModel>> ObtenerAprobadosPorSupervisor(int supervisorID)
+        {
+            try
+            {
+
+                var ListaObjetoBD = await _DACumplimientoRequisito.ObtenerAprobadosPorSupervisor(supervisorID);
+
+
+                return ListaObjetoBD;
+            }
+            catch (Exception e)
+            {
+
+                return new List<CumplimientoRequisitoViewModel>().AsEnumerable();
+            }
+        }
+
 
         //public async Task<CumplimientoRequisitoModel> Inactivar(int IdCumplimientoRequisito)
         //{

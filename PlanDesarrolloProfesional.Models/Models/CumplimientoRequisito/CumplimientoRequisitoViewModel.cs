@@ -33,8 +33,6 @@ namespace PlanDesarrolloProfesional.Models.Models
         [Column(TypeName = "date")]
         public DateTime FechaRegistro { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FechaObtencion { get; set; }
 
         public string URLEvidencia { get; set; }

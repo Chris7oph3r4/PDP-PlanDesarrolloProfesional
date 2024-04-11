@@ -5,6 +5,7 @@ using NuGet.Protocol;
 using PlanDesarrolloProfesional.ConsumeLogic;
 using PlanDesarrolloProfesional.Models.Models;
 using System;
+using System.Net;
 using System.Security.Claims;
 
 namespace PlanDesarrolloProfesional.UI.Controllers
@@ -63,6 +64,60 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             return View(CumplimientoRequisito);
         }
 
+        public async Task<ActionResult> ListarSupervisor(string Mensaje)
+        {
+            if (Mensaje != "")
+            {
+                ViewBag.Mensaje = Mensaje;
+            }
+           
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var usuarioIdClaim = claimsIdentity.FindFirst("UsuarioIDDB");
+            int supervisorID = int.Parse(usuarioIdClaim.Value);
+
+            var CumplimientoRequisito = await LCumplimientoRequisito.ObtenerAprobadosPorSupervisor(supervisorID);
+
+            //var RangosFiltrados = await LRango.RangosPorRuta(3);
+
+            return View(CumplimientoRequisito);
+        }
+
+
+
+        //public async Task<ActionResult> ListaSupervisor(string Mensaje)
+        //{
+        //    if (!User.Identity.IsAuthenticated)
+        //    {
+        //        return RedirectToAction("Login", "Account");
+        //    }
+
+        //    var claimsIdentity = User.Identity as ClaimsIdentity;
+        //    if (claimsIdentity == null)
+        //    {
+        //        return BadRequest("El usuario no tiene una identidad válida."); // Usar BadRequest para 400
+        //    }
+
+        //    var usuarioIdClaim = claimsIdentity.FindFirst("UsuarioIDDB");
+        //    if (usuarioIdClaim == null)
+        //    {
+        //        return NotFound("No se encontró el claim UsuarioIDDB."); // Usar NotFound para 404
+        //    }
+
+        //    // Asegúrate de realizar un manejo adecuado de errores aquí
+        //    if (!int.TryParse(usuarioIdClaim.Value, out var supervisorID))
+        //    {
+        //        return BadRequest("El ID del supervisor no es válido.");
+        //    }
+
+        //    if (!string.IsNullOrEmpty(Mensaje))
+        //    {
+        //        ViewBag.Mensaje = Mensaje;
+        //    }
+
+        //    var cumplimientoRequisito = await LCumplimientoRequisito.ObtenerAprobadosPorSupervisor(supervisorID);
+
+        //    return View(cumplimientoRequisito);
+        //}
 
 
 
@@ -70,6 +125,7 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         {
             var planDesarrollo = await LPlanDesarrollo.Obtener(PlanDesarrolloID);
             var colaborador = await LUsuario.Obtener(planDesarrollo.ColaboradorID);
+
             // Inicialización del modelo con PlanDesarrolloID
             CumplimientoRequisitoModel CumplimientoRequisito = new CumplimientoRequisitoModel
             {
@@ -114,47 +170,11 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "CumplimientoRequisito", new { Mensaje = "Error" });
+                return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
             }
         }
 
-        //public async Task<ActionResult> Agregar(int PlanDesarrolloID)
-        //{
-
-        //    if (Mensaje != "")
-        //    {
-        //        ViewBag.Mensaje = Mensaje;
-        //    }
-        //    CumplimientoRequisitoModel CumplimientoRequisito = new CumplimientoRequisitoModel();
-        //    ViewBag.Rango = await LRango.Listar();
-        //    ViewBag.Rutas = await LRuta.Listar();
-        //    ViewBag.Requisito = await LRequisito.Listar();
-        //    ViewBag.Colaborador = await LUsuario.Listar();
-
-
-        //    return View(CumplimientoRequisito);
-        //}
-
-
-        //[HttpPost]
-        //public async Task<ActionResult> Agregar(CumplimientoRequisitoModel Modelo)
-        //{
-
-        //    Modelo.FechaRegistro = DateTime.Now;
-        //    Modelo.AprobadoPorSupervisor = 24;
-
-        //    var Agregar = await LCumplimientoRequisito.Agregar(Modelo);
-        //    if (Agregar.CumplimientoRequisitoID != null)
-        //    {
-        //        Modelo = new CumplimientoRequisitoModel();
-        //        return RedirectToAction("Index", "CumplimientoRequisito", new { Mensaje = "Agrega" });
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Index", "CumplimientoRequisito", new { Mensaje = "Error" });
-        //    }
-
-        //}
+    
 
         public async Task<ActionResult> Modificar(int CumplimientoRequisitoID, string Mensaje)
         {
@@ -220,7 +240,7 @@ namespace PlanDesarrolloProfesional.UI.Controllers
                 RequisitoID = Modelo.RequisitoSeleccionado,
                 ColaboradorID = CumplimientoActual.ColaboradorID,
                 FechaRegistro = CumplimientoActual.FechaRegistro,
-                FechaObtencion = Modelo.FechaObtencion.Date,
+                FechaObtencion = Modelo.FechaObtencion,
                 URLEvidencia = Modelo.URLEvidencia,
                 AprobadoPorSupervisor = CumplimientoActual.AprobadoPorSupervisor,
                 PlanDesarrolloID = CumplimientoActual.PlanDesarrolloID,
@@ -254,9 +274,7 @@ namespace PlanDesarrolloProfesional.UI.Controllers
                 ViewBag.Mensaje = Mensaje;
             }
 
-            ViewBag.Rango = await LRango.Listar();
-            ViewBag.Requisito = await LRequisito.Listar();
-            ViewBag.Colaborador = await LUsuario.Listar();
+         
             CumplimientoRequisitoViewModel CumplimientoRequisito = await LCumplimientoRequisito.Obtener(CumplimientoRequisitoID);
             var colaborador = await LUsuario.Obtener(CumplimientoRequisito.ColaboradorID);
             var requisito = await LRequisito.Obtener(CumplimientoRequisito.RequisitoID);
@@ -295,11 +313,11 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             var Modificar = await LCumplimientoRequisito.Actualizar(Cumplimiento);
             if (Modificar.CumplimientoRequisitoID != null)
             {
-                return RedirectToAction("Index", "CumplimientoRequisito", new { Mensaje = "Modifica" });
+                return RedirectToAction("ListarSupervisor", "CumplimientoRequisito", new { Mensaje = "Modifica" });
             }
             else
             {
-                return RedirectToAction("Index", "CumplimientoRequisito", new { Mensaje = "Error" });
+                return RedirectToAction("ListarSupervisor", "CumplimientoRequisito", new { Mensaje = "Error" });
             }
 
 

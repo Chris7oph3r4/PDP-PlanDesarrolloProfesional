@@ -55,6 +55,9 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
             return Lista;
         }
+
+        
+
         //[HttpGet]
         //[Route("Inactivar")]
         //public async Task<RangoModel> Inactivar(int IdRango)
