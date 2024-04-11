@@ -173,44 +173,7 @@ namespace PlanDesarrolloProfesional.DataAccess
 
         }
 
-        //public async Task<IEnumerable<RequisitoModel>> RequisitoPorRango(int IdRango)
-        //{
-        //    try
-        //    {
-        //        using (var ContextoBD = new PlanDesarrolloProfesionalContext())
-        //        {
-        //            // Obtener todos los Requisitos para el rango dado que no han sido aprobados o no tienen registro de aprobación.
-        //            var listaRequisitos = await ContextoBD.Requisito
-        //                .Where(Requisito => Requisito.RangoID == IdRango)
-        //                // Unirse con CumplimientoRequisito para filtrar los no aprobados o sin registro
-        //                .GroupJoin(ContextoBD.CumplimientoRequisito, // La tabla con la que hacer join
-        //                           Requisito => Requisito.RequisitoID, // Clave primaria de la tabla origen
-        //                           Cumplimiento => Cumplimiento.RequisitoID, // Clave foránea en la tabla de destino
-        //                           (Requisito, Cumplimientos) => new { Requisito, Cumplimientos })
-        //                // De los grupos formados, seleccionar solo aquellos donde todos los registros de cumplimiento asociados no están aprobados o no existen registros de cumplimiento
-        //                .SelectMany(
-        //                    rc => rc.Cumplimientos.DefaultIfEmpty(), // Esto maneja el caso de que no haya registros de cumplimiento asociados
-        //                    (rc, Cumplimiento) => new { rc.Requisito, Cumplimiento }
-        //                )
-        //                .Where(rc => rc.Cumplimiento == null || rc.Cumplimiento.AprobadoPorSupervisor != 1)
-        //                .Select(rc => new RequisitoModel
-        //                {
-        //                    RequisitoID = rc.Requisito.RequisitoID,
-        //                    NombreRequisito = rc.Requisito.NombreRequisito,
-        //                    // Más mapeos aquí
-        //                })
-        //                .Distinct()
-        //                .ToListAsync();
 
-        //            return listaRequisitos;
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        // Considera usar un mecanismo de registro de errores aquí
-        //        return null;
-        //    }
-        //}
         public async Task<IEnumerable<RequisitoModel>> RequisitoPorRango(int IdRango, int PlanDesarrolloID)
         {
             try
