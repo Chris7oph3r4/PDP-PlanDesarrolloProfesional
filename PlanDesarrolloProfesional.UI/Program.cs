@@ -82,6 +82,10 @@ AppSettings.APIEndpoints.Usuario_ObtenerUA = builder.Configuration.GetSection("P
 AppSettings.APIEndpoints.Usuario_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_Listar").Value;
 AppSettings.APIEndpoints.Usuario_ListarVM = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_ListarVM").Value;
 AppSettings.APIEndpoints.Usuario_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_Eliminar").Value;
+AppSettings.APIEndpoints.Usuario_ObtenerUltimaAreaPorUsuario = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_ObtenerUltimaAreaPorUsuario").Value;
+AppSettings.APIEndpoints.Usuario_ListarAreasPorUsuario = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_ListarAreasPorUsuario").Value;
+AppSettings.APIEndpoints.Usuario_RutaPorUsuario = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_RutaPorUsuario").Value;
+
 
 //El consumo de Endpoints de Ruta
 AppSettings.APIEndpoints.Ruta_Agregar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Ruta_Agregar").Value;
@@ -111,6 +115,13 @@ AppSettings.APIEndpoints.PlanDesarrolloProfesional_Actualizar = builder.Configur
 AppSettings.APIEndpoints.PlanDesarrolloProfesional_Obtener = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_Obtener").Value;
 AppSettings.APIEndpoints.PlanDesarrolloProfesional_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_Listar").Value;
 AppSettings.APIEndpoints.PlanDesarrolloProfesional_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_Eliminar").Value;
+AppSettings.APIEndpoints.PlanDesarrolloProfesional_ObtenerCantidadPlanesPorUsuario = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_ObtenerCantidadPlanesPorUsuario").Value;
+AppSettings.APIEndpoints.PlanDesarrolloProfesional_ObtenerUltimoRangoPorColaborador = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_ObtenerUltimoRangoPorColaborador").Value;
+AppSettings.APIEndpoints.PlanDesarrolloProfesional_ContarPlanesFinalizadosPorColaborador = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_ContarPlanesFinalizadosPorColaborador").Value;
+AppSettings.APIEndpoints.PlanDesarrolloProfesional_ObtenerPlanesPorColaborador = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_ObtenerPlanesPorColaborador").Value;
+AppSettings.APIEndpoints.PlanDesarrolloProfesional_ObtenerNombreRutaPorColaboradorId = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_ObtenerNombreRutaPorColaboradorId").Value;
+
+
 
 //El consumo de Endpoints de Bitacora
 AppSettings.APIEndpoints.Bitacora_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Bitacora_Listar").Value;

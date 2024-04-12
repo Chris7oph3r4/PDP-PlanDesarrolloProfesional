@@ -115,5 +115,41 @@ namespace PlanDesarrolloProfesional.API.Controllers
             var Modelo = await _IUsuario.Eliminar(IdUsuario);
             return Modelo;
         }
+
+
+
+        [HttpGet]
+        [Route("ObtenerUltimaAreaPorUsuario")]
+        public async Task<string> ObtenerUltimaAreaPorUsuario(int IdUsuario)
+        {
+            if (IdUsuario == 0) throw new Exception("Id de usuario nulo");
+
+            return await _IUsuario.ObtenerUltimaAreaPorUsuario(IdUsuario);
+        }
+
+
+ 
+
+
+        [HttpGet]
+        [Route("ListarAreasPorUsuario")]
+        public async Task<IEnumerable<UsuarioViewModel>> ListarAreasPorUsuario(int IdUsuario)
+        {
+            var Lista = await _IUsuario.ListarAreasPorUsuario(IdUsuario);
+            if (Lista == null) throw new Exception("Modelo Nulo");
+
+            return Lista;
+        }
+
+
+        [HttpGet]
+        [Route("RutaPorUsuario")]
+        public async Task<IEnumerable<UsuarioRuta>> RutaPorUsuario(int IdUsuario)
+        {
+            var Lista = await _IUsuario.RutaPorUsuario(IdUsuario);
+            if (Lista == null) throw new Exception("Modelo Nulo");
+
+            return Lista;
+        }
     }
 }

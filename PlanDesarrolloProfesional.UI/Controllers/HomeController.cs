@@ -16,20 +16,42 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         private readonly ILogger<HomeController> _logger;
         private UsuarioLogic LUsuario;
         private RolLogic LRoles;
+        private PlanDesarrolloProfesionalLogic LPlanDesarrollo;
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
             LUsuario = new UsuarioLogic();
             LRoles = new RolLogic();
+            LPlanDesarrollo = new PlanDesarrolloProfesionalLogic();
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-           
+
+            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // PlanesDesarrolloProfesionalModel Plan = new PlanesDesarrolloProfesionalModel();
+            //ViewBag.PlanDesarrolloProfesional = await LPlanDesarrollo.ObtenerCantidadPlanesPorUsuario(userId);
+
+            var emailOrUsernameClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
+            UsuarioModel usuario = await LUsuario.ObtenerPorCorreo(emailOrUsernameClaim);
+            ViewBag.CantidadPlanes = await LPlanDesarrollo.ObtenerCantidadPlanesPorUsuario(usuario.UsuarioID);
+            ViewBag.ultimoRangoRegistrado = await LPlanDesarrollo.ObtenerUltimoRangoPorColaborador(usuario.UsuarioID);
+            ViewBag.PlanesFinalizados = await LPlanDesarrollo.ContarPlanesFinalizadosPorColaborador(usuario.UsuarioID);
+            ViewBag.PlanesPorUsuario = await LPlanDesarrollo.ObtenerPlanesPorColaborador(usuario.UsuarioID);
+
+
+            ViewBag.AreasPorUsuario = await LUsuario.ListarAreasPorUsuario(usuario.UsuarioID);
+            ViewBag.UltimaAreaPorUsuario = await LUsuario.ObtenerUltimaAreaPorUsuario(usuario.UsuarioID);
+
+            ViewBag.RutaPorUsuario = await LUsuario.RutaPorUsuario(usuario.UsuarioID);
+
+            ViewBag.ObtenerNombreRutaPorColaboradorId = await LPlanDesarrollo.ObtenerNombreRutaPorColaboradorId(usuario.UsuarioID);
 
             return View();
         }
+
         [AllowAnonymous]
         public IActionResult Login()
         {

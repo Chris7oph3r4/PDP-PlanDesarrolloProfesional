@@ -61,6 +61,7 @@ namespace PlanDesarRutaloProfesional.DataAccess
                 throw e;
             }
         }
+
         public async Task<IEnumerable<Ruta>> Listar()
         {
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())

@@ -21,6 +21,12 @@ public interface IUsuario
             Task<IEnumerable<UsuarioModel>> Listar();
             Task<IEnumerable<UsuarioViewModel>> ListarVM();
             Task<bool> Eliminar(int IdPedido);
-        }
+
+            Task<string> ObtenerUltimaAreaPorUsuario(int IdUsuario);
+
+            Task<IEnumerable<UsuarioViewModel>> ListarAreasPorUsuario(int IdUsuario);
+
+            Task<IEnumerable<UsuarioRuta>> RutaPorUsuario(int IdUsuario);
+    }
 }
 
