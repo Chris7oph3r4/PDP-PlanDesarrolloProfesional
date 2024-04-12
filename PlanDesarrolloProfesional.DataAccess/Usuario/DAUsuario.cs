@@ -262,6 +262,36 @@ namespace PlanDesarrolloProfesional.DataAccess
                 }
             }
         }
+
+        public async Task<IEnumerable<UsuarioModel>> ListarPorSupervisor(int idSupervisor)
+        {
+            using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+            {
+                try
+                {
+                    IEnumerable<UsuarioModel> Lista = await ContextoBD.Usuario
+                                                            .Where(us => us.Eliminado != true &&  us.UsuarioJerarquiasUsuario.Any(usuarioJerarquia => usuarioJerarquia.SupervisorID == idSupervisor))
+                                                            .Select(u => new UsuarioModel
+                                                            {
+                                                                UsuarioID = u.UsuarioID,
+                                                                Nombre = u.Nombre,
+                                                                Descripcion = u.Descripcion,
+                                                                RolID = u.RolID,
+                                                                JerarquiaID = u.JerarquiaID,
+                                                                CodigoDaloo = u.CodigoDaloo,
+                                                                Correo = u.Correo,
+                                                            })
+                                                            .ToListAsync();
+
+                    return Lista;
+                }
+                catch (Exception e)
+                {
+                    // Manejo de excepciones
+                    return null;
+                }
+            }
+        }
         public async Task<IEnumerable<UsuarioViewModel>> ListarVM()
         {
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())

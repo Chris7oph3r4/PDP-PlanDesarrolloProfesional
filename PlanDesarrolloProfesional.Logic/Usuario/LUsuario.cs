@@ -121,6 +121,21 @@ namespace PlanDesarrolloProfesional.Logic
                 return new List<UsuarioModel>().AsEnumerable();
             }
         }
+        public async Task<IEnumerable<UsuarioModel>> ListarPorSupervisor(int idSupervisor)
+        {
+            try
+            {
+                var ListaObjetoBD = await _DAUsuario.ListarPorSupervisor(idSupervisor);
+
+                return ListaObjetoBD;
+            }
+            catch (Exception e)
+            {
+                //await LRegistro_Error.AgregarInterno(e.ToString(), "", e.InnerException != null ? e.InnerException.HResult.ToString() : "", "0");
+
+                return new List<UsuarioModel>().AsEnumerable();
+            }
+        }
 
         public async Task<IEnumerable<UsuarioViewModel>> ListarVM()
         {
