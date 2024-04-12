@@ -106,6 +106,39 @@ namespace PlanDesarrolloProfesional.DataAccess
             }
         }
 
+
+        public async Task<IEnumerable<PlanDesarrolloProfesionalViewModel>> ListarPorUsuario(int usuarioID)
+        {
+            using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+            {
+                try
+                {
+                    var ListaVM = await ContextoBD.PlanesDesarrolloProfesional
+                                        .Where(p => p.ColaboradorID == usuarioID && p.Estado != 1)
+                                        .Select(s => new PlanDesarrolloProfesionalViewModel
+                                        {
+                                            PlanDesarrolloID = s.PlanDesarrolloID,
+                                            NombreColaborador = s.Colaborador.Nombre,
+                                            ColaboradorID = s.ColaboradorID,
+                                            FechaInicio = s.FechaInicio,
+                                            NombreRango = s.Rango.NombreRango,
+                                            RangoID = s.RangoID,
+                                            Finalizado = s.Finalizado,
+                                            NombreRuta = s.Rango.Ruta.NombreRuta,
+                                            RutaID = s.Rango.RutaID
+
+                                        }).ToListAsync();
+                    return ListaVM;
+                }
+                catch (Exception e)
+                {
+                    // Consider logging the exception e before returning null
+                    return null;
+                }
+            }
+        }
+
+
         public async Task<PlanesDesarrolloProfesional> Actualizar(PlanesDesarrolloProfesional Modelo, string nameclaim)
         {
             Bitacora bitmodel = new Bitacora();

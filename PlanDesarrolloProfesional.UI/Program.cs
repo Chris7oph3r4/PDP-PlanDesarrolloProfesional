@@ -111,6 +111,7 @@ AppSettings.APIEndpoints.PlanDesarrolloProfesional_Agregar = builder.Configurati
 AppSettings.APIEndpoints.PlanDesarrolloProfesional_Actualizar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_Actualizar").Value;
 AppSettings.APIEndpoints.PlanDesarrolloProfesional_Obtener = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_Obtener").Value;
 AppSettings.APIEndpoints.PlanDesarrolloProfesional_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_Listar").Value;
+AppSettings.APIEndpoints.PlanDesarrolloProfesional_ListarPorUsuario = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_ListarPorUsuario").Value;
 AppSettings.APIEndpoints.PlanDesarrolloProfesional_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:PlanDesarrolloProfesional_Eliminar").Value;
 
 //El consumo de Endpoints de Bitacora

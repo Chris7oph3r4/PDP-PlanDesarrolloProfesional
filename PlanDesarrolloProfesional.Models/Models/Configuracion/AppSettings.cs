@@ -64,6 +64,7 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
             public static string PlanDesarrolloProfesional_Actualizar { get; set; }
             public static string PlanDesarrolloProfesional_Eliminar { get; set; }
             public static string PlanDesarrolloProfesional_Listar { get; set; }
+            public static string PlanDesarrolloProfesional_ListarPorUsuario { get; set; }
 
 
             public static string Bitacora_Listar { get; set; }
@@ -76,6 +77,7 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
             public static string CumplimientoRequisito_ListarPorPlanDesarrolloID { get; set; }
             public static string Rango_ObtenerRutaPorRangoID { get; set; }
             public static string CumplimientoRequisito_ObtenerAprobadosPorSupervisor { get; set; }
+            
         }
     }
 }

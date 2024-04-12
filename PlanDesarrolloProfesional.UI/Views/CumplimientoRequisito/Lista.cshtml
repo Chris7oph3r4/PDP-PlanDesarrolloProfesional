@@ -35,6 +35,7 @@
                             <th>Evidencia</th>
                             <th>Fecha Obtenida </th>
                             <th>Estado</th>
+                            <th>Acciones</th>
 
 
                         </tr>
@@ -52,27 +53,12 @@
                                 <td data-label="Valor1">@item.NombreColaborador</td>
                                 <td data-label="Valor1">@item.URLEvidencia</td>
                                 <td data-label="Valor1">@item.FechaObtencion.ToString("dd/MM/yyyy")</td>
-                                <td data-label="Estado">
-                                    @switch (item.AprobadoPorSupervisor)
-                                    {
-                                        case 0:
-                                            @:Denegado
-                                            break;
-                                        case 1:
-                                            @:Aprobado
-                                            break;
-                                        case 2:
-                                            @:En revisión
-                                            break;
-                                        default:
-                                            @:No definido
-                                            break;
-                                    }
+                                <td>
+
+                                    <button class="btn @GetButtonClass(item.AprobadoPorSupervisor)" style="cursor: auto !important;">
+                                        @GetButtonLabel(item.AprobadoPorSupervisor)
+                                    </button>
                                 </td>
-
-
-
-                               
                                 @if (item.AprobadoPorSupervisor != 0 && item.AprobadoPorSupervisor != 1)
                                 {
                                     <td class="text-start" data-label="Acciones">
@@ -103,8 +89,34 @@
             </div>
         </div>
     </div>
-
 </div>
+@functions {
+    private string GetButtonClass(int status)
+    {
+        switch (status)
+        {
+            case 0: return "btn-danger"; // Denegado
+            case 1: return "btn-success"; // Aprobado
+            case 2: return "btn-secondary"; // En revisión
+            default: return "btn-dark"; // No definido
+        }
+    }
+
+    private string GetButtonLabel(int status)
+    {
+        switch (status)
+        {
+            case 0: return "Denegado";
+            case 1: return "Aprobado";
+            case 2: return "En revisión";
+            default: return "No definido";
+        }
+    }
+}
+
+
+
+
 @section Scripts {
     <script src="~/js/sweetalert.js"></script>
     <script src="~/js/alertas.js"></script>

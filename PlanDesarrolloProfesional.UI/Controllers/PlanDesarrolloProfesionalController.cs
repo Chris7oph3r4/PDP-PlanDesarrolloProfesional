@@ -34,6 +34,26 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             return View(Plan);
 
         }
+
+        public async Task<ActionResult> ListarPorUsuario(string Mensaje)
+        {
+            if (Mensaje != "")
+            {
+                ViewBag.Mensaje = Mensaje;
+            }
+
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var usuarioIdClaim = claimsIdentity.FindFirst("UsuarioIDDB");
+            int usuarioID = int.Parse(usuarioIdClaim.Value);
+
+            var CumplimientoRequisito = await LPlanDesarrollo.ListarPorUsuario(usuarioID);
+
+            //var RangosFiltrados = await LRango.RangosPorRuta(3);
+
+            return View(CumplimientoRequisito);
+        }
+
+
         public async Task<ActionResult> Agregar(string Mensaje)
         {
 
