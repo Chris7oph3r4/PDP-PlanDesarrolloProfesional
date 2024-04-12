@@ -303,8 +303,9 @@ public async Task<ActionResult> Agregar(int PlanDesarrolloID)
 
         public async Task<ActionResult> Aprobar(int CumplimientoRequisitoID, string Mensaje)
         {
-
-            if (Mensaje != "")
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            {
+                if (Mensaje != "")
             {
                 ViewBag.Mensaje = Mensaje;
             }
@@ -321,9 +322,13 @@ public async Task<ActionResult> Agregar(int PlanDesarrolloID)
             ViewBag.NombreRuta = ruta.NombreRuta;
 
             return View(CumplimientoRequisito);
-
+            }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
         }
-
 
 
         [HttpPost]
@@ -344,19 +349,47 @@ public async Task<ActionResult> Agregar(int PlanDesarrolloID)
                 FechaArpobacion = Modelo.FechaArpobacion = DateTime.Now
             };
 
-
             var Modificar = await LCumplimientoRequisito.Actualizar(Cumplimiento);
             if (Modificar.CumplimientoRequisitoID != null)
             {
-                return RedirectToAction("ListarSupervisor", "CumplimientoRequisito", new { Mensaje = "Modifica" });
+                
+                string userRole = User?.FindFirst("RolID")?.Value;
+
+                if (userRole == "Administrador")
+                {
+                    // Si el usuario es Administrador
+                    return RedirectToAction("Index", "CumplimientoRequisito", new { Mensaje = "Modifica" });
+                }
+                else if (userRole == "Supervisor")
+                {
+                    // Si el usuario es Supervisor
+                    return RedirectToAction("ListarSupervisor", "CumplimientoRequisito", new { Mensaje = "Modifica" });
+                }
+               
             }
             else
             {
-                return RedirectToAction("ListarSupervisor", "CumplimientoRequisito", new { Mensaje = "Error" });
+                
+                string userRole = User?.FindFirst("RolID")?.Value;
+
+                if (userRole == "Administrador")
+                {
+                    // Si el usuario es Administrador
+                    return RedirectToAction("Index", "CumplimientoRequisito", new { Mensaje = "Error" });
+                }
+                else if (userRole == "Supervisor")
+                {
+                    // Si el usuario es Supervisor
+                    return RedirectToAction("ListarSupervisor", "CumplimientoRequisito", new { Mensaje = "Error" });
+                }
+               
             }
 
-
+           
+            return RedirectToAction("AccesoDenegado", "Home");
         }
+
+
         [HttpPost]
         public async Task<ActionResult> Eliminar(int IdObjeto)
         {
@@ -364,8 +397,14 @@ public async Task<ActionResult> Agregar(int PlanDesarrolloID)
             var objeto = await LCumplimientoRequisito.Obtener(IdObjeto);
             if (objeto == null)
             {
-                // El objeto no fue encontrado; manejar este caso adecuadamente.
-                return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
+                if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor")
+                {
+                    // El objeto no fue encontrado; manejar este caso adecuadamente.
+                    return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
+                }else
+                {
+                    return RedirectToAction("ListarPorUsuario", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
+                }
             }
 
             var planDesarrolloID = objeto.PlanDesarrolloID; // Asumiendo que tienes esta propiedad.
@@ -379,7 +418,14 @@ public async Task<ActionResult> Agregar(int PlanDesarrolloID)
             }
             else
             {
-                return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
+                if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor")
+                {
+                    return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
+                }
+                else
+                {
+                    return RedirectToAction("ListarPorUsuario", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
+                }
             }
         }
 
