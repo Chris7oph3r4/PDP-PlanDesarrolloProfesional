@@ -31,6 +31,7 @@
                             <th>Id Plan</th>
                             <th>Colaborador</th>
                             <th>Fecha Inicio del Plan</th>
+                            <th>Ruta</th>
                             <th>Rango</th>
                             <th>Estado</th>
                             <th>Acciones</th>
@@ -48,6 +49,7 @@
                                     <td data-label="Colaborador">@item.NombreColaborador</td>
                                     <td data-label="Fecha Inicio">@item.FechaInicio.ToString("dd/MM/yyyy")</td>
                                     <td data-label="Rango">@item.NombreRango</td>
+                                    <td data-label="Ruta">@item.NombreRuta</td>
                                     <td data-label="Estado">@((item.Estado == 1) ? "Finalizado" : "En Curso")</td>
                                     <td data-label="Acciones">
                                         <div class="dropdown">
