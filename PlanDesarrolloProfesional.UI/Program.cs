@@ -81,6 +81,7 @@ AppSettings.APIEndpoints.Usuario_ObtenerPorCorreo = builder.Configuration.GetSec
 AppSettings.APIEndpoints.Usuario_ObtenerUA = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_ObtenerUA").Value;
 AppSettings.APIEndpoints.Usuario_Listar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_Listar").Value;
 AppSettings.APIEndpoints.Usuario_ListarVM = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_ListarVM").Value;
+AppSettings.APIEndpoints.Usuario_ListarPorSupervisor = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_ListarPorSupervisor").Value;
 AppSettings.APIEndpoints.Usuario_Eliminar = builder.Configuration.GetSection("PlanDesarrolloProfesional.APIEndpoints:Usuario_Eliminar").Value;
 
 //El consumo de Endpoints de Ruta
@@ -185,6 +186,7 @@ public static class Parameters
             try
             {
                 ((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("NameDB", usuario.Nombre.ToString()));
+                ((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("UsuarioIDDB", usuario.UsuarioID.ToString()));
                 ((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("RolID", rol));
                 //((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("IdRol", usuario.IdRol.ToString()));
                 //((ClaimsIdentity)context.Principal.Identity).AddClaim(new Claim("IdEmpresa", usuario.IdEmpresa.ToString()));
