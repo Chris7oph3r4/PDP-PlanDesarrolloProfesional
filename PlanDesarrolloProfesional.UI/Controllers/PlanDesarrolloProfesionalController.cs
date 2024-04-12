@@ -43,7 +43,17 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             }
             PlanesDesarrolloProfesionalModel Plan = new PlanesDesarrolloProfesionalModel();
             ViewBag.Rutas = await LRuta.Listar();
-            ViewBag.Colaborador = await LUsuario.Listar();
+            var claim = User?.FindFirst("UsuarioIDDB")?.Value;
+            int usuarioId;
+
+            if (claim != null && int.TryParse(claim, out usuarioId))
+            {
+                ViewBag.Colaborador = await LUsuario.ListarPorSupervisor(usuarioId);
+            }
+            else
+            {
+                return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
+            }
             ViewBag.Rangos = await LRango.Listar();
             return View(Plan);
 
