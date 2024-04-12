@@ -13,6 +13,7 @@ namespace PlanDesarrolloProfesional.Interface
         Task<PlanDesarrolloProfesionalViewModel> Obtener(int IdPlan);
         Task<PlanesDesarrolloProfesionalModel> Actualizar(List<object> modelo);
         Task<IEnumerable<PlanDesarrolloProfesionalViewModel>> Listar();
+        Task<IEnumerable<PlanDesarrolloProfesionalViewModel>> ListarPorUsuario(int usuarioID);
         Task<bool> Eliminar(int IdPlan, string nameclaim);
     }
 }

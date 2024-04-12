@@ -8,9 +8,9 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Requisito</h1>
+    <h1 class="h3 mb-2 text-gray-800">Requisito de aprobación</h1>
     <p class="mb-4">
-        Lista de Requisitos
+        Lista de requisito para aprobación
     </p>
 
     <!-- DataTales Example -->
@@ -31,6 +31,7 @@
                             <th>Evidencia</th>
                             <th>Fecha Obtenida</th>
                             <th>Estado</th>
+                            <th>Fecha aprobación</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -39,6 +40,31 @@
                         @foreach (var item in Model)
                         {
                             <tr>
+
+                  @*               <td data-label="Valor1">@item.PlanDesarrolloID</td>
+                                <td data-label="Valor1">@item.NombreRequisito</td>
+                                <td data-label="Valor1">@item.NombreColaborador</td>
+                                <td data-label="Valor1">@item.URLEvidencia</td>
+                                <td data-label="Valor1">@item.FechaObtencion.ToString("dd/MM/yyyy")</td>
+                                <td data-label="Estado">
+                                    @switch (item.AprobadoPorSupervisor)
+                                    {
+                                        case 0:
+                                            @:Denegado
+                                            break;
+                                        case 1:
+                                            @:Aprobado
+                                            break;
+                                        case 2:
+                                            @:En revisión
+                                            break;
+                                        default:
+                                            @:No definido
+                                            break;
+                                    }
+                                </td> *@
+
+
                                 <td data-label="Valor1">@item.NombreColaborador</td>
                                 <td data-label="Valor1">@item.NombreRuta</td>
                                 <td data-label="Valor1">@item.NombreRango</td>
@@ -51,6 +77,7 @@
                                         @GetButtonLabel(item.AprobadoPorSupervisor)
                                     </button>
                                 </td>
+                                <td>@item.FechaArpobacion.ToString("dd/MM/yyyy")</td>
                                 <td class="text-start">
                                     <a class="btn btn-primary" href="@Url.Action("Aprobar", "CumplimientoRequisito", new { CumplimientoRequisitoID = item.CumplimientoRequisitoID })">
                                         Aprobación

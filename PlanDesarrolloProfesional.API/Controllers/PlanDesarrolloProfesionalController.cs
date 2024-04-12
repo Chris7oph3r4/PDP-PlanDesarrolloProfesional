@@ -42,6 +42,14 @@ namespace PlanDesarrolloProfesional.API.Controllers
             if (Lista == null) throw new Exception("Modelo Nulo");
 
             return Lista;
+        }    [HttpGet]
+        [Route("ListarPorUsuario")]
+        public async Task<IEnumerable<PlanDesarrolloProfesionalViewModel>> ListarPorUsuario(int usuarioID)
+        {
+            var Lista = await _IPlanDesarrollo.ListarPorUsuario(usuarioID);
+            if (Lista == null) throw new Exception("Modelo Nulo");
+
+            return Lista;
         }
 
         [HttpPost]
