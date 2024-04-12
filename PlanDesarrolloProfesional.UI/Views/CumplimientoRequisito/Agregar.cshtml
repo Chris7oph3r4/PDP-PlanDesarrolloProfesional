@@ -1,4 +1,5 @@
 ﻿@model PlanDesarrolloProfesional.Models.Models.CumplimientoRequisitoModel
+@using System.Security.Claims;
 @{
     //Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Crear Requisitos del Plan Desarrollo";
@@ -9,6 +10,14 @@
     List<PlanDesarrolloProfesional.Models.Models.RangoModel> RangoList = ViewBag.Rangos;
     List<PlanDesarrolloProfesional.Models.Models.RequisitoViewModel> RequisitoList = ViewBag.Requisito;
     List<PlanDesarrolloProfesional.Models.Models.RequisitoModel> RequisitosFiltrados = ViewBag.RequisitosFiltrados;
+
+    // Obtener el ClaimsPrincipal actual
+    var claimsPrincipal = Context.User as ClaimsPrincipal;
+
+    // Obtener el valor de un claim específico
+    var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+    var roleClaim = User?.FindFirst("RolID")?.Value;
+    var nameDbClaim = User?.FindFirst("NameDB")?.Value;
 
 }
 
@@ -22,7 +31,7 @@
             </div>
 
 
-            <form action="@Url.Action("Agregar", "CumplimientoRequisito")" method="post" enctype="multipart/form-data" class="form">
+            <form id ="miFormulario" action="@Url.Action("Agregar", "CumplimientoRequisito")" method="post" enctype="multipart/form-data" class="form">
 
                 <input asp-for="PlanDesarrolloID" type="hidden" />
                 <input asp-for="ColaboradorID" type="hidden" />
@@ -51,9 +60,15 @@
                     <div class="col-sm-2">
                     <label for="Requisitos" class="float-left font-weight-bold h5">Requisitos</label>
                     </div>
+               
                     <div class="col-sm-4">
-                        @Html.DropDownList("RequisitoSeleccionado", new SelectList(ViewBag.RequisitosFiltrados, "RequisitoID", "NombreRequisito"), "Selecciona un Requisito", new { @class = "form-control col-12" })
+                        @Html.DropDownList("RequisitoSeleccionado",
+                                 new SelectList(ViewBag.RequisitosFiltrados, "RequisitoID", "NombreRequisito"),
+                                 "Selecciona un Requisito",
+                                 new { @id = "RequisitoSeleccionado", @class = "form-control col-12", required = "required" }
+                                 )
                     </div>
+         
 
                 </div> <div class="form-group row  mt-2">
                     <div class="col-sm-2">
@@ -87,9 +102,17 @@
                     <div class="col-sm-6">
                         <button type="submit" class="btn btn-primary btn-block">Agregar <i class="fas fa-fw fa-plus"></i></button>
                     </div>
-                    <div class="col-sm-6">
-                        <a asp-controller="PlanDesarrolloProfesional" asp-action="Index" class="btn btn-secondary btn-block">Regresar</a>
-                    </div>
+                      @if (roleClaim == "Administrador" || roleClaim == "Supervisor" || string.IsNullOrEmpty(roleClaim?.ToString()))
+                    {
+                        <div class="col-sm-6">
+                            <a asp-controller="PlanDesarrolloProfesional" asp-action="Index" class="btn btn-secondary btn-block">Regresar</a>
+                        </div>
+                    }else
+                    {
+                        <div class="col-sm-6">
+                            <a asp-controller="PlanDesarrolloProfesional" asp-action="ListarPorUsuario" class="btn btn-secondary btn-block">Regresar</a>
+                        </div>
+                    }
                 </div>
             </form>
         </div>
@@ -98,51 +121,12 @@
 
 
 
-<script>
-    // $(document).ready(function () {
-    //     $("#Ruta").change(function () {
-    //         var selectedRuta = $(this).val();
-    //         $("#RangoRemover").removeClass("d-none");
 
-    //         //Código para manejar la carga de rangos
+<script >
+    src="~/lib/jquery/dist/jquery.js" >
+ src="~/lib/jquery-validation/dist/jquery.validate.js">
+ src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js">
 
-    //         $.ajax({
-    //             url: '/Requisito/ObtenerRangosPorRuta', // Asegúrate de que esta URL sea correcta
-    //             type: 'GET',
-    //             data: { rutaId: selectedRuta },
-    //             success: function (data) {
-    //                 console.log(data);
-    //                 // Limpiar y actualizar el dropdown de rangos
-    //                 $("#Rango").empty(); // Corregido el ID aquí
-    //                 $("#Rango").append('<option value="">Seleccione la ruta:</option>'); // Opción predeterminada
-    //                 $.each(data, function (index, item) {
-    //                     $("#Rango").append('<option value="' + item.RangoID + '">' + item.NombreRango + '</option>');
-    //                 });
-    //             },
-    //             error: function () {
-    //                 alert('Error al obtener los rangos.');
-    //             }
-    //         });
-    //     });
-
-    //     // Manejar el cambio en el desplegable de Rangos
-    //     $("#Rango").change(function () {
-    //         var selectedRango = $(this).val();
-
-    //         $.ajax({
-    //             url: '/Requisito/ObtenerRequisitosPorRango', // Verifica esta URL también
-    //             type: 'GET',
-    //             data: { rangoId: selectedRango },
-    //             success: function (data) {
-    //                 $("#Requisito").empty();
-    //                 $.each(data, function (index, item) {
-    //                     $("#Requisito").append('<option value="' + item.RequisitoID + '">' + item.NombreRequisito + '</option>');
-    //                 });
-    //             },
-    //             error: function () {
-    //                 alert('Error al obtener los requisitos.');
-    //             }
-    //         });
-    //     });
-    // });
 </script>
+
+

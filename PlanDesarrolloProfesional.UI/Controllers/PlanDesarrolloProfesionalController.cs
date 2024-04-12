@@ -36,8 +36,15 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         }
 
         public async Task<ActionResult> ListarPorUsuario(string Mensaje)
-        {
-            if (Mensaje != "")
+        {    // Comprobar si el usuario tiene el rol de Administrador
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor")
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }else
+            {
+
+                if (Mensaje != "")
             {
                 ViewBag.Mensaje = Mensaje;
             }
@@ -51,6 +58,8 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             //var RangosFiltrados = await LRango.RangosPorRuta(3);
 
             return View(CumplimientoRequisito);
+            }
+        
         }
 
 
