@@ -105,6 +105,63 @@ namespace PlanDesarrolloProfesional.DataAccess
                 }
             }
         }
+        public async Task<IEnumerable<PlanDesarrolloProfesionalViewModel>> ListarPorSupervisor(int IdRol, int SupervisorId)
+        {
+            using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+            {
+                try
+                { 
+
+
+                if(IdRol == 1)
+                {
+                        IEnumerable<PlanDesarrolloProfesionalViewModel> ListaVM = ContextoBD.PlanesDesarrolloProfesional
+                                                .Where(u => u.Estado != 1)
+                                                .Select(s => new PlanDesarrolloProfesionalViewModel()
+                                                {
+                                                    PlanDesarrolloID = s.PlanDesarrolloID,
+                                                    NombreColaborador = s.Colaborador.Nombre,
+                                                    ColaboradorID = s.ColaboradorID,
+                                                    FechaInicio = s.FechaInicio,
+                                                    NombreRango = s.Rango.NombreRango,
+                                                    RangoID = s.RangoID,
+                                                    Finalizado = s.Finalizado,
+                                                    NombreRuta = s.Rango.Ruta.NombreRuta,
+                                                    RutaID = s.Rango.RutaID
+
+                                                }).ToList();
+                        return ListaVM;
+
+                    }
+                else
+                {
+                        IEnumerable<PlanDesarrolloProfesionalViewModel> ListaSup = ContextoBD.PlanesDesarrolloProfesional
+                        .Where(u => u.Estado != 1 && u.Colaborador.UsuarioJerarquiasUsuario.Any(usuarioJerarquia => usuarioJerarquia.SupervisorID == SupervisorId))
+                        .Select(s => new PlanDesarrolloProfesionalViewModel()
+                        {
+                            PlanDesarrolloID = s.PlanDesarrolloID,
+                            NombreColaborador = s.Colaborador.Nombre,
+                            ColaboradorID = s.ColaboradorID,
+                            FechaInicio = s.FechaInicio,
+                            NombreRango = s.Rango.NombreRango,
+                            RangoID = s.RangoID,
+                            Finalizado = s.Finalizado,
+                            NombreRuta = s.Rango.Ruta.NombreRuta,
+                            RutaID = s.Rango.RutaID
+                        }).ToList();
+
+                       return ListaSup;
+                    }
+                    
+
+
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+            }
+        }
 
         public async Task<PlanesDesarrolloProfesional> Actualizar(PlanesDesarrolloProfesional Modelo, string nameclaim)
         {
