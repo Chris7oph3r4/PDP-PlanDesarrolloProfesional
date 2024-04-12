@@ -210,6 +210,62 @@ namespace PlanDesarrolloProfesional.DataAccess
         }
 
 
+        //public async Task<IEnumerable<RequisitoModel>> RequisitoPorRango(int IdRango, int PlanDesarrolloID)
+        //{
+        //    try
+        //    {
+        //        using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+        //        {
+        //            // Verifica si hay algún requisito aprobado para el PlanDesarrolloID específico con valores 1 o 2
+        //            bool hayRequisitosAprobados = await ContextoBD.CumplimientoRequisito
+        //                .AnyAsync(cumplimiento => cumplimiento.PlanDesarrolloID == PlanDesarrolloID && (cumplimiento.AprobadoPorSupervisor == 1 || cumplimiento.AprobadoPorSupervisor == 2));
+
+        //            if (!hayRequisitosAprobados)
+        //            {
+        //                // Si no hay requisitos aprobados, muestra todos los requisitos del rango
+        //                return await ContextoBD.Requisito
+        //                    .Where(requisito => requisito.RangoID == IdRango)
+        //                    .Select(requisito => new RequisitoModel
+        //                    {
+        //                        RequisitoID = requisito.RequisitoID,
+        //                        NombreRequisito = requisito.NombreRequisito,
+        //                        // Agrega aquí más propiedades según sea necesario
+        //                    })
+        //                    .ToListAsync();
+        //            }
+        //            else
+        //            {
+        //                // Si hay requisitos aprobados, filtra para no incluir esos requisitos aprobados
+        //                return await ContextoBD.Requisito
+        //                    .Where(requisito => requisito.RangoID == IdRango)
+        //                    .GroupJoin(ContextoBD.CumplimientoRequisito,
+        //                               requisito => requisito.RequisitoID,
+        //                               cumplimiento => cumplimiento.RequisitoID,
+        //                               (requisito, cumplimientos) => new { requisito, cumplimientos })
+        //                    .SelectMany(
+        //                        rc => rc.cumplimientos.DefaultIfEmpty(), // Permite requisitos sin cumplimientos
+        //                        (rc, cumplimiento) => new { rc.requisito, cumplimiento }
+        //                    )
+        //                    // Excluir los requisitos aprobados (1 o 2) para el PlanDesarrolloID específico
+        //                    .Where(rc => rc.cumplimiento == null || rc.cumplimiento.PlanDesarrolloID != PlanDesarrolloID || (rc.cumplimiento.AprobadoPorSupervisor != 1 && rc.cumplimiento.AprobadoPorSupervisor != 2))
+        //                    .Select(rc => new RequisitoModel
+        //                    {
+        //                        RequisitoID = rc.requisito.RequisitoID,
+        //                        NombreRequisito = rc.requisito.NombreRequisito,
+        //                        // Más propiedades según sea necesario
+        //                    })
+        //                    .Distinct()
+        //                    .ToListAsync();
+        //            }
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        // Manejo de errores
+        //        return null;
+        //    }
+        //}
+
 
     }
 }

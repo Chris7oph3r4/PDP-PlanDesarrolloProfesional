@@ -32,7 +32,10 @@ public class RequisitoModel
 
     public int RangoID { get; set; }
 
-    public Requisito ConvertBD()
+    [Required(ErrorMessage = "El campo Requisito es obligatorio.")]
+    public int RequisitoSeleccionado { get; set; }
+
+public Requisito ConvertBD()
     {
         return new Requisito
         {

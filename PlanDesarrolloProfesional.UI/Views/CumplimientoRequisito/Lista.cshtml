@@ -1,7 +1,16 @@
 ﻿@model IEnumerable<PlanDesarrolloProfesional.Models.Models.CumplimientoRequisitoViewModel>
+@using System.Security.Claims;
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Lista";
+
+    // Obtener el ClaimsPrincipal actual
+    var claimsPrincipal = Context.User as ClaimsPrincipal;
+
+    // Obtener el valor de un claim específico
+    var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+    var roleClaim = User?.FindFirst("RolID")?.Value;
+    var nameDbClaim = User?.FindFirst("NameDB")?.Value;
 }
 
 <!-- Begin Page Content -->
@@ -18,10 +27,18 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">@Model.Count() Registros</h6>
         </div>
+          @if (roleClaim == "Administrador" || roleClaim == "Supervisor" || string.IsNullOrEmpty(roleClaim?.ToString()))
+          {
         <div class="card-header py-3">
             <a asp-controller="PlanDesarrolloProfesional" asp-action="Index" class="btn btn-secondary btn-block">Regresar</a>
-        </div>
-  
+            </div>
+        }
+        else
+        {
+            <div class="card-header py-3">
+                <a asp-controller="PlanDesarrolloProfesional" asp-action="ListarSupervisor" class="btn btn-secondary btn-block">Regresar</a>
+            </div>
+        }
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
