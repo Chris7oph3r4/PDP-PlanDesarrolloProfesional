@@ -99,6 +99,7 @@
                                     <table class="table">
                                         <tr>
                                             <th>Plan de Desarrollo</th>
+                                            <th>Ruta</th>
                                             <th>Rango</th>
                                             <th>Estado</th>
                                             <th>Progreso</th>
@@ -108,6 +109,7 @@
                                         {
                                             <tr>
                                                 <td>@plan.PlanDesarrolloID</td>
+                                                <td>@plan.NombreRuta</td>
                                                 <td>@plan.NombreRango</td>
                                                 <td>@((plan.Estado == 1) ? "Inactivo" : "Activo")</td>
                                                 <td>@((plan.Finalizado = true) ? "Finalizado" : "En Curso")</td>
