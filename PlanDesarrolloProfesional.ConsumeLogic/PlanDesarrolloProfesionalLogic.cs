@@ -108,7 +108,69 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
 
         //    return Token.Token;
         //}
+        public async Task<int> ObtenerCantidadPlanesPorUsuario(int IdUsuario)
+        {
 
+            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.PlanDesarrolloProfesional_ObtenerCantidadPlanesPorUsuario, IdUsuario.ToString())/*, await Token()*/);
+            int Objeto = JsonConvert.DeserializeObject<int>(ObjetoJson);
+
+            return Objeto;
+        }
+
+       
+        public async Task<string> ObtenerUltimoRangoPorColaborador(int colaboradorId)
+        {
+
+            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.PlanDesarrolloProfesional_ObtenerUltimoRangoPorColaborador, colaboradorId.ToString())/*, await Token()*/);
+            string Objeto = JsonConvert.DeserializeObject<string>(ObjetoJson);
+
+            return Objeto;
+        }
+
+        public async Task<int> ContarPlanesFinalizadosPorColaborador(int colaboradorId)
+        {
+
+            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.PlanDesarrolloProfesional_ContarPlanesFinalizadosPorColaborador, colaboradorId.ToString())/*, await Token()*/);
+            int Objeto = JsonConvert.DeserializeObject<int>(ObjetoJson);
+
+            return Objeto;
+        }
+
+        public async Task<List<PlanDesarrolloProfesionalViewModel>> ObtenerPlanesPorColaborador(int colaboradorId)
+        {
+
+            var ListaSolicitudeJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.PlanDesarrolloProfesional_ObtenerPlanesPorColaborador, colaboradorId.ToString())/*, await Token()*/);
+            List<PlanDesarrolloProfesionalViewModel> ListaPlanesModel = JsonConvert.DeserializeObject<List<PlanDesarrolloProfesionalViewModel>>(ListaSolicitudeJson);
+
+            return ListaPlanesModel;
+        }
+
+        public async Task<string> ObtenerNombreRutaPorColaboradorId(int colaboradorId)
+        {
+
+            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.PlanDesarrolloProfesional_ObtenerNombreRutaPorColaboradorId, colaboradorId.ToString())/*, await Token()*/);
+            string Objeto = JsonConvert.DeserializeObject<string>(ObjetoJson);
+
+            return Objeto;
+        }
+
+        
+
+        //public async Task<int> ObtenerCantidadPlanesPorUsuario(int idUsuario)
+        //{
+        //    var endpoint = Configuration.GetRouteAttribute(AppSettings.APIEndpoints.PlanDesarrolloProfesional_ObtenerCantidadPlanesPorUsuario);
+
+        //    // Construir la URL con los parámetros necesarios
+        //    var url = $"{endpoint}?idUsuario={idUsuario}";
+
+        //    // Realizar la solicitud GET a la API para obtener la cantidad de planes por usuario
+        //    var response = await ServicesRequest.DataRequestGET(url);
+
+        //    // Deserializar la respuesta JSON para obtener la cantidad de planes
+        //    var cantidadPlanes = JsonConvert.DeserializeObject<int>(response);
+
+        //    return cantidadPlanes;
+        //}
 
 
         #endregion Funciones

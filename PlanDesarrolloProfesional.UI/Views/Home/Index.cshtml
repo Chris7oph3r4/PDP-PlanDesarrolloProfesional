@@ -1,4 +1,8 @@
-﻿@{
+﻿@using System.Security.Claims;
+@using PlanDesarrolloProfesional.Models.Models
+
+
+@{
     ViewData["Title"] = "Home Page";
     var nameDbClaim = User?.FindFirst("NameDB")?.Value;
     var rol = User?.FindFirst("RolID")?.Value;
