@@ -34,6 +34,35 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             return View(Plan);
 
         }
+
+        public async Task<ActionResult> ListarPorUsuario(string Mensaje)
+        {    // Comprobar si el usuario tiene el rol de Administrador
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor")
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }else
+            {
+
+                if (Mensaje != "")
+            {
+                ViewBag.Mensaje = Mensaje;
+            }
+
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var usuarioIdClaim = claimsIdentity.FindFirst("UsuarioIDDB");
+            int usuarioID = int.Parse(usuarioIdClaim.Value);
+
+            var CumplimientoRequisito = await LPlanDesarrollo.ListarPorUsuario(usuarioID);
+
+            //var RangosFiltrados = await LRango.RangosPorRuta(3);
+
+            return View(CumplimientoRequisito);
+            }
+        
+        }
+
+
         public async Task<ActionResult> Agregar(string Mensaje)
         {
 
@@ -43,7 +72,17 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             }
             PlanesDesarrolloProfesionalModel Plan = new PlanesDesarrolloProfesionalModel();
             ViewBag.Rutas = await LRuta.Listar();
-            ViewBag.Colaborador = await LUsuario.Listar();
+            var claim = User?.FindFirst("UsuarioIDDB")?.Value;
+            int usuarioId;
+
+            if (claim != null && int.TryParse(claim, out usuarioId))
+            {
+                ViewBag.Colaborador = await LUsuario.ListarPorSupervisor(usuarioId);
+            }
+            else
+            {
+                return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
+            }
             ViewBag.Rangos = await LRango.Listar();
             return View(Plan);
 

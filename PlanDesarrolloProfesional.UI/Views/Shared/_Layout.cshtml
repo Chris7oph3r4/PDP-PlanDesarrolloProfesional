@@ -77,6 +77,15 @@
                             </a>
                         </li>
                     }
+                    else
+                    {
+                    <li class="nav-item">
+                        <a asp-controller="PlanDesarrolloProfesional" asp-action="ListarPorUsuario" class="nav-link">
+                            <i class="link-icon" data-feather="box"></i>
+                            <span class="link-title">Plan Desarrollo Profesional</span>
+                        </a>
+                    </li>
+                    }
                     <li class="nav-item">
                         <a asp-controller="Area" asp-action="Index" class="nav-link">
                             <i class="link-icon" data-feather="box"></i>
@@ -102,12 +111,24 @@
                             <span class="link-title">Administrar Requisitos</span>
                         </a>
                     </li>
+                    @if (roleClaim == "Administrador" || string.IsNullOrEmpty(roleClaim?.ToString()))
+                    {
+                        <li class="nav-item">
+                            <a asp-controller="CumplimientoRequisito" asp-action="Index" class="nav-link">
+                                <i class="link-icon" data-feather="calendar"></i>
+                                <span class="link-title">Cumplimiento Requisito</span>
+                            </a>
+                        </li>
+                    }
+                    else if (roleClaim == "Supervisor")
+                    {
                     <li class="nav-item">
-                        <a asp-controller="CumplimientoRequisito" asp-action="Index" class="nav-link">
+                            <a asp-controller="CumplimientoRequisito" asp-action="ListarSupervisor" class="nav-link">
                             <i class="link-icon" data-feather="calendar"></i>
                             <span class="link-title">Cumplimiento Requisito</span>
                         </a>
                     </li>
+                    }
                     <li class="nav-item nav-category">Configuracion</li>
                     <li class="nav-item">
                         <a asp-controller="Jerarquias" asp-action="Index" class="nav-link">

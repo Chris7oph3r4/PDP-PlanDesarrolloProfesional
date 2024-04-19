@@ -8,9 +8,9 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Requisito</h1>
+    <h1 class="h3 mb-2 text-gray-800">Requisito de aprobación</h1>
     <p class="mb-4">
-        Lista de Requisitos
+        Lista de requisito para aprobación
     </p>
 
     <!-- DataTales Example -->
@@ -23,14 +23,16 @@
                 <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Plan Desarrollo</th>
-                            <th>Requisito</th>
-                            <th>Colaborador</th>
-                            <th>Evidencia</th>
-                            <th>Fecha Obtenida </th>
-                            <th>Estado </th>
-                            
 
+                            <th>Colaborador</th>
+                            <th>Ruta</th>
+                            <th>Rango</th>
+                            <th>Requisito</th>
+                            <th>Evidencia</th>
+                            <th>Fecha Obtenida</th>
+                            <th>Estado</th>
+                            <th>Fecha aprobación</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
 
@@ -38,52 +40,83 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                
-                                <td data-label="Valor1">@item.PlanDesarrolloID</td>
-                                <td data-label="Valor1">@item.NombreRequisito</td>
-                                <td data-label="Valor1">@item.NombreColaborador</td>
-                                <td data-label="Valor1">@item.URLEvidencia</td>
-                                <td data-label="Valor1">@item.FechaObtencion.ToString("dd/MM/yyyy")</td>
-                                <td data-label="Estado">
-                                    @switch (item.AprobadoPorSupervisor)
-                                    {
-                                        case 0:
-                                            @:Denegado
-                                            break;
-                                        case 1:
-                                            @:Aprobado
-                                            break;
-                                        case 2:
-                                            @:En revisión
-                                            break;
-                                        default:
-                                            @:No definido
-                                            break;
-                                    }
-                                </td>
-                               
 
-                                <td class="text-start" data-label="Acciones">
-                                    <a class="btn btn-success" href="@Url.Action("Aprobar", "CumplimientoRequisito", new { CumplimientoRequisitoID = item.CumplimientoRequisitoID })">
+                                @*               <td data-label="Valor1">@item.PlanDesarrolloID</td>
+                            <td data-label="Valor1">@item.NombreRequisito</td>
+                            <td data-label="Valor1">@item.NombreColaborador</td>
+                            <td data-label="Valor1">@item.URLEvidencia</td>
+                            <td data-label="Valor1">@item.FechaObtencion.ToString("dd/MM/yyyy")</td>
+                            <td data-label="Estado">
+                            @switch (item.AprobadoPorSupervisor)
+                            {
+                            case 0:
+                            @:Denegado
+                            break;
+                            case 1:
+                            @:Aprobado
+                            break;
+                            case 2:
+                            @:En revisión
+                            break;
+                            default:
+                            @:No definido
+                            break;
+                            }
+                            </td> *@
+
+
+                                <td data-label="Valor1">@item.NombreColaborador</td>
+                                <td data-label="Valor1">@item.NombreRuta</td>
+                                <td data-label="Valor1">@item.NombreRango</td>
+                                <td data-label="Valor1">@item.NombreRequisito</td>
+                                <td>@item.URLEvidencia</td>
+                                <td>@item.FechaObtencion.ToString("dd/MM/yyyy")</td>
+                                <td>
+
+                                    <button class="btn @GetButtonClass(item.AprobadoPorSupervisor)" style="cursor: auto !important;">
+                                        @GetButtonLabel(item.AprobadoPorSupervisor)
+                                    </button>
+                                </td>
+                                <td>@item.FechaArpobacion.ToString("dd/MM/yyyy")</td>
+                                <td class="text-start">
+                                    <a class="btn btn-primary" href="@Url.Action("Aprobar", "CumplimientoRequisito", new { CumplimientoRequisitoID = item.CumplimientoRequisitoID })">
                                         Aprobación
                                     </a>
                                 </td>
-
-                               
                             </tr>
                         }
                     </tbody>
                 </table>
-                @using (Html.BeginForm("Eliminar", "CumplimientoRequisito", FormMethod.Post, new { id = "EliminarCumplimientoRequisito" }))
-                {
-                    <input type="hidden" id="IdObjeto" name="IdObjeto" />
-                    @*<input type="hidden" id="Justificacion" name="Justificacion" />*@
-                }
             </div>
         </div>
     </div>
 
 </div>
+
+@functions {
+    private string GetButtonClass(int status)
+    {
+        switch (status)
+        {
+            case 0: return "btn-danger"; // Denegado
+            case 1: return "btn-success"; // Aprobado
+            case 2: return "btn-secondary"; // En revisión
+            default: return "btn-dark"; // No definido
+        }
+    }
+
+    private string GetButtonLabel(int status)
+    {
+        switch (status)
+        {
+            case 0: return "Denegado";
+            case 1: return "Aprobado";
+            case 2: return "En revisión";
+            default: return "No definido";
+        }
+    }
+}
+
 @section Scripts {
     <script src="~/js/sweetalert.js"></script>
     <script src="~/js/alertas.js"></script>

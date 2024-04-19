@@ -117,6 +117,14 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
 
             return ListaUsuarioModel;
         }
+        public async Task<List<UsuarioModel>> ListarPorSupervisor(int idSupervisor)
+        {
+
+            var ListaSolicitudeJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Usuario_ListarPorSupervisor, idSupervisor.ToString())/*, await Token()*/);
+            List<UsuarioModel> ListaUsuarioModel = JsonConvert.DeserializeObject<List<UsuarioModel>>(ListaSolicitudeJson);
+
+            return ListaUsuarioModel;
+        }
 
         public async Task<bool> Eliminar(int IdUsuario, string nameclaim)
         {

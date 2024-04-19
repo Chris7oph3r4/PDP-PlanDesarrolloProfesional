@@ -68,6 +68,15 @@ namespace PlanDesarrolloProfesional.API.Controllers
             return Lista;
         }
         [HttpGet]
+        [Route("ListarPorSupervisor")]
+        public async Task<IEnumerable<UsuarioModel>> ListarPorSupervisor(int idSupervisor)
+        {
+            var Lista = await _IUsuario.ListarPorSupervisor(idSupervisor);
+            if (Lista == null) throw new Exception("Modelo Nulo");
+
+            return Lista;
+        }
+        [HttpGet]
         [Route("ListarVM")]
         public async Task<IEnumerable<UsuarioViewModel>> ListarVM()
         {

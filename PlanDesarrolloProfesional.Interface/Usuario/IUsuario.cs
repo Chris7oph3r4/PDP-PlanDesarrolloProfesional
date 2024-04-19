@@ -19,6 +19,7 @@ public interface IUsuario
             Task<UsuarioAgregarViewModel> Actualizar(List<object> Modelo);
             //Task<IEnumerable<JerarquiasViewModel>> ListarPorUsuario(int IdUsuario);
             Task<IEnumerable<UsuarioModel>> Listar();
+            Task<IEnumerable<UsuarioModel>> ListarPorSupervisor(int idSupervisor);
             Task<IEnumerable<UsuarioViewModel>> ListarVM();
             Task<bool> Eliminar(int IdPedido, string nameclaim);
         }

@@ -214,6 +214,49 @@ namespace PlanDesarrolloProfesional.DataAccess
             }
         }
 
+        public async Task<List<CumplimientoRequisitoViewModel>> ObtenerAprobadosPorSupervisor(int supervisorID)
+        {
+            try
+            {
+                using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+                {
+                    var listaAprobados = await ContextoBD
+                        .CumplimientoRequisito
+                        .Include(cr => cr.PlanDesarrollo)
+                        .ThenInclude(pd => pd.Colaborador)
+                        .ThenInclude(c => c.UsuarioJerarquiasUsuario) // Asegúrate de que esto coincida con tu modelo de EF
+                        .Where(cr => cr.PlanDesarrollo.Colaborador.UsuarioJerarquiasUsuario.Any(uj => uj.SupervisorID == supervisorID))
+                        .Select(s => new CumplimientoRequisitoViewModel()
+                        {
+                            CumplimientoRequisitoID = s.CumplimientoRequisitoID,
+                            RequisitoID = s.RequisitoID,
+                            NombreRequisito = s.Requisito.NombreRequisito,
+                            RangoID = s.PlanDesarrollo.RangoID,
+                            NombreRango = s.Requisito.Rango.NombreRango,
+                            NombreRuta = s.Requisito.Rango.Ruta.NombreRuta,
+                            RutaID = s.Requisito.Rango.RutaID,
+                            NombreColaborador = s.PlanDesarrollo.Colaborador.Nombre,
+                            ColaboradorID = s.ColaboradorID,
+                            FechaRegistro = s.FechaRegistro,
+                            FechaObtencion = s.FechaObtencion,
+                            URLEvidencia = s.URLEvidencia,
+                            AprobadoPorSupervisor = s.AprobadoPorSupervisor,
+                            PlanDesarrolloID = s.PlanDesarrolloID,
+                            FechaArpobacion = s.FechaArpobacion
+                        })
+                        .ToListAsync();
+
+                    return listaAprobados;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e; // Considera manejar la excepción de manera más específica
+            }
+        }
+
+
+
 
         public async Task<CumplimientoRequisito> Actualizar(CumplimientoRequisito Modelo)
         {

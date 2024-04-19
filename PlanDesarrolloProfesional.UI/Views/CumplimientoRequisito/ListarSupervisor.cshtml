@@ -1,25 +1,16 @@
 ﻿@model IEnumerable<PlanDesarrolloProfesional.Models.Models.CumplimientoRequisitoViewModel>
-@using System.Security.Claims;
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Lista";
-
-    // Obtener el ClaimsPrincipal actual
-    var claimsPrincipal = Context.User as ClaimsPrincipal;
-
-    // Obtener el valor de un claim específico
-    var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
-    var roleClaim = User?.FindFirst("RolID")?.Value;
-    var nameDbClaim = User?.FindFirst("NameDB")?.Value;
+    ViewData["Title"] = "Requisito";
 }
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Lista</h1>
+    <h1 class="h3 mb-2 text-gray-800">Requisito de aprobación</h1>
     <p class="mb-4">
-        Lista
+        Lista de requisito para aprobación
     </p>
 
     <!-- DataTales Example -->
@@ -27,34 +18,21 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">@Model.Count() Registros</h6>
         </div>
-          @if (roleClaim == "Administrador" || roleClaim == "Supervisor" || string.IsNullOrEmpty(roleClaim?.ToString()))
-          {
-        <div class="card-header py-3">
-            <a asp-controller="PlanDesarrolloProfesional" asp-action="Index" class="btn btn-secondary btn-block">Regresar</a>
-            </div>
-        }
-        else
-        {
-            <div class="card-header py-3">
-                <a asp-controller="PlanDesarrolloProfesional" asp-action="ListarSupervisor" class="btn btn-secondary btn-block">Regresar</a>
-            </div>
-        }
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Plan Desarrollo</th>
+                            
+                            <th>Colaborador</th>
                             <th>Ruta</th>
                             <th>Rango</th>
                             <th>Requisito</th>
-                            <th>Colaborador</th>
                             <th>Evidencia</th>
-                            <th>Fecha Obtenida </th>
+                            <th>Fecha Obtenida</th>
                             <th>Estado</th>
+                            <th>Fecha aprobación</th>
                             <th>Acciones</th>
-
-
                         </tr>
                     </thead>
 
@@ -63,50 +41,58 @@
                         {
                             <tr>
 
-                                <td data-label="Valor1">@item.PlanDesarrolloID</td>
-                                <td data-label="Valor1">@item.NombreRuta</td>
-                                <td data-label="Valor1">@item.NombreRango</td>
+                  @*               <td data-label="Valor1">@item.PlanDesarrolloID</td>
                                 <td data-label="Valor1">@item.NombreRequisito</td>
                                 <td data-label="Valor1">@item.NombreColaborador</td>
                                 <td data-label="Valor1">@item.URLEvidencia</td>
                                 <td data-label="Valor1">@item.FechaObtencion.ToString("dd/MM/yyyy")</td>
-                                <td>
+                                <td data-label="Estado">
+                                    @switch (item.AprobadoPorSupervisor)
+                                    {
+                                        case 0:
+                                            @:Denegado
+                                            break;
+                                        case 1:
+                                            @:Aprobado
+                                            break;
+                                        case 2:
+                                            @:En revisión
+                                            break;
+                                        default:
+                                            @:No definido
+                                            break;
+                                    }
+                                </td> *@
 
+
+                                <td data-label="Valor1">@item.NombreColaborador</td>
+                                <td data-label="Valor1">@item.NombreRuta</td>
+                                <td data-label="Valor1">@item.NombreRango</td>
+                                <td data-label="Valor1">@item.NombreRequisito</td>
+                                <td>@item.URLEvidencia</td>
+                                <td>@item.FechaObtencion.ToString("dd/MM/yyyy")</td>
+                                <td>
+                     
                                     <button class="btn @GetButtonClass(item.AprobadoPorSupervisor)" style="cursor: auto !important;">
                                         @GetButtonLabel(item.AprobadoPorSupervisor)
                                     </button>
                                 </td>
-                                @if (item.AprobadoPorSupervisor != 0 && item.AprobadoPorSupervisor != 1)
-                                {
-                                    <td class="text-start" data-label="Acciones">
-                                        <div class="dropdown">
-                                            <a type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                                Acciones
-                                            </a>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="@Url.Action("Modificar", "CumplimientoRequisito", new { CumplimientoRequisitoID = item.CumplimientoRequisitoID })">Modificar</a>
-                                                <a onclick="Eliminar(@item.CumplimientoRequisitoID)" href="#" class="dropdown-item" style="color:black;">Eliminar</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                }
-                                else
-                                {
-                                    <td></td> <!-- Deja la celda vacía si no se deben mostrar acciones -->
-                                }
+                                <td>@item.FechaArpobacion.ToString("dd/MM/yyyy")</td>
+                                <td class="text-start">
+                                    <a class="btn btn-primary" href="@Url.Action("Aprobar", "CumplimientoRequisito", new { CumplimientoRequisitoID = item.CumplimientoRequisitoID })">
+                                        Aprobación
+                                    </a>
+                                </td>
                             </tr>
                         }
                     </tbody>
                 </table>
-                @using (Html.BeginForm("Eliminar", "CumplimientoRequisito", FormMethod.Post, new { id = "EliminarCumplimientoRequisito" }))
-                {
-                    <input type="hidden" id="IdObjeto" name="IdObjeto" />
-                    @*<input type="hidden" id="Justificacion" name="Justificacion" />*@
-                }
             </div>
         </div>
     </div>
+
 </div>
+
 @functions {
     private string GetButtonClass(int status)
     {
@@ -130,9 +116,6 @@
         }
     }
 }
-
-
-
 
 @section Scripts {
     <script src="~/js/sweetalert.js"></script>
@@ -165,10 +148,10 @@
             });
         }
 
-        else if ('@ViewBag.Mensaje' == "Modifica") {
+        else if ('@ViewBag.Mensaje' == "Aprobar") {
             Swal.fire({
                 title: "¡Acción exitosa!",
-                text: 'Se ha modificado el requisito del sistema',
+                text: 'Se ha aprobado el requisito del sistema',
                 type: "success",
                 showCancelButton: false,
                 showconfirmButton: false,

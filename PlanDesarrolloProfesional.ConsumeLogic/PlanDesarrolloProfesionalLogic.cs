@@ -79,6 +79,13 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
             List<PlanDesarrolloProfesionalViewModel> ListaJerarquiasModel = JsonConvert.DeserializeObject<List<PlanDesarrolloProfesionalViewModel>>(ListaSolicitudeJson);
 
             return ListaJerarquiasModel;
+        } public async Task<List<PlanDesarrolloProfesionalViewModel>> ListarPorUsuario(int usuarioID)
+        {
+
+            var ListaSolicitudeJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.PlanDesarrolloProfesional_ListarPorUsuario,usuarioID.ToString())/*, await Token()*/);
+            List<PlanDesarrolloProfesionalViewModel> ListaPorUsuarioModel = JsonConvert.DeserializeObject<List<PlanDesarrolloProfesionalViewModel>>(ListaSolicitudeJson);
+
+            return ListaPorUsuarioModel;
         }
 
         public async Task<bool> Eliminar(int IdPlan, string nameclaim)

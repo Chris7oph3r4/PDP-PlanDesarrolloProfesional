@@ -1,10 +1,20 @@
 ﻿@model IEnumerable<PlanDesarrolloProfesional.Models.Models.PlanDesarrolloProfesionalViewModel>
+@using System.Security.Claims;
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Plan Desarrollo Profesional";
+    // Obtener el ClaimsPrincipal actual
+    var claimsPrincipal = Context.User as ClaimsPrincipal;
+
+    // Obtener el valor de un claim específico
+    var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+    var roleClaim = User?.FindFirst("RolID")?.Value;
+    var nameDbClaim = User?.FindFirst("NameDB")?.Value;
+
 }
 
 
+<!-- Begin Page Content -->
 <div class="container-fluid">
 
 
@@ -20,9 +30,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">@Model.Count() Registros</h6>
         </div>
-        <div class="card-header py-3">
-            <a href="@Url.Action("Agregar", "PlanDesarrolloProfesional", new { })" class="btn btn-primary btn-user btn-block">Agregar</a>
-        </div>
+
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
@@ -31,10 +39,9 @@
                             <th>Id Plan</th>
                             <th>Colaborador</th>
                             <th>Fecha Inicio del Plan</th>
-                            <th>Ruta</th>
                             <th>Rango</th>
                             <th>Estado</th>
-                            <th>Acciones</th>
+                           @*  <th>Acciones</th> *@
                             <th>Cumplimientos</th>
                         </tr>
                     </thead>
@@ -49,9 +56,8 @@
                                     <td data-label="Colaborador">@item.NombreColaborador</td>
                                     <td data-label="Fecha Inicio">@item.FechaInicio.ToString("dd/MM/yyyy")</td>
                                     <td data-label="Rango">@item.NombreRango</td>
-                                    <td data-label="Ruta">@item.NombreRuta</td>
                                     <td data-label="Estado">@((item.Estado == 1) ? "Finalizado" : "En Curso")</td>
-                                    <td data-label="Acciones">
+                                 @*    <td data-label="Acciones">
                                         <div class="dropdown">
                                             <a type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
                                                 Acciones
@@ -61,7 +67,7 @@
                                                 <a onclick="Eliminar(@item.PlanDesarrolloID)" href="#" class="dropdown-item" style="color:black;">Eliminar</a>
                                             </div>
                                         </div>
-                                    </td>
+                                    </td> *@
                                     <td data-label="Cumplimientos">
                                         <div class="dropdown">
                                             <a type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
@@ -87,7 +93,7 @@
         </div>
     </div>
 </div>
-@section Scripts{
+@section Scripts {
     <script src="~/js/sweetalert.js"></script>
     <script src="~/js/alertas.js"></script>
     <link href="~/js/datatables.net-bs5/datatables.bootstrap5.css" rel="stylesheet" />
@@ -179,4 +185,4 @@
 
         }
     </script>
-    }
+}
