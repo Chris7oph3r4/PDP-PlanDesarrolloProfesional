@@ -27,7 +27,7 @@ public interface IUsuario
             Task<IEnumerable<UsuarioViewModel>> ListarAreasPorUsuario(int IdUsuario);
 
             Task<IEnumerable<UsuarioRuta>> RutaPorUsuario(int IdUsuario);
-    }
+    
             Task<bool> Eliminar(int IdPedido, string nameclaim);
         }
 }

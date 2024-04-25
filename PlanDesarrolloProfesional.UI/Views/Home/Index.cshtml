@@ -3,20 +3,12 @@
 
 
 @{
+
     ViewData["Title"] = "Home Page";
-    var nameDbClaim = User?.FindFirst("NameDB")?.Value;
-   
-
-   
-
-}
-
-@{
     var claimsPrincipal = Context.User as ClaimsPrincipal;
-
+    var nameDbClaim = User?.FindFirst("NameDB")?.Value;
     var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
     var roleClaim = User?.FindFirst("RolID")?.Value;
-    var nameDbClaim = User?.FindFirst("NameDB")?.Value;
     int CantidadPlanes = ViewBag.CantidadPlanes;
     string ultimoRangoRegistrado = ViewBag.ultimoRangoRegistrado;
     // int planesFinalizados = ViewBag.PlanesFinalizados;
@@ -28,7 +20,10 @@
 
     string ObtenerNombreRutaPorColaboradorId = ViewBag.ObtenerNombreRutaPorColaboradorId;
 
+   
+
 }
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,222 +52,132 @@
     </div>
     <div class="page-body">
         <div class="row">
-            <!-- order-card start -->      
-            <div class="col-md-12 col-xl-4">
-                <div class="card bg-c-yellow order-card">
-                    <div class="card-block">
-                        <h6 class="m-b-20">Ruta en progreso</h6>
-                        <h2 class="text-right"><i class="ti-stats-up f-left"></i><span>@ObtenerNombreRutaPorColaboradorId</span></h2>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 col-xl-4">
-                <div class="card bg-c-blue order-card">
-                    <div class="card-block">
-                        <h6 class="m-b-20">Rango Actual</h6>
-                        <h2 class="text-right"><i class="ti-list f-left"></i><span>@ultimoRangoRegistrado</span></h2>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 col-xl-4">
-                <div class="card bg-c-green order-card">
-                    <div class="card-block">
-                        <h6 class="m-b-20">Planes Registrados</h6>
-                        <h2 class="text-right"><i class="ti-medall f-left"></i><span>@CantidadPlanes</span></h2>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <div class="card tabs-card">
-                    <div class="card-block p-0">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs md-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#home3" role="tab"><i class="fa fa-home"></i>Planes</a>
-                                <div class="slide"></div>
-                            </li>
-                          @*   <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#profile3" role="tab"><i class="fa fa-key"></i>Areas</a>
-                                <div class="slide"></div>
-                            </li> *@
-                        </ul>
-                        <!-- Tab panes -->
-                        <div class="tab-content card-block">
-                            <div class="tab-pane active" id="home3" role="tabpanel">
 
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <tr>
-                                            <th>Plan de Desarrollo</th>
-                                            <th>Ruta</th>
-                                            <th>Rango</th>
-                                            <th>Estado</th>
-                                            <th>Progreso</th>
-                                            <th>Fecha Inicio</th>
-                                        </tr>
-                                        @foreach (var plan in PlanesPorUsuarioList)
-                                        {
-                                            <tr>
-                                                <td>@plan.PlanDesarrolloID</td>
-                                                <td>@plan.NombreRuta</td>
-                                                <td>@plan.NombreRango</td>
-                                                <td>@((plan.Estado == 1) ? "Inactivo" : "Activo")</td>
-                                                <td>@((plan.Finalizado = true) ? "Finalizado" : "En Curso")</td>
-                                                <td>@plan.FechaInicio.ToString("dd/MM/yyyy")</td>
-                                            </tr>
-                                        }
-                                    </table>
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800">Bienvenido! @nameDbClaim </h1>
+            <p class="mb-4">
+                Dashboard Principal
+            </p>
+
+             <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                            @if (roleClaim == "Administrador" || roleClaim == "Supervisor")
+                {
+                    <iframe title="BI Reporte" width="100%" height="900" src="https://app.powerbi.com/reportEmbed?reportId=2ac0ea83-073c-4409-b87e-6a7a2c6e4fc5&autoAuth=true&ctid=6b4bdb6e-4b58-4a85-8791-10ad1dcb170b" frameborder="0" allowFullScreen="true"></iframe>
+                }
+                else
+                {
+                    <div class="row">
+                        <!-- order-card start -->
+                        <div class="col-md-12 col-xl-4">
+                            <div class="card bg-c-yellow order-card">
+                                <div class="card-block">
+                                    <h6 class="m-b-20">Ruta en progreso</h6>
+                                    <h2 class="text-right"><i class="ti-stats-up f-left"></i><span>@ObtenerNombreRutaPorColaboradorId</span></h2>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="profile3" role="tabpanel">
-
-<div class="container-fluid">
-
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Bienvenido! @nameDbClaim </h1>
-    <p class="mb-4">
-        Dashboard Principal
-    </p>
-
-    <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        @if (rol == "Administrador" || rol == "Supervisor")
-        {
-            <iframe title="BI Reporte" width="100%" height="900" src="https://app.powerbi.com/reportEmbed?reportId=2ac0ea83-073c-4409-b87e-6a7a2c6e4fc5&autoAuth=true&ctid=6b4bdb6e-4b58-4a85-8791-10ad1dcb170b" frameborder="0" allowFullScreen="true"></iframe>
-        }
-        else
-        {
-            <div class="row">
-                <!-- order-card start -->
-                <div class="col-md-12 col-xl-4">
-                    <div class="card bg-c-yellow order-card">
-                        <div class="card-block">
-                            <h6 class="m-b-20">Ruta en progreso</h6>
-                            <h2 class="text-right"><i class="ti-stats-up f-left"></i><span>@ObtenerNombreRutaPorColaboradorId</span></h2>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-xl-4">
-                    <div class="card bg-c-blue order-card">
-                        <div class="card-block">
-                            <h6 class="m-b-20">Rango Actual</h6>
-                            <h2 class="text-right"><i class="ti-list f-left"></i><span>@ultimoRangoRegistrado</span></h2>
+                        <div class="col-md-12 col-xl-4">
+                            <div class="card bg-c-blue order-card">
+                                <div class="card-block">
+                                    <h6 class="m-b-20">Rango Actual</h6>
+                                    <h2 class="text-right"><i class="ti-list f-left"></i><span>@ultimoRangoRegistrado</span></h2>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-xl-4">
-                    <div class="card bg-c-green order-card">
-                        <div class="card-block">
-                            <h6 class="m-b-20">Planes Registrados</h6>
-                            <h2 class="text-right"><i class="ti-medall f-left"></i><span>@CantidadPlanes</span></h2>
+                        <div class="col-md-12 col-xl-4">
+                            <div class="card bg-c-green order-card">
+                                <div class="card-block">
+                                    <h6 class="m-b-20">Planes Registrados</h6>
+                                    <h2 class="text-right"><i class="ti-medall f-left"></i><span>@CantidadPlanes</span></h2>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-sm-12">
-                    <div class="card tabs-card">
-                        <div class="card-block p-0">
-                            <!-- Nav tabs -->
-                            <ul class="nav nav-tabs md-tabs" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#home3" role="tab"><i class="fa fa-home"></i>Planes</a>
+                        <div class="col-sm-12">
+                            <div class="card tabs-card">
+                                <div class="card-block p-0">
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs md-tabs" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-toggle="tab" href="#home3" role="tab"><i class="fa fa-home"></i>Planes</a>
+                                            <div class="slide"></div>
+                                        </li>
+                                        @*   <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#profile3" role="tab"><i class="fa fa-key"></i>Areas</a>
                                     <div class="slide"></div>
-                                </li>
-                                @*   <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#profile3" role="tab"><i class="fa fa-key"></i>Areas</a>
-                            <div class="slide"></div>
-                            </li> *@
-                            </ul>
-                            <!-- Tab panes -->
-                            <div class="tab-content card-block">
-                                <div class="tab-pane active" id="home3" role="tabpanel">
+                                    </li> *@
+                                    </ul>
+                                    <!-- Tab panes -->
+                                    <div class="tab-content card-block">
+                                        <div class="tab-pane active" id="home3" role="tabpanel">
 
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <tr>
-                                                <th>Plan de Desarrollo</th>
-                                                <th>Ruta</th>
-                                                <th>Rango</th>
-                                                <th>Estado</th>
-                                                <th>Progreso</th>
-                                                <th>Fecha Inicio</th>
-                                            </tr>
-                                            @foreach (var plan in PlanesPorUsuarioList)
-                                            {
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>Plan de Desarrollo</th>
+                                                        <th>Ruta</th>
+                                                        <th>Rango</th>
+                                                        <th>Estado</th>
+                                                        <th>Progreso</th>
+                                                        <th>Fecha Inicio</th>
+                                                    </tr>
+                                                    @foreach (var plan in PlanesPorUsuarioList)
+                                                    {
+                                                        <tr>
+                                                            <td>@plan.PlanDesarrolloID</td>
+                                                            <td>@plan.NombreRuta</td>
+                                                            <td>@plan.NombreRango</td>
+                                                            <td>@((plan.Estado == 1) ? "Inactivo" : "Activo")</td>
+                                                            <td>@((plan.Finalizado = true) ? "Finalizado" : "En Curso")</td>
+                                                            <td>@plan.FechaInicio.ToString("dd/MM/yyyy")</td>
+                                                        </tr>
+                                                    }
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="profile3" role="tabpanel">
+
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>Area Id</th>
+                                                        <th>Nombre de Area</th>
+                                                        <th>Correo registrado</th>
+                                                        <th>Correo registrado</th>
+                                                    </tr>
+                                                    @*  @foreach (var plan in RutasPorUsuarioList)
+                                                {
                                                 <tr>
-                                                    <td>@plan.PlanDesarrolloID</td>
-                                                    <td>@plan.NombreRuta</td>
-                                                    <td>@plan.NombreRango</td>
-                                                    <td>@((plan.Estado == 1) ? "Inactivo" : "Activo")</td>
-                                                    <td>@((plan.Finalizado = true) ? "Finalizado" : "En Curso")</td>
-                                                    <td>@plan.FechaInicio.ToString("dd/MM/yyyy")</td>
-                                                </tr>
-                                            }
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="profile3" role="tabpanel">
-
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <tr>
-                                                <th>Area Id</th>
-                                                <th>Nombre de Area</th>
-                                                <th>Correo registrado</th>
-                                                <th>Correo registrado</th>
-                                            </tr>
-                                            @*  @foreach (var plan in RutasPorUsuarioList)
-                                        {
-                                        <tr>
-                                        <td>@plan.NombreRuta</td>
-                                        <td>@plan.DescripcionRuta</td>
-                                        <td>@plan.Ruta</td>
-                                        <td>@plan.Area</td>
-                                        </tr>
-                                        } *@
-                                        </table>
-                                    </div>
-
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-
-</div>
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <tr>
-                                            <th>Area Id</th>
-                                            <th>Nombre de Area</th>
-                                            <th>Correo registrado</th>
-                                            <th>Correo registrado</th>
-                                        </tr>
-                                        @*  @foreach (var plan in RutasPorUsuarioList)
-                                        {
-                                            <tr>
                                                 <td>@plan.NombreRuta</td>
                                                 <td>@plan.DescripcionRuta</td>
                                                 <td>@plan.Ruta</td>
                                                 <td>@plan.Area</td>
-                                            </tr>
-                                        } *@
-                                    </table>
-                                </div>
-                                
-                            </div>
-                            
+                                                </tr>
+                                                } *@
+                                                </table>
+                                            </div>
 
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
+
         </div>
-    </div>
+                                
+                                
+   </div>
+                            
+
+ </div>
+
 
     <script type="text/javascript" src="~/assets/js/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="~/assets/js/jquery-ui/jquery-ui.min.js"></script>
