@@ -13,6 +13,8 @@ namespace PlanDesarrolloProfesional.Logic
     public class LPlanDesarrolloProfesional :IPlanDesarrolloProfesional
     {
         private DAPlanDesarrolloProfesional _DAPlanDesarrollo;
+        private int _idUsuario;
+
         public LPlanDesarrolloProfesional()
         {
             _DAPlanDesarrollo = new DAPlanDesarrolloProfesional();
@@ -104,6 +106,40 @@ namespace PlanDesarrolloProfesional.Logic
             {
                 return false;
             }
+        }
+
+        public async Task<int> ObtenerCantidadPlanesPorUsuario(int idUsuario)
+        {
+            return await _DAPlanDesarrollo.ObtenerCantidadPlanesPorUsuario(idUsuario);
+        }
+
+        public async Task<string> ObtenerUltimoRangoPorColaborador(int colaboradorId)
+        {
+            return await _DAPlanDesarrollo.ObtenerUltimoRangoPorColaborador(colaboradorId);
+        }
+
+        public async Task<int> ContarPlanesFinalizadosPorColaborador(int colaboradorId)
+        {
+            return await _DAPlanDesarrollo.ContarPlanesFinalizadosPorColaborador(colaboradorId);
+        }
+
+        public async Task<IEnumerable<PlanDesarrolloProfesionalViewModel>> ObtenerPlanesPorColaborador(int colaboradorId)
+        {
+            try
+            {
+                var ListaObjetoBD = await _DAPlanDesarrollo.ObtenerPlanesPorColaborador(colaboradorId);
+
+                return ListaObjetoBD;
+            }
+            catch (Exception e)
+            {
+                return new List<PlanDesarrolloProfesionalViewModel>().AsEnumerable();
+            }
+        }
+
+        public async Task<string> ObtenerNombreRutaPorColaboradorId(int colaboradorId)
+        {
+            return await _DAPlanDesarrollo.ObtenerNombreRutaPorColaboradorId(colaboradorId);
         }
     }
 }

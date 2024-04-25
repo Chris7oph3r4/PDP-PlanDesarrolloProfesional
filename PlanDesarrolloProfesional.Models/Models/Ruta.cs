@@ -17,7 +17,7 @@ public partial class Ruta
     [StringLength(50)]
     [Unicode(false)]
     public string NombreRuta { get; set; }
-
+     
     [Required]
     [StringLength(255)]
     [Unicode(false)]
