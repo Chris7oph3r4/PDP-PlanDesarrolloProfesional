@@ -3,10 +3,12 @@
 
 
 @{
-    ViewData["Title"] = "Home Page";
-    var nameDbClaim = User?.FindFirst("NameDB")?.Value;
-    var rol = User?.FindFirst("RolID")?.Value;
 
+    ViewData["Title"] = "Home Page";
+    var claimsPrincipal = Context.User as ClaimsPrincipal;
+    var nameDbClaim = User?.FindFirst("NameDB")?.Value;
+    var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+    var roleClaim = User?.FindFirst("RolID")?.Value;
     int CantidadPlanes = ViewBag.CantidadPlanes;
     string ultimoRangoRegistrado = ViewBag.ultimoRangoRegistrado;
     // int planesFinalizados = ViewBag.PlanesFinalizados;
@@ -17,9 +19,14 @@
     List<PlanDesarrolloProfesional.Models.Models.UsuarioRuta> RutasPorUsuarioList = ViewBag.RutaPorUsuario;
 
     string ObtenerNombreRutaPorColaboradorId = ViewBag.ObtenerNombreRutaPorColaboradorId;
+
+   
+
 }
 
-<div class="container-fluid">
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -139,36 +146,45 @@
                                 </div>
                                 <div class="tab-pane" id="profile3" role="tabpanel">
 
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <tr>
-                                                <th>Area Id</th>
-                                                <th>Nombre de Area</th>
-                                                <th>Correo registrado</th>
-                                                <th>Correo registrado</th>
-                                            </tr>
-                                            @*  @foreach (var plan in RutasPorUsuarioList)
-                                        {
-                                        <tr>
-                                        <td>@plan.NombreRuta</td>
-                                        <td>@plan.DescripcionRuta</td>
-                                        <td>@plan.Ruta</td>
-                                        <td>@plan.Area</td>
-                                        </tr>
-                                        } *@
-                                        </table>
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>Area Id</th>
+                                                        <th>Nombre de Area</th>
+                                                        <th>Correo registrado</th>
+                                                        <th>Correo registrado</th>
+                                                    </tr>
+                                                    @*  @foreach (var plan in RutasPorUsuarioList)
+                                                {
+                                                <tr>
+                                                <td>@plan.NombreRuta</td>
+                                                <td>@plan.DescripcionRuta</td>
+                                                <td>@plan.Ruta</td>
+                                                <td>@plan.Area</td>
+                                                </tr>
+                                                } *@
+                                                </table>
+                                            </div>
+
+                                        </div>
+
+
                                     </div>
-
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
-        }
-    </div>
+
+        </div>
+                                
+                                
+   </div>
+                            
+
+ </div>
+
 
     <script type="text/javascript" src="~/assets/js/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="~/assets/js/jquery-ui/jquery-ui.min.js"></script>
