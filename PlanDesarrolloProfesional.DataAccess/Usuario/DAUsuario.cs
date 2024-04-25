@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace PlanDesarrolloProfesional.DataAccess
 {
     public class DAUsuario
@@ -539,6 +540,102 @@ namespace PlanDesarrolloProfesional.DataAccess
             return true;
 
         }
+
+        public async Task<string> ObtenerUltimaAreaPorUsuario(int usuarioId)
+        {
+            try
+            {
+                using (var contextoBD = new PlanDesarrolloProfesionalContext())
+                {
+                    var ultimaArea = await contextoBD.UsuarioArea
+                    .Where(ua => ua.UsuarioID == usuarioId)
+                    .OrderByDescending(ua => ua.UsuarioAreaID)
+                    .Select(ua => ua.Area.Nombre)
+                .FirstOrDefaultAsync();
+
+                    return ultimaArea;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener la última área registrada para el usuario.", ex);
+            }
+        }
+
+        public async Task<IEnumerable<UsuarioViewModel>> ListarAreasPorUsuario(int usuarioId)
+        {
+            using (var contextoBD = new PlanDesarrolloProfesionalContext())
+            {
+                try
+                {
+                    var lista = await contextoBD.Usuario
+                        .Where(u => u.UsuarioID == usuarioId)
+                        .Select(s => new UsuarioViewModel
+                        {
+                            UsuarioID = s.UsuarioID,
+                            Nombre = s.Nombre,
+                            AreaString = string.Join(", ", s.UsuarioArea.Select(ua => ua.Area.Nombre)),
+                            Rol = s.Rol.NombreRol,
+                            RolID = s.RolID,
+                            Jerarquia = s.Jerarquia.Nombre,
+                            JerarquiaID = s.JerarquiaID,
+                            Descripcion = s.Descripcion,
+                            Correo = s.Correo,
+                            CodigoDaloo = s.CodigoDaloo
+                        })
+                        .ToListAsync();
+
+                    return lista;
+                }
+                catch (Exception e)
+                {
+                    // Manejo de excepciones
+                    return null;
+                }
+            }
+        }
+
+
+        public async Task<IEnumerable<UsuarioRuta>> RutaPorUsuario(int usuarioId)
+        {
+            using (var contextoBD = new PlanDesarrolloProfesionalContext())
+            {
+                try
+                {
+                    var lista = await contextoBD.UsuarioArea
+                        .Where(ua => ua.UsuarioID == usuarioId)
+                        .Select(ua => ua.AreaID)
+                        .FirstOrDefaultAsync();
+
+                    if (lista != null)
+                    {
+                        var ruta = await contextoBD.Ruta
+                            .Where(r => r.AreaID == lista)
+                            .Select(r => new UsuarioRuta
+                            {
+                                UsuarioID = usuarioId,
+                                NombreRuta = r.NombreRuta,
+                                DescripcionRuta = r.Descripcion
+                            })
+                            .FirstOrDefaultAsync();
+
+                        return ruta != null ? new List<UsuarioRuta> { ruta } : new List<UsuarioRuta>();
+                    }
+                    else
+                    {
+                        return new List<UsuarioRuta>();
+                    }
+                }
+                catch (Exception e)
+                {
+
+                    return null;
+                }
+            }
+        }
+
+
+
 
     }
 }

@@ -1,8 +1,22 @@
-﻿@{
+﻿@using System.Security.Claims;
+@using PlanDesarrolloProfesional.Models.Models
+
+
+@{
     ViewData["Title"] = "Home Page";
     var nameDbClaim = User?.FindFirst("NameDB")?.Value;
-    var rol = User?.FindFirst("RolID")?.Value;
+   
 
+   
+
+}
+
+@{
+    var claimsPrincipal = Context.User as ClaimsPrincipal;
+
+    var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
+    var roleClaim = User?.FindFirst("RolID")?.Value;
+    var nameDbClaim = User?.FindFirst("NameDB")?.Value;
     int CantidadPlanes = ViewBag.CantidadPlanes;
     string ultimoRangoRegistrado = ViewBag.ultimoRangoRegistrado;
     // int planesFinalizados = ViewBag.PlanesFinalizados;
@@ -13,7 +27,104 @@
     List<PlanDesarrolloProfesional.Models.Models.UsuarioRuta> RutasPorUsuarioList = ViewBag.RutaPorUsuario;
 
     string ObtenerNombreRutaPorColaboradorId = ViewBag.ObtenerNombreRutaPorColaboradorId;
+
 }
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+
+    <link rel="icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/assets/css/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/icon/themify-icons/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/icon/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/icon/icofont/css/icofont.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/css/jquery.mCustomScrollbar.css">
+</head>
+
+<body>
+    <div class="theme-loader">
+        <div class="loader-track">
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+    <div class="page-body">
+        <div class="row">
+            <!-- order-card start -->      
+            <div class="col-md-12 col-xl-4">
+                <div class="card bg-c-yellow order-card">
+                    <div class="card-block">
+                        <h6 class="m-b-20">Ruta en progreso</h6>
+                        <h2 class="text-right"><i class="ti-stats-up f-left"></i><span>@ObtenerNombreRutaPorColaboradorId</span></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-xl-4">
+                <div class="card bg-c-blue order-card">
+                    <div class="card-block">
+                        <h6 class="m-b-20">Rango Actual</h6>
+                        <h2 class="text-right"><i class="ti-list f-left"></i><span>@ultimoRangoRegistrado</span></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-xl-4">
+                <div class="card bg-c-green order-card">
+                    <div class="card-block">
+                        <h6 class="m-b-20">Planes Registrados</h6>
+                        <h2 class="text-right"><i class="ti-medall f-left"></i><span>@CantidadPlanes</span></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="card tabs-card">
+                    <div class="card-block p-0">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs md-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#home3" role="tab"><i class="fa fa-home"></i>Planes</a>
+                                <div class="slide"></div>
+                            </li>
+                          @*   <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#profile3" role="tab"><i class="fa fa-key"></i>Areas</a>
+                                <div class="slide"></div>
+                            </li> *@
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content card-block">
+                            <div class="tab-pane active" id="home3" role="tabpanel">
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th>Plan de Desarrollo</th>
+                                            <th>Ruta</th>
+                                            <th>Rango</th>
+                                            <th>Estado</th>
+                                            <th>Progreso</th>
+                                            <th>Fecha Inicio</th>
+                                        </tr>
+                                        @foreach (var plan in PlanesPorUsuarioList)
+                                        {
+                                            <tr>
+                                                <td>@plan.PlanDesarrolloID</td>
+                                                <td>@plan.NombreRuta</td>
+                                                <td>@plan.NombreRango</td>
+                                                <td>@((plan.Estado == 1) ? "Inactivo" : "Activo")</td>
+                                                <td>@((plan.Finalizado = true) ? "Finalizado" : "En Curso")</td>
+                                                <td>@plan.FechaInicio.ToString("dd/MM/yyyy")</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="profile3" role="tabpanel">
 
 <div class="container-fluid">
 
@@ -133,3 +244,52 @@
     </div>
 
 </div>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th>Area Id</th>
+                                            <th>Nombre de Area</th>
+                                            <th>Correo registrado</th>
+                                            <th>Correo registrado</th>
+                                        </tr>
+                                        @*  @foreach (var plan in RutasPorUsuarioList)
+                                        {
+                                            <tr>
+                                                <td>@plan.NombreRuta</td>
+                                                <td>@plan.DescripcionRuta</td>
+                                                <td>@plan.Ruta</td>
+                                                <td>@plan.Area</td>
+                                            </tr>
+                                        } *@
+                                    </table>
+                                </div>
+                                
+                            </div>
+                            
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="~/assets/js/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/popper.js/popper.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <script type="text/javascript" src="~/assets/js/modernizr/modernizr.js"></script>
+    <script src="~/assets/pages/widget/amchart/amcharts.min.js"></script>
+    <script src="~/assets/pages/widget/amchart/serial.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/chart.js/Chart.js"></script>
+    <script type="text/javascript " src="~/assets/pages/todo/todo.js "></script>
+    <script type="text/javascript" src="~/assets/pages/dashboard/custom-dashboard.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/script.js"></script>
+    <script type="text/javascript " src="~/assets/js/SmoothScroll.js"></script>
+    <script src="~/assets/js/pcoded.min.js"></script>
+    <script src="~/assets/js/vartical-demo.js"></script>
+    <script src="~/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+</body>
+
+</html>

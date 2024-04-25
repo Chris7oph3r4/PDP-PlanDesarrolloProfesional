@@ -134,6 +134,37 @@ namespace PlanDesarrolloProfesional.ConsumeLogic
 
             return Objeto;
         }
+
+        public async Task<string> ObtenerUltimaAreaPorUsuario(int IdUsuario)
+        {
+
+            var ObjetoJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Usuario_ObtenerUltimaAreaPorUsuario, IdUsuario.ToString())/*, await Token()*/);
+            string Objeto = JsonConvert.DeserializeObject<string>(ObjetoJson);
+
+            return Objeto;
+        }
+
+        public async Task<List<UsuarioViewModel>> ListarAreasPorUsuario(int IdUsuario)
+        {
+            var ListaSolicitudeJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Usuario_ListarAreasPorUsuario, IdUsuario.ToString())/*, await Token()*/);
+            List<UsuarioViewModel> ListaUsuarioModel = JsonConvert.DeserializeObject<List<UsuarioViewModel>>(ListaSolicitudeJson);
+
+            return ListaUsuarioModel;
+
+        }
+        
+
+        public async Task<List<UsuarioRuta>> RutaPorUsuario(int IdUsuario)
+        {
+            var ListaSolicitudeJson = await ServicesRequest.DataRequestGET(Configuration.GetRouteAttribute(AppSettings.APIEndpoints.Usuario_RutaPorUsuario, IdUsuario.ToString())/*, await Token()*/);
+            List<UsuarioRuta> ListaUsuarioModel = JsonConvert.DeserializeObject<List<UsuarioRuta>>(ListaSolicitudeJson);
+
+            return ListaUsuarioModel;
+
+        }
+
+
+
         #endregion Métodos
 
         #region Funciones

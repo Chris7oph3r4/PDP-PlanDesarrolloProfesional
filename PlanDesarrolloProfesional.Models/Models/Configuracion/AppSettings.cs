@@ -39,6 +39,12 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
             public static string Usuario_ListarVM { get; set; }
             public static string Usuario_ListarPorSupervisor { get; set; }
             public static string Usuario_AgregarViewModel { get; set; }
+            public static string Usuario_ObtenerUltimaAreaPorUsuario { get; set; }
+            public static string Usuario_ListarAreasPorUsuario { get; set; }
+            public static string Usuario_RutaPorUsuario { get; set; }
+
+
+
 
             public static string Ruta_Agregar { get; set; }
             public static string Ruta_Obtener { get; set; }
@@ -65,6 +71,13 @@ namespace PlanDesarrolloProfesional.Models.Models.Configuracion
             public static string PlanDesarrolloProfesional_Actualizar { get; set; }
             public static string PlanDesarrolloProfesional_Eliminar { get; set; }
             public static string PlanDesarrolloProfesional_Listar { get; set; }
+            public static string PlanDesarrolloProfesional_ObtenerCantidadPlanesPorUsuario { get; set; }
+            public static string PlanDesarrolloProfesional_ObtenerUltimoRangoPorColaborador { get; set; }
+
+            public static string PlanDesarrolloProfesional_ContarPlanesFinalizadosPorColaborador { get; set; }
+            public static string PlanDesarrolloProfesional_ObtenerPlanesPorColaborador { get; set; }
+            public static string PlanDesarrolloProfesional_ObtenerNombreRutaPorColaboradorId { get; set; }
+
             public static string PlanDesarrolloProfesional_ListarPorUsuario { get; set; }
 
 

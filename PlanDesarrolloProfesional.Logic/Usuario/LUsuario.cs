@@ -264,5 +264,48 @@ namespace PlanDesarrolloProfesional.Logic
             
             throw new NotImplementedException();
         }
+
+
+        public async Task<string> ObtenerUltimaAreaPorUsuario(int IdUsuario)
+        {
+            return await _DAUsuario.ObtenerUltimaAreaPorUsuario(IdUsuario);
+        }
+
+
+
+        public async Task<IEnumerable<UsuarioViewModel>> ListarAreasPorUsuario(int IdUsuario)
+        {
+            try
+            {
+                var ListaObjetoBD = await _DAUsuario.ListarAreasPorUsuario(IdUsuario);
+
+                return ListaObjetoBD;
+            }
+            catch (Exception e)
+            {
+                //await LRegistro_Error.AgregarInterno(e.ToString(), "", e.InnerException != null ? e.InnerException.HResult.ToString() : "", "0");
+
+                return new List<UsuarioViewModel>().AsEnumerable();
+            }
+        }
+
+        public async Task<IEnumerable<UsuarioRuta>> RutaPorUsuario(int IdUsuario)
+        {
+            try
+            {
+                var ListaObjetoBD = await _DAUsuario.RutaPorUsuario(IdUsuario);
+
+                return ListaObjetoBD;
+            }
+            catch (Exception e)
+            {
+                //await LRegistro_Error.AgregarInterno(e.ToString(), "", e.InnerException != null ? e.InnerException.HResult.ToString() : "", "0");
+
+                return new List<UsuarioRuta>().AsEnumerable();
+            }
+        }
+
     }
 }
+
+

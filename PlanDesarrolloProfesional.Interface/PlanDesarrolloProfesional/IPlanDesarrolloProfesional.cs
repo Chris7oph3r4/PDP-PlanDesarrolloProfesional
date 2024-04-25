@@ -13,6 +13,15 @@ namespace PlanDesarrolloProfesional.Interface
         Task<PlanDesarrolloProfesionalViewModel> Obtener(int IdPlan);
         Task<PlanesDesarrolloProfesionalModel> Actualizar(List<object> modelo);
         Task<IEnumerable<PlanDesarrolloProfesionalViewModel>> Listar();
+        Task<int> ObtenerCantidadPlanesPorUsuario(int idUsuario);
+
+        Task<string> ObtenerUltimoRangoPorColaborador(int colaboradorId);
+
+        Task<int> ContarPlanesFinalizadosPorColaborador(int colaboradorId);
+
+        Task<IEnumerable<PlanDesarrolloProfesionalViewModel>> ObtenerPlanesPorColaborador(int colaboradorId);
+
+        Task<string> ObtenerNombreRutaPorColaboradorId(int colaboradorId);
         Task<IEnumerable<PlanDesarrolloProfesionalViewModel>> ListarPorUsuario(int usuarioID);
         Task<bool> Eliminar(int IdPlan, string nameclaim);
     }
