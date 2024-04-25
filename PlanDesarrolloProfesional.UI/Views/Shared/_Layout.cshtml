@@ -57,18 +57,18 @@
             </div>
             <div class="sidebar-body">
                 <ul class="nav">
-                    @if (roleClaim == "Administrador" )
+                    @if (roleClaim == "Administrador")
                     {
-                    <li class="nav-item nav-category">Usuarios</li>
-                    <li class="nav-item">
-                        <a asp-controller="Usuario" asp-action="Index" class="nav-link">
-                            <i class="link-icon" data-feather="box"></i>
-                            <span class="link-title">Administrar Usuarios</span>
-                        </a>
-                    </li>
+                        <li class="nav-item nav-category">Usuarios</li>
+                        <li class="nav-item">
+                            <a asp-controller="Usuario" asp-action="Index" class="nav-link">
+                                <i class="link-icon" data-feather="box"></i>
+                                <span class="link-title">Administrar Usuarios</span>
+                            </a>
+                        </li>
                     }
                     <li class="nav-item nav-category">Gestion de Planes</li>
-                    @if (roleClaim == "Administrador" || roleClaim == "Supervisor"|| string.IsNullOrEmpty(roleClaim?.ToString()))
+                    @if (roleClaim == "Administrador" || roleClaim == "Supervisor" || string.IsNullOrEmpty(roleClaim?.ToString()))
                     {
                         <li class="nav-item">
                             <a asp-controller="PlanDesarrolloProfesional" asp-action="Index" class="nav-link">
@@ -79,38 +79,41 @@
                     }
                     else
                     {
-                    <li class="nav-item">
-                        <a asp-controller="PlanDesarrolloProfesional" asp-action="ListarPorUsuario" class="nav-link">
-                            <i class="link-icon" data-feather="box"></i>
-                            <span class="link-title">Plan Desarrollo Profesional</span>
-                        </a>
-                    </li>
+                        <li class="nav-item">
+                            <a asp-controller="PlanDesarrolloProfesional" asp-action="ListarPorUsuario" class="nav-link">
+                                <i class="link-icon" data-feather="box"></i>
+                                <span class="link-title">Plan Desarrollo Profesional</span>
+                            </a>
+                        </li>
                     }
-                    <li class="nav-item">
-                        <a asp-controller="Area" asp-action="Index" class="nav-link">
-                            <i class="link-icon" data-feather="box"></i>
-                            <span class="link-title">Areas</span>
-                        </a>
-                    </li>
-                 
-                    <li class="nav-item">
-                        <a asp-controller="Ruta" asp-action="Index" class="nav-link">
-                            <i class="link-icon" data-feather="folder-plus"></i>
-                            <span class="link-title">Rutas</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-controller="Rango" asp-action="Index" class="nav-link">
-                            <i class="link-icon" data-feather="folder-plus"></i>
-                            <span class="link-title">Rangos</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-controller="Requisito" asp-action="Index" class="nav-link">
-                            <i class="link-icon" data-feather="calendar"></i>
-                            <span class="link-title">Administrar Requisitos</span>
-                        </a>
-                    </li>
+                    @if (roleClaim == "Administrador" || roleClaim == "Supervisor" || string.IsNullOrEmpty(roleClaim?.ToString()))
+                    {
+                        <li class="nav-item">
+                            <a asp-controller="Area" asp-action="Index" class="nav-link">
+                                <i class="link-icon" data-feather="box"></i>
+                                <span class="link-title">Areas</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a asp-controller="Ruta" asp-action="Index" class="nav-link">
+                                <i class="link-icon" data-feather="folder-plus"></i>
+                                <span class="link-title">Rutas</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Rango" asp-action="Index" class="nav-link">
+                                <i class="link-icon" data-feather="folder-plus"></i>
+                                <span class="link-title">Rangos</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Requisito" asp-action="Index" class="nav-link">
+                                <i class="link-icon" data-feather="calendar"></i>
+                                <span class="link-title">Administrar Requisitos</span>
+                            </a>
+                        </li>
+                    }
                     @if (roleClaim == "Administrador" || string.IsNullOrEmpty(roleClaim?.ToString()))
                     {
                         <li class="nav-item">
@@ -122,60 +125,53 @@
                     }
                     else if (roleClaim == "Supervisor")
                     {
-                    <li class="nav-item">
+                        <li class="nav-item">
                             <a asp-controller="CumplimientoRequisito" asp-action="ListarSupervisor" class="nav-link">
-                            <i class="link-icon" data-feather="calendar"></i>
-                            <span class="link-title">Cumplimiento Requisito</span>
-                        </a>
-                    </li>
+                                <i class="link-icon" data-feather="calendar"></i>
+                                <span class="link-title">Cumplimiento Requisito</span>
+                            </a>
+                        </li>
                     }
-                    <li class="nav-item nav-category">Configuracion</li>
-                    <li class="nav-item">
-                        <a asp-controller="Jerarquias" asp-action="Index" class="nav-link">
-                            <i class="link-icon" data-feather="calendar"></i>
-                            <span class="link-title">Administrar Jerarquias</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-controller="Rol" asp-action="Index" class="nav-link">
-                            <i class="link-icon" data-feather="calendar"></i>
-                            <span class="link-title">Administrar Roles</span>
-                        </a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a asp-controller="Reporte" asp-action="Index" class="nav-link">
-                            <i class="link-icon" data-feather="calendar"></i>
-                            <span class="link-title">Reporte</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#forms" role="button" aria-expanded="false" aria-controls="forms">
-                            <i class="link-icon" data-feather="inbox"></i>
-                            <span class="link-title">Bitacoras</span>
-                            <i class="link-arrow" data-feather="chevron-down"></i>
-                        </a>
-                        <div class="collapse" id="forms">
-                            <ul class="nav sub-menu">
-                                <li class="nav-item">
-                                    <a asp-controller="Bitacora" asp-action="Index" class="nav-link">
-                                        Bitacora completa
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        Personas registradas por ruta
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        Los colaboradores por ruta
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+                    @if (roleClaim == "Administrador")
+                    {
+                        <li class="nav-item nav-category">Configuracion</li>
+                        <li class="nav-item">
+                            <a asp-controller="Jerarquias" asp-action="Index" class="nav-link">
+                                <i class="link-icon" data-feather="calendar"></i>
+                                <span class="link-title">Administrar Jerarquias</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Rol" asp-action="Index" class="nav-link">
+                                <i class="link-icon" data-feather="calendar"></i>
+                                <span class="link-title">Administrar Roles</span>
+                            </a>
+                        </li>
 
+                        <li class="nav-item">
+                            <a asp-controller="Reporte" asp-action="Index" class="nav-link">
+                                <i class="link-icon" data-feather="calendar"></i>
+                                <span class="link-title">Reporte</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#forms" role="button" aria-expanded="false" aria-controls="forms">
+                                <i class="link-icon" data-feather="inbox"></i>
+                                <span class="link-title">Bitacoras</span>
+                                <i class="link-arrow" data-feather="chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="forms">
+                                <ul class="nav sub-menu">
+                                    <li class="nav-item">
+                                        <a asp-controller="Bitacora" asp-action="Index" class="nav-link">
+                                            Bitacora completa
+                                        </a>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </li>
+                    }
                 </ul>
             </div>
         </nav>
