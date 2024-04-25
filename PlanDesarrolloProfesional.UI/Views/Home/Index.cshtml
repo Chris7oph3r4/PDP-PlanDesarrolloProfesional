@@ -2,6 +2,17 @@
     ViewData["Title"] = "Home Page";
     var nameDbClaim = User?.FindFirst("NameDB")?.Value;
     var rol = User?.FindFirst("RolID")?.Value;
+
+    int CantidadPlanes = ViewBag.CantidadPlanes;
+    string ultimoRangoRegistrado = ViewBag.ultimoRangoRegistrado;
+    // int planesFinalizados = ViewBag.PlanesFinalizados;
+    List<PlanDesarrolloProfesional.Models.Models.PlanDesarrolloProfesionalViewModel> PlanesPorUsuarioList = ViewBag.PlanesPorUsuario;
+
+    string UltimaAreaPorUsuario = ViewBag.UltimaAreaPorUsuario;
+    /*List<PlanDesarrolloProfesional.Models.Models.UsuarioViewModel> AreasPorUsuarioList = ViewBag.AreasPorUsuario;*/
+    List<PlanDesarrolloProfesional.Models.Models.UsuarioRuta> RutasPorUsuarioList = ViewBag.RutaPorUsuario;
+
+    string ObtenerNombreRutaPorColaboradorId = ViewBag.ObtenerNombreRutaPorColaboradorId;
 }
 
 <div class="container-fluid">
