@@ -16,28 +16,43 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         }
         public async Task<ActionResult> Index(string Mensaje)
         {
-
-            if (Mensaje != "")
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
+
+                if (Mensaje != "")
+                {
+                    ViewBag.Mensaje = Mensaje;
+                }
+
+                var Area = await LArea.Listar();
+
+                return View(Area);
             }
-
-            var Area = await LArea.Listar();
-
-            return View(Area);
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
 
         }
 
         public async Task<ActionResult> Agregar(string Mensaje)
         {
-
-            if (Mensaje != "")
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
-            }
-            AreaModel Usuario = new AreaModel();
+                    if (Mensaje != "")
+                    {
+                        ViewBag.Mensaje = Mensaje;
+                    }
+                    AreaModel Usuario = new AreaModel();
 
-            return View(Usuario);
+                    return View(Usuario);
+            }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
 
         }
 
@@ -65,15 +80,22 @@ namespace PlanDesarrolloProfesional.UI.Controllers
 
         public async Task<ActionResult> Modificar(int AreaID, string Mensaje)
         {
-
-            if (Mensaje != "")
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
+
+                if (Mensaje != "")
+                {
+                    ViewBag.Mensaje = Mensaje;
+                }
+                AreaModel Area = await LArea.Obtener(AreaID);
+
+                return View(Area);
             }
-            AreaModel Area = await LArea.Obtener(AreaID);
-
-            return View(Area);
-
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
         }
 
 

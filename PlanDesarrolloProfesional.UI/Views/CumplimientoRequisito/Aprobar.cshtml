@@ -8,6 +8,7 @@
     List<PlanDesarrolloProfesional.Models.Models.RutaModel> RutaList = ViewBag.Rutas;
     List<PlanDesarrolloProfesional.Models.Models.RangoModel> RangoList = ViewBag.Rangos;
     List<PlanDesarrolloProfesional.Models.Models.RequisitoViewModel> RequisitoList = ViewBag.Requisito;
+    var roleClaim = User?.FindFirst("RolID")?.Value;
 
 }
 
@@ -123,8 +124,20 @@
                     <button class="btn btn-primary btn-block" type="submit">Modificar<i class="fas fa-fw fa-plus"></i></button>
                 </div>
                 <div class="col-sm-6">
-                    <!-- Div para el segundo botón -->
-                        <a class="btn btn-secondary btn-block" asp-controller="CumplimientoRequisito" asp-action="ListarSupervisor">Regresar</a>
+                        <!-- Div para el segundo botón -->
+                        @* <a class="btn btn-secondary btn-block" asp-controller="CumplimientoRequisito" asp-action="ListarSupervisor">Regresar</a> *@
+                        @if (roleClaim == "Administrador" || string.IsNullOrEmpty(roleClaim?.ToString()))
+                        {
+                            <div class="col-sm-6">
+                                <a asp-controller="CumplimientoRequisito" asp-action="Index" class="btn btn-secondary btn-block">Regresar</a>
+                            </div>
+                        }
+                        else if (roleClaim == "Supervisor")
+                        {
+                            <div class="col-sm-6">
+                                <a asp-controller="CumplimientoRequisito" asp-action="ListarSupervisor" class="btn btn-secondary btn-block">Regresar</a>
+                            </div>
+                        }
                 </div>
             </div>
         </form>
