@@ -178,9 +178,9 @@ public static class Parameters
         context.ReturnUri = "/Home/Index";
         var client = new HttpClient();
         var correo = context.Principal.FindFirst(ClaimTypes.Name)?.Value;
-        var json = client.GetStringAsync($"https://localhost:7071/api/v1/Usuario/ObtenerPorCorreo?correo={correo}").Result;
+        var json = client.GetStringAsync($"https://plandesarrolloapi.azurewebsites.net/api/v1/Usuario/ObtenerPorCorreo?correo={correo}").Result;
         var usuario = JsonConvert.DeserializeObject<UsuarioModel>(json);
-        var rol = client.GetStringAsync($"https://localhost:7071/api/v1/Rol/ObtenerNombreDeLRol?IdRol={usuario.RolID.ToString()}").Result;
+        var rol = client.GetStringAsync($"https://plandesarrolloapi.azurewebsites.net/api/v1/Rol/ObtenerNombreDeLRol?IdRol={usuario.RolID.ToString()}").Result;
 
         if (usuario == null)
         {
