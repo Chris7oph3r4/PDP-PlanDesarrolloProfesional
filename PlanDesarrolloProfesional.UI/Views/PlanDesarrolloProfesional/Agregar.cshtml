@@ -1,4 +1,5 @@
 ﻿@model PlanDesarrolloProfesional.Models.Models.PlanesDesarrolloProfesionalModel
+
 @{
     //Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Crear Plan De Desarrollo Profesional";
@@ -40,15 +41,15 @@
                         <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione una Ruta</label></div>
                         <div class="col-sm-4">
 
-                            <select class="float-right form-control" id="Ruta" name="Ruta">
+                            <select class="float-right form-control" id="Ruta" name="Ruta" required="required">
                                 <option value="">Seleccione la ruta:</option>
                                 @foreach (var ruta in RutaList)
                                 {
                                     <option value="@ruta.RutaID">@ruta.NombreRuta</option>
                                 }
                             </select>
-
-
+                            
+                            
                         </div>
                     }
 
@@ -115,4 +116,7 @@
             });
         });
     </script>
+   
 }
+
+

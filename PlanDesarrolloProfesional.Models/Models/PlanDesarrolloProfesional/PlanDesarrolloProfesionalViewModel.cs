@@ -28,6 +28,7 @@ namespace PlanDesarrolloProfesional.Models.Models
 
         public int RangoID { get; set; }
         public string NombreRango { get; set; }
+      
         public int RutaID { get; set; }
         public string NombreRuta { get; set; }
 

@@ -22,32 +22,49 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         }
         public async Task<ActionResult> Index(string Mensaje)
         {
-
-            if (Mensaje != "")
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
+
+                        if (Mensaje != "")
+                    {
+                        ViewBag.Mensaje = Mensaje;
+                    }
+
+                    var Rango = await LRango.Listar();
+
+                    return View(Rango);
+
+                }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
             }
-
-            var Rango = await LRango.Listar();
-
-            return View(Rango);
 
         }
 
         public async Task<ActionResult> Agregar(string Mensaje)
         {
-
-            if (Mensaje != "")
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
-            }
-            RangoModel Usuario = new RangoModel();
-            ViewBag.Ruta = await LRuta.Listar();
 
-            return View(Usuario);
+                    if (Mensaje != "")
+                {
+                    ViewBag.Mensaje = Mensaje;
+                }
+                RangoModel Usuario = new RangoModel();
+                ViewBag.Ruta = await LRuta.Listar();
+
+                return View(Usuario);
+
+            }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
 
         }
-
 
 
         [HttpPost]
@@ -70,18 +87,25 @@ namespace PlanDesarrolloProfesional.UI.Controllers
 
         public async Task<ActionResult> Modificar(int RangoID, string Mensaje)
         {
-
-            if (Mensaje != "")
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
+
+                        if (Mensaje != "")
+                    {
+                        ViewBag.Mensaje = Mensaje;
+                    }
+                    RangoModel Rango = await LRango.Obtener(RangoID);
+                    ViewBag.Ruta = await LRuta.Listar();
+
+                    return View(Rango);
+
+                }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
             }
-            RangoModel Rango = await LRango.Obtener(RangoID);
-            ViewBag.Ruta = await LRuta.Listar();
-
-            return View(Rango);
-
         }
-
 
 
         [HttpPost]
@@ -106,8 +130,9 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Eliminar(int IdObjeto)
         {
-
-            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            {
+                var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
             var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
             var Eliminar = await LRango.Eliminar(IdObjeto,nameClaim);
             if (Eliminar)
@@ -118,9 +143,15 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             {
                 return RedirectToAction("Index", "Rango", new { Mensaje = "Error" });
             }
-
-
+            }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
         }
 
     }
+
 }
+

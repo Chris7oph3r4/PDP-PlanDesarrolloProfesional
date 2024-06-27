@@ -124,7 +124,9 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Eliminar(int IdObjeto)
         {
-            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            {
+                var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
             var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
             var Eliminar = await LArea.Eliminar(IdObjeto, nameClaim);
@@ -136,9 +138,14 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             {
                 return RedirectToAction("Index", "Area", new { Mensaje = "Error" });
             }
-
-
+            }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
         }
 
     }
+
 }

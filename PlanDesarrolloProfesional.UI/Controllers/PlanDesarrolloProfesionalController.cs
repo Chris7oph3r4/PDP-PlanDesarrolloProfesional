@@ -23,15 +23,24 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         }
         public async Task<ActionResult> Index(string Mensaje)
         {
-
-            if (Mensaje != "")
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
+
+                        if (Mensaje != "")
+                    {
+                        ViewBag.Mensaje = Mensaje;
+                    }
+
+                    var Plan = await LPlanDesarrollo.Listar();
+
+                    return View(Plan);
+
+                }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
             }
-
-            var Plan = await LPlanDesarrollo.Listar();
-
-            return View(Plan);
 
         }
 
@@ -65,26 +74,35 @@ namespace PlanDesarrolloProfesional.UI.Controllers
 
         public async Task<ActionResult> Agregar(string Mensaje)
         {
-
-            if (Mensaje != "")
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
-            }
-            PlanesDesarrolloProfesionalModel Plan = new PlanesDesarrolloProfesionalModel();
-            ViewBag.Rutas = await LRuta.Listar();
-            var claim = User?.FindFirst("UsuarioIDDB")?.Value;
-            int usuarioId;
 
-            if (claim != null && int.TryParse(claim, out usuarioId))
-            {
-                ViewBag.Colaborador = await LUsuario.ListarPorSupervisor(usuarioId);
-            }
+                        if (Mensaje != "")
+                    {
+                        ViewBag.Mensaje = Mensaje;
+                    }
+                    PlanesDesarrolloProfesionalModel Plan = new PlanesDesarrolloProfesionalModel();
+                    ViewBag.Rutas = await LRuta.Listar();
+                    var claim = User?.FindFirst("UsuarioIDDB")?.Value;
+                    int usuarioId;
+
+                    if (claim != null && int.TryParse(claim, out usuarioId))
+                    {
+                        ViewBag.Colaborador = await LUsuario.ListarPorSupervisor(usuarioId);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
+                    }
+                    ViewBag.Rangos = await LRango.Listar();
+                    return View(Plan);
+
+                }
             else
             {
-                return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
             }
-            ViewBag.Rangos = await LRango.Listar();
-            return View(Plan);
 
         }
 
@@ -108,6 +126,7 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             }
             else
             {
+
                 return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
             }
 
@@ -116,18 +135,26 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         }
         public async Task<ActionResult> Modificar(int PlanDesarrolloID, string Mensaje)
         {
-
-            if (Mensaje != "")
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
+
+                    if (Mensaje != "")
+                {
+                    ViewBag.Mensaje = Mensaje;
+                }
+                ViewBag.Rutas = await LRuta.Listar();
+                ViewBag.Colaborador = await LUsuario.Listar();
+                ViewBag.Rangos = await LRango.Listar();
+                PlanDesarrolloProfesionalViewModel PlanDesarrollo = await LPlanDesarrollo.Obtener(PlanDesarrolloID);
+
+                return View(PlanDesarrollo);
+
             }
-            ViewBag.Rutas = await LRuta.Listar();
-            ViewBag.Colaborador = await LUsuario.Listar();
-            ViewBag.Rangos = await LRango.Listar();
-            PlanDesarrolloProfesionalViewModel PlanDesarrollo = await LPlanDesarrollo.Obtener(PlanDesarrolloID);
-
-            return View(PlanDesarrollo);
-
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
         }
         [HttpPost]
         public async Task<ActionResult> Modificar(PlanDesarrolloProfesionalViewModel Modelo)
@@ -161,7 +188,9 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Eliminar(int IdObjeto, string nameclaim)
         {
-            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            {
+                var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
             var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
             var Eliminar = await LPlanDesarrollo.Eliminar(IdObjeto, nameClaim);
@@ -173,11 +202,15 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             {
                 return RedirectToAction("Index", "PlanDesarrolloProfesional", new { Mensaje = "Error" });
             }
-
-
+            }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
         }
 
-
     }
+
 }
 

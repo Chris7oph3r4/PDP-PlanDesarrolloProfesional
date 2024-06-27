@@ -58,6 +58,7 @@
                     </div>
                     <div class="col-sm-4">
                         @Html.DropDownListFor(model => model.RequisitoSeleccionado, new SelectList(ViewBag.RequisitosFiltrados, "RequisitoID", "NombreRequisito"), "Selecciona un Requisito", new { @class = "form-control col-12" })
+                        @Html.ValidationMessageFor(model => model.RequisitoSeleccionado, "")
                     </div>
                 </div>
 
@@ -67,6 +68,7 @@
                     </div>
                     <div class="col-sm-4">
                         @Html.EditorFor(model => model.FechaObtencion, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info"} })
+                        @Html.ValidationMessageFor(model => model.FechaObtencion, "")
                         @* <input asp-for="FechaObtencion" type="date" class="col-12 form-control" value="fechaActual" /> *@
                         <span asp-validation-for="FechaObtencion" class="col-12 text-danger"></span>
                     </div>
@@ -78,6 +80,7 @@
                     </div>
                     <div class="col-sm-4">
                         @Html.EditorFor(model => model.URLEvidencia, new { htmlAttributes = new { @class = "form-control rounded-3 border border-info" } })
+                        @Html.ValidationMessageFor(model => model.URLEvidencia, "")
                         @* <input asp-for="URLEvidencia" type="text" class="col-12 form-control" /> *@
                         <span asp-validation-for="URLEvidencia" class="col-12 text-danger"></span>
                     </div>

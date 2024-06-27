@@ -20,8 +20,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         }
         public async Task<ActionResult> Index(string Mensaje)
         {
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            {
 
-            if (Mensaje != "")
+                if (Mensaje != "")
             {
                 ViewBag.Mensaje = Mensaje;
             }
@@ -31,11 +33,20 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             return View(Ruta);
 
         }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
+
+        }
 
         public async Task<ActionResult> Agregar(string Mensaje)
         {
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            {
 
-            if (Mensaje != "")
+                if (Mensaje != "")
             {
                 ViewBag.Mensaje = Mensaje;
             }
@@ -45,6 +56,14 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             return View(Usuario);
 
         }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
+
+        }
+
 
 
 
@@ -70,18 +89,25 @@ namespace PlanDesarrolloProfesional.UI.Controllers
 
         public async Task<ActionResult> Modificar(int RutaID, string Mensaje)
         {
-
-            if (Mensaje != "")
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
-            }
-            RutaModel Jerarquia = await LRuta.Obtener(RutaID);
-            ViewBag.Areas = await LArea.Listar();
 
-            return View(Jerarquia);
+                    if (Mensaje != "")
+                {
+                    ViewBag.Mensaje = Mensaje;
+                }
+                RutaModel Jerarquia = await LRuta.Obtener(RutaID);
+                ViewBag.Areas = await LArea.Listar();
+
+                return View(Jerarquia);
 
         }
-
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
+        }
 
 
         [HttpPost]
@@ -107,21 +133,29 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Eliminar(int IdObjeto)
         {
-            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
-            var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
-
-            var Eliminar = await LRuta.Eliminar(IdObjeto, nameClaim);
-            if (Eliminar)
+            if(User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                return RedirectToAction("Index", "Ruta", new { Mensaje = "Eliminado" });
-            }
-            else
-            {
-                return RedirectToAction("Index", "Ruta", new { Mensaje = "Error" });
-            }
+                        var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+                    var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
 
+                    var Eliminar = await LRuta.Eliminar(IdObjeto, nameClaim);
+                    if (Eliminar)
+                    {
+                        return RedirectToAction("Index", "Ruta", new { Mensaje = "Eliminado" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Ruta", new { Mensaje = "Error" });
+                    }
+                    }
+             else
+                {
+                    // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                    return RedirectToAction("AccesoDenegado", "Home");
+                }
+            }
 
         }
 
     }
-}
+

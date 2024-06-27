@@ -24,31 +24,48 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         }
         public async Task<ActionResult> Index(string Mensaje)
         {
-
-            if (Mensaje != "")
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
+
+                    if (Mensaje != "")
+                {
+                    ViewBag.Mensaje = Mensaje;
+                }
+
+                var Requisito = await LRequisito.Listar();
+                //var RangosFiltrados = await LRango.RangosPorRuta(3);
+
+                return View(Requisito);
+
             }
-
-            var Requisito = await LRequisito.Listar();
-            //var RangosFiltrados = await LRango.RangosPorRuta(3);
-
-            return View(Requisito);
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
 
         }
-
         public async Task<ActionResult> Agregar(string Mensaje)
         {
-
-            if (Mensaje != "")
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
-            }
-            RequisitoModel Requisito = new RequisitoModel();
-            ViewBag.Rutas = await LRuta.Listar();
-            ViewBag.Rango = await LRango.Listar();
 
-            return View(Requisito);
+                    if (Mensaje != "")
+                {
+                    ViewBag.Mensaje = Mensaje;
+                }
+                RequisitoModel Requisito = new RequisitoModel();
+                ViewBag.Rutas = await LRuta.Listar();
+                ViewBag.Rango = await LRango.Listar();
+
+                return View(Requisito);
+
+            }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
 
         }
 
@@ -105,19 +122,26 @@ namespace PlanDesarrolloProfesional.UI.Controllers
 
         public async Task<ActionResult> Modificar(int RequisitoID, string Mensaje)
         {
-
-            if (Mensaje != "")
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
+
+                        if (Mensaje != "")
+                    {
+                        ViewBag.Mensaje = Mensaje;
+                    }
+                    RequisitoModel Requisito = await LRequisito.Obtener(RequisitoID);
+                    ViewBag.Rutas = await LRuta.Listar();
+                    ViewBag.Rango = await LRango.Listar();
+
+                    return View(Requisito);
+
+                }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
             }
-            RequisitoModel Requisito = await LRequisito.Obtener(RequisitoID);
-            ViewBag.Rutas = await LRuta.Listar();
-            ViewBag.Rango = await LRango.Listar();
-
-            return View(Requisito);
-
         }
-
 
 
         [HttpPost]
@@ -143,8 +167,10 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         [HttpPost]
         public async Task<ActionResult> Eliminar(int IdObjeto)
         {
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
+            {
 
-            var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
+                var claimsPrincipal = HttpContext.User as ClaimsPrincipal;
             var nameClaim = claimsPrincipal?.FindFirst(ClaimTypes.Name)?.Value;
             var Eliminar = await LRequisito.Eliminar(IdObjeto, nameClaim);
             if (Eliminar)
@@ -155,9 +181,14 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             {
                 return RedirectToAction("Index", "Requisito", new { Mensaje = "Error" });
             }
-
-
+            }
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
         }
 
     }
+
 }
