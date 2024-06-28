@@ -6,7 +6,7 @@ namespace PlanDesarrolloProfesional.UI.Controllers
     public class BitacoraController : Controller
     {
         private BitacoraLogic LBitacora;
-        
+
 
         public BitacoraController()
         {
@@ -15,15 +15,23 @@ namespace PlanDesarrolloProfesional.UI.Controllers
         }
         public async Task<ActionResult> Index(string Mensaje)
         {
-
-            if (Mensaje != "")
+            if (User?.FindFirst("RolID")?.Value == "Administrador" || User?.FindFirst("RolID")?.Value == "Supervisor") // Asegúrate de que la ortografía de "adimn" sea intencional y correcta
             {
-                ViewBag.Mensaje = Mensaje;
+                if (Mensaje != "")
+                {
+                    ViewBag.Mensaje = Mensaje;
+                }
+
+                var Bitacora = await LBitacora.Listar();
+
+                return View(Bitacora);
+
             }
-
-            var Bitacora = await LBitacora.Listar();
-
-            return View(Bitacora);
+            else
+            {
+                // Si el usuario no tiene el rol Administrador, redirigir a una ruta apropiada
+                return RedirectToAction("AccesoDenegado", "Home");
+            }
 
         }
     }

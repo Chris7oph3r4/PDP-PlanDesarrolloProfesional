@@ -41,14 +41,14 @@
                         <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione una Ruta</label></div>
                         <div class="col-sm-4">
 
-                            <select class="float-right form-control" id="Ruta" name="Ruta" required="required">
+                            <select class="float-right form-control" onchange="validarFormulario()" id="Ruta" name="Ruta" required="required">
                                 <option value="">Seleccione la ruta:</option>
                                 @foreach (var ruta in RutaList)
                                 {
                                     <option value="@ruta.RutaID">@ruta.NombreRuta</option>
                                 }
                             </select>
-                            
+                            <span id="errorRuta" class="color-red d-none">Por favor, seleccione una ruta.</span>
                             
                         </div>
                     }
@@ -72,7 +72,7 @@
                         <div class="row center-align">
                             <div class="col-sm-6">
                                 <!-- Div para el primer botón -->
-                                <button class="btn btn-primary btn-block" type="submit">Agregar &nbsp;<i class="fas fa-fw fa-plus"></i></button>
+                                <button class="btn btn-primary btn-block" type="submit" onclick="validarFormulario()" >Agregar </button>
                             </div>
                             <div class="col-sm-6">
                                 <!-- Div para el segundo botón -->
@@ -115,6 +115,21 @@
                 });
             });
         });
+    </script>
+
+    <script>
+        function validarFormulario() {
+            var ruta = document.getElementById("Ruta").value;
+            var errorRuta = document.getElementById("errorRuta");
+
+            if (ruta === "") {
+                errorRuta.classList.remove("d-none"); // Mostrar el mensaje de error
+            } else {
+                errorRuta.classList.add("d-none"); // Ocultar el mensaje de error
+                // Aquí puedes añadir el código para enviar el formulario si la validación es exitosa
+              
+            }
+        }
     </script>
    
 }

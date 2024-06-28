@@ -28,7 +28,7 @@
                 <table class="table table-bordered" id="tabla" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Id Plan</th>
+                           @*  <th>Id Plan</th> *@
                             <th>Colaborador</th>
                             <th>Fecha Inicio del Plan</th>
                             <th>Ruta</th>
@@ -45,7 +45,7 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td data-label="Id Plan">@item.PlanDesarrolloID</td>
+                                    @* <td data-label="Id Plan">@item.PlanDesarrolloID</td> *@
                                     <td data-label="Colaborador">@item.NombreColaborador</td>
                                     <td data-label="Fecha Inicio">@item.FechaInicio.ToString("dd/MM/yyyy")</td>
                                     <td data-label="Rango">@item.NombreRango</td>

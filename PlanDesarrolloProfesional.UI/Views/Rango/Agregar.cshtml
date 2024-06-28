@@ -26,7 +26,11 @@
                 <div class="form-group row">
                     <div class="col-sm-2"><label class="float-left font-weight-bold h5">Ruta</label></div>
                     <div class="col-sm-4">
-                        @Html.DropDownListFor(model => model.RutaID, new SelectList(RutaList, "RutaID", "NombreRuta"), "Seleccione el ruta:", new { @class = "float-right form-control form-select" })
+                        @Html.DropDownListFor(model => model.RutaID, new SelectList(RutaList, "RutaID", "NombreRuta"), "Seleccione el ruta:",
+                                 new { @id = "RutaSeleccionada", @class = "float-right form-control form-select", onchange = "validarFormulario()", required = "required" })
+
+                        <span id="errorRuta" class="text-danger d-none">Por favor, selecciona una ruta.</span>
+                        
                     </div>
                 </div>
                 <br/>
@@ -44,6 +48,7 @@
                         <input asp-for="Descripcion" type="text" class="col-12 form-control" />
                         <span asp-validation-for="Descripcion" class="col-12 text-danger"></span>
                     </div>
+
                 </div>
               
                 
@@ -57,7 +62,7 @@
                         <div class="row center-align">
                             <div class="col-sm-6">
                                 <!-- Div para el primer botón -->
-                                <button class="btn btn-primary btn-block" type="submit">Agregar &nbsp;<i class="fas fa-fw fa-plus"></i></button>
+                                <button class="btn btn-primary btn-block" type="submit" onclick="validarFormulario()">Agregar </button>
                             </div>
                             <div class="col-sm-6">
                                 <!-- Div para el segundo botón -->
@@ -77,4 +82,20 @@
 
         });
     </script>
+
+    <script>
+        function validarFormulario() {
+            var ruta = document.getElementById("RutaSeleccionada").value;
+            var errorRuta = document.getElementById("errorRuta");
+
+            if (ruta === "") {
+                errorRuta.classList.remove("d-none"); // Mostrar el mensaje de error
+            } else {
+                errorRuta.classList.add("d-none"); // Ocultar el mensaje de error
+                // Aquí puedes añadir el código para enviar el formulario si la validación es exitosa
+               
+            }
+        }
+    </script>
+
 }

@@ -53,7 +53,7 @@
                 <div class="row mt-2">
                     <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione un Rol</label></div>
                     <div class="col-sm-4">
-                        @Html.DropDownListFor(m => m.RolID, new SelectList(RolesList, "RolID", "NombreRol"), "Seleccione el rol:", new { @class = "float-right form-control", @id = "Rol" })
+                        @Html.DropDownListFor(m => m.RolID, new SelectList(RolesList, "RolID", "NombreRol"), "Seleccione el rol:", new { @class = "float-right form-control", @id = "Rol", required = "required" })
                         @Html.ValidationMessageFor(model => model.RolID, "")
                         <input hidden value="@Model.RolID" name="RolID" id="Rol" />
                     </div>
@@ -62,7 +62,7 @@
                 <div class="row mt-2">
                     <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione una Jerarquia</label></div>
                     <div class="col-sm-4">
-                        @Html.DropDownListFor(m => m.JerarquiaID, new SelectList(JerarquiasList, "JerarquiaID", "Nombre"), "Seleccione la Jerarquia:", new { @class = "float-right form-control", @id = "Jerarquia" })
+                        @Html.DropDownListFor(m => m.JerarquiaID, new SelectList(JerarquiasList, "JerarquiaID", "Nombre"), "Seleccione la Jerarquia:", new { @class = "float-right form-control", @id = "Jerarquia", required = "required" })
                         @Html.ValidationMessageFor(model => model.JerarquiaID, "")
                         <input hidden value="@Model.JerarquiaID" name="Jerarquia" id="Jerarquia" />
                     </div>
@@ -71,7 +71,7 @@
                 <div class="row mt-2">
                     <div class="col-sm-2"><label class="float-left font-weight-bold h5">Seleccione un Area</label></div>
                     <div class="col-sm-4">
-                        @Html.DropDownListFor(m => m.AreasID, new SelectList(AreasList, "AreaID", "Nombre"), "Seleccione el area:", new { @class = "float-right form-control", @id = "Area", @multiple = "multiple", data_placeholder = "Seleccione las areas" })
+                        @Html.DropDownListFor(m => m.AreasID, new SelectList(AreasList, "AreaID", "Nombre"), "Seleccione el area:", new { @class = "float-right form-control", @id = "Area", @multiple = "multiple", data_placeholder = "Seleccione las areas" , required = "required"})
                         @Html.ValidationMessageFor(model => model.AreasID, "")
                         <input hidden value="@Model.AreasID" name="Area" id="Area" />
                     </div>
@@ -80,7 +80,7 @@
                 <div class="row mt-2">
                     <div class="col-sm-2"><label class="float-left font-weight-bold h5">Supervisor Asignado</label></div>
                     <div class="col-sm-4">
-                        @Html.DropDownListFor(m => m.SupervisorID, new SelectList(SupervisorList, "UsuarioID", "Nombre"), "Seleccione el Supervisor:", new { @class = "float-right form-control", @id = "Supervisor" })
+                        @Html.DropDownListFor(m => m.SupervisorID, new SelectList(SupervisorList, "UsuarioID", "Nombre"), "Seleccione el Supervisor:", new { @class = "float-right form-control", @id = "Supervisor", required = "required" })
                         @Html.ValidationMessageFor(model => model.SupervisorID, "")
                         <input hidden value="@Model.SupervisorID" name="Supervisor" id="Supervisor" />
                     </div>
@@ -94,7 +94,7 @@
                 <div class="form-group row">
                     <div class="col-sm-12 mb-3 mb-sm-0">
                         <div class="row center-align">
-                            <div class="col-sm-3"><button class="btn btn-primary btn-block" type="submit">Agregar<i class="fas fa-fw fa-user-plus"></i></button></div>
+                            <div class="col-sm-3"><button class="btn btn-primary btn-block" type="submit">Agregar</button></div>
                         </div>
                     </div>
                 </div>

@@ -61,21 +61,14 @@
                         <div class="col-sm-2">
                             <label for="Requisitos" class="float-left font-weight-bold h5">Requisitos</label>
                         </div>
-                       @*  <div class="col-sm-4">
-                            @Html.DropDownList("RequisitoSeleccionado",
-                                     new SelectList(ViewBag.RequisitosFiltrados, "RequisitoID", "NombreRequisito"),
-                                     "Selecciona un Requisito",
-                                 new { @id = "RequisitoID", @class = "form-control col-12", required = "required" }
-                                     )
-                            <span asp-validation-for="RequisitoID" class="col-12 text-danger"></span>
-                        </div> *@
+                   
                     <div class="col-sm-4">
                         @Html.DropDownList("RequisitoSeleccionado",
                                  new SelectList(ViewBag.RequisitosFiltrados, "RequisitoID", "NombreRequisito"),
                                  "Selecciona un Requisito",
-                                 new { @id = "RequisitoSeleccionado", @class = "form-control col-12", required = "required" }
+                                 new { @id = "RequisitoSeleccionado", @class = "form-control col-12", onchange= "validarFormulario()", required = "required" }
                                  )
-                        <span asp-validation-for="RequisitoID" class="col-12 text-danger"></span>
+                        <span id="errorRequisito" class="text-danger d-none">Por favor, selecciona un requisito.</span>
                     </div>
                     </div>
          
@@ -112,7 +105,7 @@
 
                 <div class="form-group row mt-2">
                     <div class="col-sm-6">
-                        <button type="submit" class="btn btn-primary btn-block">Agregar <i class="fas fa-fw fa-plus"></i></button>
+                        <button type="submit" class="btn btn-primary btn-block" onclick="validarFormulario()">Agregar </i></button>
                     </div>
                       @if (roleClaim == "Administrador" || roleClaim == "Supervisor" || string.IsNullOrEmpty(roleClaim?.ToString()))
                     {
@@ -140,5 +133,19 @@
  src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js">
 
 </script>
+<script>
+    function validarFormulario() {
+        var requisito = document.getElementById("RequisitoSeleccionado").value;
+        var errorRequisito = document.getElementById("errorRequisito");
 
+        if (requisito === "") {
+            errorRequisito.classList.remove("d-none"); // Mostrar el mensaje de error
+        } else {
+            errorRequisito.classList.add("d-none"); // Ocultar el mensaje de error
+            // Aquí puedes añadir el código para enviar el formulario si la validación es exitosa
+
+            // document.getElementById("miFormulario").submit(); // Descomenta esta línea si quieres enviar el formulario
+        }
+    }
+</script>
 

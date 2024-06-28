@@ -66,8 +66,17 @@ namespace PlanDesarrolloProfesional.UI.Controllers
             {
                 ViewBag.Mensaje = Mensaje;
             }
+           
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var usuarioIdClaim = int.Parse(claimsIdentity.FindFirst("UsuarioIDDB")?.Value);
 
-            var CumplimientoRequisito = await LCumplimientoRequisito.ListarPorPlanDesarrolloID(planDesarrolloID);
+            // Obtener el valor del claim "RolID" y convertirlo a entero
+            var roleClaim = claimsIdentity.FindFirst("RolID")?.Value;
+
+
+          
+            // Obtener la lista de CumplimientoRequisito según el ID del plan de desarrollo, ID de usuario y rol
+           var CumplimientoRequisito = await LCumplimientoRequisito.ListarPorPlanDesarrolloID(planDesarrolloID, usuarioIdClaim, roleClaim);
 
             //var RangosFiltrados = await LRango.RangosPorRuta(3);
 

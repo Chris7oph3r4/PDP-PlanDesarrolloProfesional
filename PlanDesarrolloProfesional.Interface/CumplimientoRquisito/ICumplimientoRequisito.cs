@@ -17,7 +17,7 @@ namespace PlanDesarrolloProfesional.Interface
         //Task<IEnumerable<RequisitoViewModel>> ListarPorUsuario(int IdUsuario);
         Task<IEnumerable<CumplimientoRequisitoViewModel>> Listar();
 
-        Task<IEnumerable<CumplimientoRequisitoViewModel>> ListarPorPlanDesarrolloID(int planDesarrolloID);
+        Task<IEnumerable<CumplimientoRequisitoViewModel>> ListarPorPlanDesarrolloID(int planDesarrolloID, int colaboradorID, string rolID);
         Task<IEnumerable<CumplimientoRequisitoViewModel>> ObtenerAprobadosPorSupervisor(int supervisorID);
 
         Task<bool> Eliminar(int IdCumplimientoRequisito);

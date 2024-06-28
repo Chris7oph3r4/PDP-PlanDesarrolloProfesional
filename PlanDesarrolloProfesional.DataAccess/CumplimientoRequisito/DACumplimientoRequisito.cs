@@ -174,15 +174,57 @@ namespace PlanDesarrolloProfesional.DataAccess
             }
         }
 
-        public async Task<IEnumerable<CumplimientoRequisitoViewModel>> ListarPorPlanDesarrolloID(int planDesarrolloID)
+        //public async Task<IEnumerable<CumplimientoRequisitoViewModel>> ListarPorPlanDesarrolloID(int planDesarrolloID)
+        //{
+        //    using (var ContextoBD = new PlanDesarrolloProfesionalContext())
+        //    {
+        //        try
+        //        {
+        //            // Directamente esperamos la ejecución de la consulta ToListAsync y retornamos su resultado
+        //            var lista = await ContextoBD.CumplimientoRequisito
+        //                .Where(c => c.PlanDesarrolloID == planDesarrolloID) // Asegúrate que este campo exista en el modelo
+        //                .Select(s => new CumplimientoRequisitoViewModel
+        //                {
+        //                    CumplimientoRequisitoID = s.CumplimientoRequisitoID,
+        //                    RequisitoID = s.RequisitoID,
+        //                    NombreRequisito = s.Requisito.NombreRequisito,
+        //                    RangoID = s.PlanDesarrollo.RangoID,
+        //                    NombreRango = s.Requisito.Rango.NombreRango,
+        //                    NombreRuta = s.Requisito.Rango.Ruta.NombreRuta,
+        //                    RutaID = s.Requisito.Rango.RutaID,
+        //                    NombreColaborador = s.PlanDesarrollo.Colaborador.Nombre,
+        //                    ColaboradorID = s.ColaboradorID,
+        //                    FechaRegistro = s.FechaRegistro,
+        //                    FechaObtencion = s.FechaObtencion,
+        //                    URLEvidencia = s.URLEvidencia,
+        //                    AprobadoPorSupervisor = s.AprobadoPorSupervisor,
+        //                    PlanDesarrolloID = s.PlanDesarrolloID,
+        //                    FechaArpobacion = s.FechaArpobacion
+        //                })
+        //                .ToListAsync();
+
+        //            return lista;
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            // Aquí deberías manejar la excepción de forma más adecuada, quizás registrando el error en un log.
+        //            // Retornamos una lista vacía en caso de error
+        //            return new List<CumplimientoRequisitoViewModel>();
+        //        }
+        //    }
+        //}
+
+        public async Task<IEnumerable<CumplimientoRequisitoViewModel>> ListarPorPlanDesarrolloID(int planDesarrolloID, int colaboradorID, string rolID)
         {
             using (var ContextoBD = new PlanDesarrolloProfesionalContext())
             {
                 try
                 {
-                    // Directamente esperamos la ejecución de la consulta ToListAsync y retornamos su resultado
-                    var lista = await ContextoBD.CumplimientoRequisito
-                        .Where(c => c.PlanDesarrolloID == planDesarrolloID) // Asegúrate que este campo exista en el modelo
+                    // Filtramos por planDesarrolloID y colaboradorID
+                    if(rolID == "Administrador" || rolID == "Supervisor")
+                    {
+                        var lista = await ContextoBD.CumplimientoRequisito
+                        .Where(c => c.PlanDesarrolloID == planDesarrolloID)
                         .Select(s => new CumplimientoRequisitoViewModel
                         {
                             CumplimientoRequisitoID = s.CumplimientoRequisitoID,
@@ -202,8 +244,35 @@ namespace PlanDesarrolloProfesional.DataAccess
                             FechaArpobacion = s.FechaArpobacion
                         })
                         .ToListAsync();
+                        return lista;
+                    }
+                    else
+                    {
+                        var lista = await ContextoBD.CumplimientoRequisito
+                                                .Where(c => c.PlanDesarrolloID == planDesarrolloID && c.ColaboradorID == colaboradorID)
+                                                .Select(s => new CumplimientoRequisitoViewModel
+                                                {
+                                                    CumplimientoRequisitoID = s.CumplimientoRequisitoID,
+                                                    RequisitoID = s.RequisitoID,
+                                                    NombreRequisito = s.Requisito.NombreRequisito,
+                                                    RangoID = s.PlanDesarrollo.RangoID,
+                                                    NombreRango = s.Requisito.Rango.NombreRango,
+                                                    NombreRuta = s.Requisito.Rango.Ruta.NombreRuta,
+                                                    RutaID = s.Requisito.Rango.RutaID,
+                                                    NombreColaborador = s.PlanDesarrollo.Colaborador.Nombre,
+                                                    ColaboradorID = s.ColaboradorID,
+                                                    FechaRegistro = s.FechaRegistro,
+                                                    FechaObtencion = s.FechaObtencion,
+                                                    URLEvidencia = s.URLEvidencia,
+                                                    AprobadoPorSupervisor = s.AprobadoPorSupervisor,
+                                                    PlanDesarrolloID = s.PlanDesarrolloID,
+                                                    FechaArpobacion = s.FechaArpobacion
+                                                })
+                                                .ToListAsync();
+                        return lista;
+                    }
+                    
 
-                    return lista;
                 }
                 catch (Exception e)
                 {
@@ -213,6 +282,9 @@ namespace PlanDesarrolloProfesional.DataAccess
                 }
             }
         }
+
+
+
 
         public async Task<List<CumplimientoRequisitoViewModel>> ObtenerAprobadosPorSupervisor(int supervisorID)
         {

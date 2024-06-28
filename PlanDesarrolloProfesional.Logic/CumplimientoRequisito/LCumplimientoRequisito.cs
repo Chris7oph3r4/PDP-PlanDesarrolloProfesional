@@ -64,12 +64,12 @@ namespace PlanDesarrolloProfesional.Logic
             }
         }
 
-        public async Task<IEnumerable<CumplimientoRequisitoViewModel>> ListarPorPlanDesarrolloID(int planDesarrolloID)
+        public async Task<IEnumerable<CumplimientoRequisitoViewModel>> ListarPorPlanDesarrolloID(int planDesarrolloID, int colaboradorID, string rolID)
         {
             try
             {
           
-                var ListaObjetoBD = await _DACumplimientoRequisito.ListarPorPlanDesarrolloID(planDesarrolloID);
+                var ListaObjetoBD = await _DACumplimientoRequisito.ListarPorPlanDesarrolloID(planDesarrolloID, colaboradorID, rolID);
 
               
                 return ListaObjetoBD;

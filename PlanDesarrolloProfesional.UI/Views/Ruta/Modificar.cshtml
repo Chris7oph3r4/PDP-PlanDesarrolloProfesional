@@ -41,7 +41,7 @@
 
                     <div class="col-sm-2"><label class="float-left font-weight-bold h5">Area</label></div>
                     <div class="col-6">
-                        @Html.DropDownListFor(model => model.AreaID, new SelectList(AreasList, "AreaID", "Nombre"), "Seleccione el area:", new { @class = "float-right form-control", @Value=Model.AreaID })
+                        @Html.DropDownListFor(model => model.AreaID, new SelectList(AreasList, "AreaID", "Nombre"), "Seleccione el area:", new { @class = "float-right form-control", @Value=Model.AreaID, required="required" })
                         @*<input  value="@Model.Descripcion" name="Descripcion" id="Descripcion" />*@
                         <span asp-validation-for="AreaID" class="col-12 text-danger"></span>
                     </div>
@@ -88,7 +88,7 @@
                         <div class="row center-align">
                             <div class="col-sm-6">
                                 <!-- Div para el primer botón -->
-                                <button class="btn btn-primary btn-block" type="submit">Modificar &nbsp;<i class="fas fa-fw fa-plus"></i></button>
+                                <button class="btn btn-primary btn-block" type="submit">Modificar </button>
                             </div>
                             <div class="col-sm-6">
                                 <!-- Div para el segundo botón -->

@@ -13,6 +13,7 @@ public class RequisitoViewModel
     public RequisitoViewModel() { }
 
     [Key]
+    [Required]
     public int RequisitoID { get; set; }
 
     [Required]

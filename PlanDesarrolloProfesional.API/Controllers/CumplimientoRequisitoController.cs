@@ -49,10 +49,10 @@ namespace PlanDesarrolloProfesional.API.Controllers
 
         [HttpGet]
         [Route("ListarPorPlanDesarrolloID")]
-        public async Task<ActionResult<IEnumerable<CumplimientoRequisitoViewModel>>> ListarPorPlanDesarrolloID(int planDesarrolloID)
+        public async Task<ActionResult<IEnumerable<CumplimientoRequisitoViewModel>>> ListarPorPlanDesarrolloID(int planDesarrolloID, int colaboradorID, string rolID)
         {
 
-            var Lista = await _ICumplimientoRequisito.ListarPorPlanDesarrolloID(planDesarrolloID);
+            var Lista = await _ICumplimientoRequisito.ListarPorPlanDesarrolloID(planDesarrolloID, colaboradorID, rolID);
             if (Lista == null) throw new Exception("Modelo Nulo");
 
             return Ok  (Lista);
